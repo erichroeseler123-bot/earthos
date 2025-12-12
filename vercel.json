@@ -1,8 +1,8 @@
 {
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "https://earthos-console.denverairportpickup.workers.dev/$1"
+      "source": "/(.*)",
+      "destination": "https://earthos-console.denverairportpickup.workers.dev/$1"
     }
   ]
 }
