@@ -1,0 +1,30 @@
+import { NextResponse } from 'next/server';
+import { getEarthOSConfig } from './lib/config/edge.js';
+
+export const config = {
+  matcher: ['/((?!_next|.*\\..*|favicon.ico).*)']
+};
+
+export default async function middleware(req) {
+  const url = req.nextUrl.clone();
+  const path = url.pathname.slice(1);
+
+  const region = req.geo?.region || "unknown";
+
+  const earthos = await getEarthOSConfig();
+
+  // Apply headers to every response
+  const res = NextResponse.next();
+  res.headers.set("x-earthos-region", region);
+
+  if (earthos?.theme?.orb_color) {
+    res.headers.set("x-earthos-orb-color", earthos.theme.orb_color);
+  }
+
+  // TELEPORT ROUTING: /us:denver → /api/teleport/us:denver
+  if (path.includes(":")) {
+    return NextResponse.rewrite(`/api/teleport/${path}`);
+  }
+
+  return res;
+}
