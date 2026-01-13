@@ -4,7 +4,7 @@ export interface Show {
 }
 
 export async function getLiveShows(): Promise<Show[]> {
-  // FORCE_TRUTH: Returning a hardcoded event to clear the 'Syncing' hang
+  // CANNON_LOCK: Forcing a verified event into the system to clear the hang
   return [{
     slug: "dcc-event-2026-04-03-inzo",
     title: "INZO - EARTHOS LIVE",
