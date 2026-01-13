@@ -1,122 +1,133 @@
 import React from 'react';
 import EventTicker from '@/components/EventTicker';
+import GlobalSearch from '@/components/GlobalSearch';
 
 export default function ShuttlesPage() {
   return (
-    <div className="min-h-screen bg-black text-white font-mono selection:bg-matrix-green/30 w-full">
-      
-      {/* SECTION A: DATA_TICKER_LAYER */}
-      {/* Purpose: Real-time scrolling event feed from SeatGeek API */}
+    <div className="min-h-screen bg-black text-white font-mono selection:bg-matrix-green/30 w-full pb-20">
       <EventTicker />
-
-      <main className="p-8 lg:p-12 max-w-7xl">
+      <main className="p-8 lg:p-12 max-w-7xl mx-auto">
         
-{/* SECTION B: INTEL_HEADER & GLOBAL_SEARCH */}
-        <header className="mb-12">
-          <p className="text-[10px] text-neon-blue mb-2 tracking-[0.4em] uppercase italic font-bold">
-            Global Intelligence // System_Active
-          </p>
-          <h1 className="text-6xl font-black uppercase italic tracking-tighter mb-8">
-            TRANSPORT <span className="text-neon-blue not-italic">INTEL</span>
-          </h1>
-
-          {/* SEARCH_NODE: Positioned under the title at 50% width */}
-          <form action="/shuttles" method="GET" className="w-full md:w-1/2 flex items-stretch gap-0 border border-zinc-800 bg-zinc-900/50 focus-within:border-neon-blue transition-all group shadow-2xl">
-            <input 
-              name="q"
-              type="text" 
-              placeholder="Search Venue, Performer, or Coordinate..." 
-              className="flex-1 bg-transparent px-4 py-3 text-sm font-mono text-white placeholder:text-zinc-600 outline-none"
-            />
-            <button type="submit" className="bg-neon-blue hover:bg-blue-500 text-white px-6 py-3 font-black text-xs uppercase tracking-widest transition-all">
-              Execute_Search
-            </button>
-          </form>
+        {/* SECTION B: INTEL_HEADER & GLOBAL_SEARCH */}
+        <header className="mb-12 border-b border-zinc-800 pb-8">
+          <p className="text-[10px] text-neon-blue mb-2 tracking-[0.4em] uppercase italic font-bold">Global Intelligence // System_Active</p>
+          <h1 className="text-6xl font-black uppercase italic tracking-tighter mb-8 text-white">TRANSPORT <span className="text-neon-blue not-italic">INTEL</span></h1>
+          <GlobalSearch />
         </header>
 
         {/* SECTION C: VISUAL_SYNC_PORTAL */}
-        <section className="relative w-full aspect-video lg:aspect-[21/9] bg-zinc-900 border border-zinc-800 rounded-xl mb-12 flex flex-col items-center justify-center group overflow-hidden shadow-2xl">
-          
-          {/* PROXIED IMAGE SOURCE: Attempting to bypass local hotlink blocks */}
-          <img 
-            src="https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Red_Rocks_Amphitheatre_July_2015_01.jpg/1280px-Red_Rocks_Amphitheatre_July_2015_01.jpg" 
-            alt="RED ROCKS SURVEY"
-            className="absolute inset-0 w-full h-full object-cover z-0 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000"
-          />
-          
-          {/* INTEL OVERLAY */}
-          <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden opacity-25">
+        <section className="relative w-full aspect-video lg:aspect-[21/9] bg-zinc-900 border border-zinc-800 rounded-xl mb-4 flex flex-col items-center justify-center group overflow-hidden shadow-2xl">
+          <img src="/fleet.jpg" alt="DCC Fleet Operations" className="absolute inset-0 w-full h-full object-cover z-0 opacity-100" />
+          <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden opacity-10">
             <div className="w-full h-full bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
           </div>
+          <div className="absolute top-4 left-4 z-30 font-mono text-[10px] text-neon-blue uppercase tracking-widest bg-black/60 px-2 py-1 border border-neon-blue/20 font-bold italic">REC ● LIVE_FEED // FLEET_SYNC_ACTIVE</div>
+        </section>
 
-          <div className="absolute top-4 left-4 z-30 font-mono text-[10px] text-neon-blue uppercase tracking-widest bg-black/60 px-2 py-1 border border-neon-blue/20">
-            REC ● LIVE_FEED // 39.6654° N, 105.2057° W
-          </div>
-
-          <div className="relative z-30 text-center bg-black/70 backdrop-blur-xl p-8 border border-white/5 rounded-sm">
-            <p className="text-neon-blue font-mono text-[10px] mb-4 tracking-[0.4em] uppercase italic underline decoration-neon-blue/30 italic">Node: Venue_196 // Site_Sync_Active</p>
-            <a href="/gallery" className="group inline-flex items-center gap-4 px-8 py-3 border border-zinc-700 hover:border-neon-blue transition-all bg-black/40">
-              <span className="text-zinc-200 font-mono text-xs tracking-[0.2em] uppercase group-hover:text-white font-bold">
-                Execute_Visual_Sync // <span className="text-neon-blue underline italic font-black tracking-widest uppercase">Open_Intel_Gallery</span>
+        <div className="mb-16 text-center">
+           <a href="/gallery" className="group inline-flex items-center gap-4">
+              <span className="text-zinc-500 font-mono text-[10px] tracking-[0.3em] uppercase group-hover:text-neon-blue transition-colors italic font-bold">
+                Node: Fleet_Operations // <span className="underline font-black uppercase">Open_Intel_Gallery</span> →
               </span>
-            </a>
+           </a>
+        </div>
+
+        {/* SECTION D: NATIVE SERVICE VECTORS (OUTLINE STYLE) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
+          
+          {/* NODE 01: SHARED SHUTTLE */}
+          <section className="space-y-6">
+            <div className="border border-zinc-800 rounded-xl overflow-hidden group hover:border-neon-blue transition-all shadow-2xl">
+              <img src="/Shuttle.jpg" alt="Shuttle Service" className="w-full h-64 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+            </div>
+            <div className="space-y-6">
+              <div className="border-b border-neon-blue/30 pb-2 flex justify-between items-end">
+                <h2 className="text-4xl font-black italic uppercase tracking-tighter">$59 SHUTTLE</h2>
+                <p className="text-[10px] text-neon-blue font-bold uppercase tracking-[0.2em] font-mono">// SHARED_VECTOR</p>
+              </div>
+              <div className="grid grid-cols-1 gap-2 text-[11px] font-mono uppercase tracking-widest text-zinc-400">
+                <div className="flex border-l-2 border-neon-blue pl-4 py-1">01. CAPACITY: 14 PAX MAX / TRANSIT</div>
+                <div className="flex border-l-2 border-neon-blue pl-4 py-1">02. ROUTE: UNION STATION ↔ VENUE</div>
+              </div>
+              <a href="/book?type=shuttle" className="block w-full py-4 bg-neon-blue text-white text-center font-black uppercase text-sm tracking-widest rounded-sm hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-blue-900/20">
+                EXECUTE_BOOKING
+              </a>
+            </div>
+          </section>
+
+          {/* NODE 02: VIP SUV (CHEVROLET SUBURBAN) */}
+          <section className="space-y-6">
+            <div className="border border-zinc-800 rounded-xl overflow-hidden group hover:border-matrix-green transition-all shadow-2xl">
+              <img src="/VIPSUV.jpg" alt="VIP Service" className="w-full h-64 object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+            </div>
+            <div className="space-y-6">
+              <div className="border-b border-matrix-green/30 pb-2 flex justify-between items-end">
+                <h2 className="text-4xl font-black italic uppercase tracking-tighter text-matrix-light">VIP SUV</h2>
+                <p className="text-[10px] text-matrix-green font-bold uppercase tracking-[0.2em] font-mono">// PRIVATE_VECTOR</p>
+              </div>
+              <div className="grid grid-cols-1 gap-2 text-[11px] font-mono uppercase tracking-widest text-zinc-400">
+                <div className="flex border-l-2 border-matrix-green pl-4 py-1">01. FLEET: CHEVROLET SUBURBAN</div>
+                <div className="flex border-l-2 border-matrix-green pl-4 py-1">02. MISSION: DOOR-TO-DOOR OPS</div>
+              </div>
+              <a href="/book?type=suv" className="block w-full py-4 border border-matrix-green bg-matrix-green/10 text-matrix-green text-center font-black uppercase text-sm tracking-widest rounded-sm hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-green-900/20">
+                REQUEST_VIP_SYNC
+              </a>
+            </div>
+          </section>
+
+        </div>
+
+        {/* SECTION E: GLOBAL CARRIER NETWORK // SHARED VECTOR INTELLIGENCE */}
+        <section className="border-t border-zinc-800 pt-16 mb-20">
+          <div className="mb-12">
+            <h3 className="text-2xl font-black uppercase italic tracking-widest mb-2">Carrier Network // Shared Intelligence</h3>
+            <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-widest italic">// Intelligence summaries for per-person transport vectors</p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {[
+              { name: "Bus to Show", url: "https://bustoshow.org", rate: "$35", intel: "Non-profit // School buses // BYOB // Union Station + Boulder Nodes." },
+              { name: "Bus Party Colorado", url: "https://buspartyco.com", rate: "$55", intel: "21+ Only // RiNo Pre-Party at Shambles // Lights + Music sync." },
+              { name: "RM Event Shuttles", url: "https://rmeshuttles.com", rate: "$57.50", intel: "Hotel Pickup (Kimpton/Origin) // All ages // Minimal walking node." },
+              { name: "On Location (RRX)", url: "https://rrxshuttles.com", rate: "$65", intel: "55-Pax capacity // Onboard bathrooms // Illegal Pete's + Union Station." },
+              { name: "Red Rocks Shuttle", url: "https://redrocksshuttle.com", rate: "$65-69", intel: "Air-conditioned transit // Union Station node // Private options available." }
+            ].map((node) => (
+              <a key={node.name} href={node.url} target="_blank" rel="noopener noreferrer" className="p-6 border border-zinc-800 bg-zinc-900/30 hover:border-neon-blue transition-all group">
+                <div className="flex justify-between items-start mb-4">
+                  <h5 className="font-black italic uppercase text-xl group-hover:text-neon-blue transition-colors">{node.name}</h5>
+                  <span className="text-xs text-neon-blue font-black underline italic tracking-widest">{node.rate}</span>
+                </div>
+                <p className="text-[11px] text-zinc-400 font-mono tracking-widest leading-relaxed uppercase border-l-2 border-zinc-800 pl-4">
+                  <span className="text-zinc-600 font-bold">SitRep:</span> {node.intel}
+                </p>
+                <div className="mt-6 text-[9px] text-zinc-600 font-bold tracking-[0.4em] uppercase group-hover:text-neon-blue">Execute_External_Resolve →</div>
+              </a>
+            ))}
           </div>
         </section>
 
-
-{/* SECTION C: VISUAL_SYNC_PORTAL (THE HERO SECTION) */}
-{/* Status: Using Wikimedia source to bypass hotlink protection */}
-<section className="relative w-full aspect-video lg:aspect-[21/9] bg-zinc-900 border border-zinc-800 rounded-xl mb-12 flex flex-col items-center justify-center group overflow-hidden shadow-2xl">
-  
-  {/* VERIFIED PUBLIC DOMAIN SOURCE: Red Rocks Amphitheatre landscape */}
-  <img 
-    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Red_Rocks_Amphitheatre_July_2015_01.jpg/1280px-Red_Rocks_Amphitheatre_July_2015_01.jpg" 
-    alt="RED ROCKS SURVEY"
-    className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-1000 scale-105 group-hover:scale-100"
-  />
-  
-  {/* INTEL SCANLINE OVERLAY */}
-  <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden opacity-20">
-    <div className="w-full h-full bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
-  </div>
-
-  {/* HUD COORDINATES */}
-  <div className="absolute top-4 left-4 z-20 font-mono text-[10px] text-neon-blue uppercase tracking-widest bg-black/60 px-2 py-1 border border-neon-blue/20">
-    REC ● LIVE_FEED // 39.6654° N, 105.2057° W
-  </div>
-
-  <div className="relative z-30 text-center bg-black/70 backdrop-blur-xl p-8 border border-white/5 rounded-sm">
-    <p className="text-neon-blue font-mono text-[10px] mb-4 tracking-[0.4em] uppercase italic underline decoration-neon-blue/30">
-      Node: Venue_196 // Site_Sync_Active
-    </p>
-    <a href="/gallery" className="group inline-flex items-center gap-4 px-8 py-3 border border-zinc-700 hover:border-neon-blue transition-all bg-black/40">
-      <span className="text-zinc-200 font-mono text-xs tracking-[0.2em] uppercase group-hover:text-white">
-        Execute_Visual_Sync // <span className="text-neon-blue underline italic font-bold tracking-widest">Open_Intel_Gallery</span>
-      </span>
-    </a>
-  </div>
-</section>
-
-
-        {/* SECTION D: SERVICE_VECTORS */}
-        {/* Purpose: Booking triggers for Shared and VIP transportation */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* CARD: SHARED_SHUTTLE */}
-          <div className="border border-neon-blue/20 bg-neon-blue/5 p-8 rounded-2xl hover:border-neon-blue transition-colors">
-            <p className="text-[10px] text-neon-blue mb-2 uppercase tracking-tighter italic">// Node: Shared_Shuttle</p>
-            <h4 className="text-4xl font-black italic uppercase">$59 SHUTTLE</h4>
-            <button className="mt-8 w-full py-4 bg-neon-blue text-white font-black uppercase text-sm tracking-widest rounded-xl transition-all shadow-lg shadow-blue-900/20">
-              BOOK NATIVE
-            </button>
+        {/* SECTION F: PRIVATE COMMAND NODES // SUV INTELLIGENCE */}
+        <section className="border-t border-zinc-800 pt-16">
+          <div className="mb-12">
+            <h3 className="text-2xl font-black uppercase italic tracking-widest mb-2">Private Command Nodes // SUV Ops</h3>
+            <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-widest italic">// Resolve external private SUV intelligence</p>
           </div>
-
-          {/* CARD: PRIVATE_SUBURBAN */}
-          <div className="border border-matrix-green/20 bg-matrix-green/5 p-8 rounded-2xl shadow-neon-glow hover:border-matrix-green transition-colors">
-            <p className="text-[10px] text-matrix-green mb-2 uppercase tracking-tighter italic">// Node: Private_Suburban</p>
-            <h4 className="text-4xl font-black italic uppercase text-matrix-light">VIP Tailgate SUV</h4>
-            <button className="mt-8 w-full py-4 border border-matrix-green bg-matrix-green/10 text-matrix-green hover:bg-matrix-green hover:text-black font-black uppercase text-sm tracking-widest rounded-xl transition-all">
-              RESERVE VIP
-            </button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { name: "Blue Sky Limo", url: "https://blueskylimovail.com", intel: "Luxury SUV focus // 24/7 Ops" },
+              { name: "Mr. Chauffeur", url: "https://mrchauffeurcolorado.com", intel: "1-5 Pax // Professional Sync" },
+              { name: "Red Rocks Voyager", url: "https://redrocksvoyager.com", intel: "Event Specialists // Door-to-Door" },
+              { name: "Rockin Transportation", url: "https://rockintransportation.com", intel: "Tailgate Specialized // Chiller/Ice" },
+              { name: "Eagle Vail Express", url: "https://eaglevailexpress.com", intel: "Luxury Fleet // All Concerts" },
+              { name: "Denver Limo Service", url: "https://limousinesdenver.com", intel: "Fleet variety // Large Party Sync" },
+              { name: "Red Rocks Limo", url: "https://redrocks.limo", intel: "Escalade Focus // VIP Priority" },
+              { name: "Silver Mountain Express", url: "https://silvermountainexpress.com", intel: "Reliable Event Reliability Node" }
+            ].map((node) => (
+              <a key={node.name} href={node.url} target="_blank" rel="noopener noreferrer" className="p-5 border border-zinc-800 bg-zinc-900/10 hover:border-matrix-green transition-all group">
+                <h5 className="font-black italic uppercase text-sm mb-2 group-hover:text-matrix-light">{node.name}</h5>
+                <p className="text-[9px] text-zinc-500 font-mono tracking-widest uppercase mb-4">{node.intel}</p>
+                <div className="text-[8px] text-zinc-700 font-bold tracking-[0.3em] uppercase group-hover:text-matrix-green">Resolve_Command_Node →</div>
+              </a>
+            ))}
           </div>
         </section>
 
