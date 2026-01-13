@@ -31,3 +31,7 @@ export async function getLiveShows(): Promise<Show[]> {
 }
 
 export const shows: any[] = [];
+// Add this temporarily at the bottom to force the UI to load
+export const shows = async () => [
+  { slug: "test-node", title: "CALENDAR_SYNC_IN_PROGRESS", date: "2026-01-13", artist: "SYSTEM_SYNC" }
+];

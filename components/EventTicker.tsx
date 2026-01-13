@@ -17,7 +17,7 @@ export default async function EventTicker() {
   }
 
   return (
-    <div className="w-full bg-red-600 text-white overflow-hidden py-2 border-y border-black flex">
+<div className="w-full bg-neon-blue text-black overflow-hidden py-2 border-y border-black flex">
       <div className="whitespace-nowrap flex animate-[marquee_30s_linear_infinite] font-mono text-sm font-bold">
         <span className="px-4">{tickerText}</span>
         <span className="px-4">{tickerText}</span>
