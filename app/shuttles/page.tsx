@@ -23,17 +23,15 @@ export default function ShuttlesPage() {
         </header>
 
 {/* SECTION C: VISUAL_SYNC_PORTAL */}
+{/* Status: Logic-Free for Server Component Compatibility */}
 <section className="relative w-full aspect-video lg:aspect-[21/9] bg-zinc-900 border border-zinc-800 rounded-xl mb-12 flex flex-col items-center justify-center group overflow-hidden shadow-2xl">
   
   {/* VERIFIED HIGH-RES RED ROCKS LANDSCAPE */}
+  {/* Note: Removed onError handler to fix the 'Event handlers cannot be passed' error */}
   <img 
     src="https://images.unsplash.com/photo-1599408162449-701633513361?q=80&w=2070&auto=format&fit=crop" 
     alt="RED ROCKS SURVEY"
     className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100 z-0"
-    onError={(e) => {
-       console.error("Image blocked. Reverting to backup.");
-       e.currentTarget.src = "https://cdn.pixabay.com/photo/2016/11/29/03/42/mic-1867121_1280.jpg";
-    }}
   />
   
   {/* DCC INTEL OVERLAY */}
@@ -41,6 +39,7 @@ export default function ShuttlesPage() {
     <div className="w-full h-full bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
   </div>
 
+  {/* COORDINATES HUD */}
   <div className="absolute top-4 left-4 z-20 font-mono text-[10px] text-neon-blue uppercase tracking-widest bg-black/60 px-2 py-1 border border-neon-blue/20">
     REC ● LIVE_FEED // 39.6654° N, 105.2057° W
   </div>
@@ -54,7 +53,6 @@ export default function ShuttlesPage() {
     </a>
   </div>
 </section>
-
         {/* SECTION D: SERVICE_VECTORS */}
         {/* Purpose: Booking triggers for Shared and VIP transportation */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
