@@ -24,20 +24,22 @@ export default function ShuttlesPage() {
 
 
 {/* SECTION C: VISUAL_SYNC_PORTAL (THE HERO SECTION) */}
+{/* Status: Using Wikimedia source to bypass hotlink protection */}
 <section className="relative w-full aspect-video lg:aspect-[21/9] bg-zinc-900 border border-zinc-800 rounded-xl mb-12 flex flex-col items-center justify-center group overflow-hidden shadow-2xl">
   
-  {/* NEW VERIFIED SOURCE: Direct high-res landscape with no opacity filters */}
+  {/* VERIFIED PUBLIC DOMAIN SOURCE: Red Rocks Amphitheatre landscape */}
   <img 
-    src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/red-rocks-amphitheater-morrison-colorado-cascadia-stock.jpg" 
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Red_Rocks_Amphitheatre_July_2015_01.jpg/1280px-Red_Rocks_Amphitheatre_July_2015_01.jpg" 
     alt="RED ROCKS SURVEY"
-    className="absolute inset-0 w-full h-full object-cover z-0"
+    className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-1000 scale-105 group-hover:scale-100"
   />
   
-  {/* OVERLAY: DCC Aesthetic (Reduced opacity to ensure image visibility) */}
+  {/* INTEL SCANLINE OVERLAY */}
   <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden opacity-20">
     <div className="w-full h-full bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
   </div>
 
+  {/* HUD COORDINATES */}
   <div className="absolute top-4 left-4 z-20 font-mono text-[10px] text-neon-blue uppercase tracking-widest bg-black/60 px-2 py-1 border border-neon-blue/20">
     REC ● LIVE_FEED // 39.6654° N, 105.2057° W
   </div>
@@ -53,7 +55,6 @@ export default function ShuttlesPage() {
     </a>
   </div>
 </section>
-
 
 
         {/* SECTION D: SERVICE_VECTORS */}
