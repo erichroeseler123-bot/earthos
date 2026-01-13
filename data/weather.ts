@@ -1,9 +1,12 @@
 export async function getMorrisonWeather() {
   try {
-    // Coordinates for Morrison, CO
-    const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=39.65&longitude=-105.19&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&temperature_unit=fahrenheit&wind_speed_unit=mph", { next: { revalidate: 300 } });
+    const res = await fetch(
+      "https://api.open-meteo.com/v1/forecast?latitude=39.6654&longitude=-105.2057&current_weather=true&temperature_unit=fahrenheit",
+      { next: { revalidate: 600 } }
+    );
+    if (!res.ok) return null;
     const data = await res.json();
-    return data.current;
+    return data.current_weather;
   } catch (e) {
     return null;
   }

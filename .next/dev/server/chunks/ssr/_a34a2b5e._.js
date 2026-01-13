@@ -8,14 +8,14 @@ __turbopack_context__.s([
 ]);
 async function getMorrisonWeather() {
     try {
-        // Coordinates for Morrison, CO
-        const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=39.65&longitude=-105.19&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&temperature_unit=fahrenheit&wind_speed_unit=mph", {
+        const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=39.6654&longitude=-105.2057&current_weather=true&temperature_unit=fahrenheit", {
             next: {
-                revalidate: 300
+                revalidate: 600
             }
         });
+        if (!res.ok) return null;
         const data = await res.json();
-        return data.current;
+        return data.current_weather;
     } catch (e) {
         return null;
     }
@@ -35,23 +35,28 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$data$2f$weather$2e$ts__$5b$a
 ;
 ;
 async function DCCSidebar() {
-    const weather = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$data$2f$weather$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getMorrisonWeather"])();
+    // Use a fallback object to prevent NaN errors
+    const weatherData = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$data$2f$weather$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getMorrisonWeather"])();
+    const weather = weatherData || {
+        temperature: null,
+        windspeed: 0
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("aside", {
-        className: "w-full md:w-[300px] md:h-screen bg-black border-b md:border-b-0 md:border-r border-slate-800 flex flex-col shrink-0 z-50 sticky top-0",
+        className: "w-full md:w-[300px] md:h-screen bg-black border-r border-slate-900 flex flex-col shrink-0",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "p-6 border-b border-slate-900 shrink-0",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-[9px] uppercase tracking-[0.3em] text-blue-500 font-bold mb-1 italic italic",
+                        className: "text-[9px] uppercase tracking-[0.3em] text-blue-500 font-mono italic",
                         children: "Intelligence Layer"
                     }, void 0, false, {
                         fileName: "[project]/components/DCCSidebar.tsx",
-                        lineNumber: 10,
+                        lineNumber: 12,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                        className: "text-xl font-mono font-bold text-white uppercase tracking-tighter",
+                        className: "text-xl font-mono font-bold text-white uppercase tracking-tighter mt-1",
                         children: [
                             "EarthOS ",
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -59,117 +64,117 @@ async function DCCSidebar() {
                                 children: "DCC"
                             }, void 0, false, {
                                 fileName: "[project]/components/DCCSidebar.tsx",
-                                lineNumber: 11,
-                                columnNumber: 99
+                                lineNumber: 16,
+                                columnNumber: 19
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/DCCSidebar.tsx",
-                        lineNumber: 11,
+                        lineNumber: 15,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/DCCSidebar.tsx",
-                lineNumber: 9,
+                lineNumber: 11,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex-1 overflow-y-auto p-6 space-y-6 font-mono text-[9px]",
+                className: "flex-1 overflow-y-auto p-6 space-y-6 font-mono",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
-                        className: "bg-slate-900/30 border border-slate-800 p-4 rounded-xl",
+                        className: "bg-slate-900/30 border border-slate-800 p-4 rounded-sm",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                className: "text-blue-400 font-bold mb-2 uppercase tracking-widest",
-                                children: "// MORRISON_SITREP"
+                                className: "text-blue-400 font-bold mb-3 uppercase tracking-widest text-[10px]",
+                                children: "// Morrison_SitRep"
                             }, void 0, false, {
                                 fileName: "[project]/components/DCCSidebar.tsx",
-                                lineNumber: 17,
+                                lineNumber: 23,
                                 columnNumber: 11
                             }, this),
-                            weather ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            weather.temperature !== null ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "space-y-2",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-white text-lg font-black",
+                                        className: "text-white text-3xl font-black italic tracking-tighter",
                                         children: [
-                                            Math.round(weather.temperature_2m),
+                                            Math.round(weather.temperature),
                                             "°F"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/DCCSidebar.tsx",
-                                        lineNumber: 20,
+                                        lineNumber: 28,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-emerald-400 font-bold uppercase tracking-widest",
+                                        className: "text-emerald-400 font-bold uppercase tracking-tighter text-[10px]",
                                         children: [
-                                            "Wind: ",
-                                            weather.wind_speed_10m,
+                                            "STATUS: OPTIMAL // WIND: ",
+                                            weather.windspeed,
                                             " MPH"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/DCCSidebar.tsx",
-                                        lineNumber: 21,
+                                        lineNumber: 31,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/DCCSidebar.tsx",
-                                lineNumber: 19,
+                                lineNumber: 27,
                                 columnNumber: 13
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                className: "text-red-500 animate-pulse uppercase",
-                                children: "Sensor_Offline"
+                                className: "text-red-500 animate-pulse uppercase text-[10px] font-bold",
+                                children: "Sensor_Offline // Syncing..."
                             }, void 0, false, {
                                 fileName: "[project]/components/DCCSidebar.tsx",
-                                lineNumber: 24,
+                                lineNumber: 36,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/DCCSidebar.tsx",
-                        lineNumber: 16,
+                        lineNumber: 22,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
-                        className: "pt-2 space-y-2 font-sans",
+                        className: "pt-2 space-y-2 font-sans text-center",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
-                                href: "/book-shuttle",
-                                className: "block bg-blue-600 p-3 rounded-lg text-center font-black text-white text-xs tracking-tighter uppercase shadow-lg shadow-blue-900/20",
+                                href: "/shuttles",
+                                className: "block bg-blue-600 p-3 rounded-md text-white font-black text-xs uppercase tracking-widest hover:bg-blue-500 transition-all",
                                 children: "$59 SHUTTLE"
                             }, void 0, false, {
                                 fileName: "[project]/components/DCCSidebar.tsx",
-                                lineNumber: 30,
+                                lineNumber: 43,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
-                                href: "/shuttles",
-                                className: "block border border-slate-800 p-3 rounded-lg text-center font-bold text-slate-400 text-xs tracking-tighter uppercase",
+                                href: "/guide",
+                                className: "block border border-slate-800 p-3 rounded-md text-zinc-400 font-bold text-xs uppercase tracking-widest hover:bg-zinc-900 hover:text-white transition-all",
                                 children: "SHUTTLE GUIDE"
                             }, void 0, false, {
                                 fileName: "[project]/components/DCCSidebar.tsx",
-                                lineNumber: 33,
+                                lineNumber: 46,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/DCCSidebar.tsx",
-                        lineNumber: 29,
+                        lineNumber: 42,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/DCCSidebar.tsx",
-                lineNumber: 14,
+                lineNumber: 20,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/DCCSidebar.tsx",
-        lineNumber: 8,
+        lineNumber: 10,
         columnNumber: 5
     }, this);
 }
