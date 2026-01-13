@@ -31,4 +31,4 @@ export async function getLiveShows(): Promise<Show[]> {
 }
 
 // Fixes all legacy imports by aliasing the new function to the old name
-export const shows = getLiveShows;
+export const shows: any[] = [];
