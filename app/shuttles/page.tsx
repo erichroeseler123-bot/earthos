@@ -11,17 +11,36 @@ export default function ShuttlesPage() {
 
       <main className="p-8 lg:p-12 max-w-7xl">
         
-        {/* SECTION B: INTEL_HEADER */}
-        {/* Purpose: Identity and Directory Synchronization */}
-        <header className="mb-12">
-          <p className="text-xs text-neon-blue mb-2 tracking-[0.3em] uppercase underline decoration-matrix-green/30 font-bold">
-            Directory // Network_Sync_2026
-          </p>
-          <h1 className="text-6xl font-black uppercase italic tracking-tighter">
-            TRANSPORT <span className="text-neon-blue not-italic">INTEL</span>
-          </h1>
-        </header>
+{/* SECTION B: INTEL_HEADER & GLOBAL_SEARCH */}
+{/* Purpose: Primary Command Interface for Location-Indexed Intelligence */}
+<header className="mb-12">
+  {/* LABEL: Left-aligned Global Intelligence (Replaced redundant domain name) */}
+  <p className="text-[10px] text-neon-blue mb-2 tracking-[0.4em] uppercase italic font-bold">
+    Global Intelligence // System_Active
+  </p>
 
+  {/* SEARCH_NODE: 50% Width with Right-Aligned Button */}
+  <div className="w-full md:w-1/2 flex items-stretch gap-0 border border-zinc-800 bg-zinc-900/50 focus-within:border-neon-blue transition-all group shadow-2xl">
+    <input 
+      type="text" 
+      placeholder="Search Venue, Performer, or Coordinate..." 
+      className="flex-1 bg-transparent px-4 py-3 text-sm font-mono text-white placeholder:text-zinc-600 outline-none"
+    />
+    <button className="bg-neon-blue hover:bg-blue-500 text-white px-6 py-3 font-black text-xs uppercase tracking-widest transition-all group-hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+      Execute_Search
+    </button>
+  </div>
+
+  {/* Page Identity Moved to Sub-label */}
+  <div className="mt-8">
+    <h1 className="text-4xl font-black uppercase italic tracking-tighter">
+      TRANSPORT <span className="text-neon-blue not-italic">INTEL</span>
+    </h1>
+    <p className="text-[10px] text-zinc-500 mt-1 uppercase tracking-widest font-mono">
+      Directory // Network_Sync_2026 // Venue_196
+    </p>
+  </div>
+</header>
 
 {/* SECTION C: VISUAL_SYNC_PORTAL (THE HERO SECTION) */}
 {/* Status: Using Wikimedia source to bypass hotlink protection */}
