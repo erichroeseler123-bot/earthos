@@ -22,30 +22,30 @@ export default function ShuttlesPage() {
           </h1>
         </header>
 
-{/* SECTION C: VISUAL_SYNC_PORTAL */}
-{/* Status: Logic-Free for Server Component Compatibility */}
+
+{/* SECTION C: VISUAL_SYNC_PORTAL (THE HERO SECTION) */}
 <section className="relative w-full aspect-video lg:aspect-[21/9] bg-zinc-900 border border-zinc-800 rounded-xl mb-12 flex flex-col items-center justify-center group overflow-hidden shadow-2xl">
   
-  {/* VERIFIED HIGH-RES RED ROCKS LANDSCAPE */}
-  {/* Note: Removed onError handler to fix the 'Event handlers cannot be passed' error */}
+  {/* NEW VERIFIED SOURCE: Direct high-res landscape with no opacity filters */}
   <img 
-    src="https://images.unsplash.com/photo-1599408162449-701633513361?q=80&w=2070&auto=format&fit=crop" 
+    src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/red-rocks-amphitheater-morrison-colorado-cascadia-stock.jpg" 
     alt="RED ROCKS SURVEY"
-    className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100 z-0"
+    className="absolute inset-0 w-full h-full object-cover z-0"
   />
   
-  {/* DCC INTEL OVERLAY */}
-  <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden opacity-25">
+  {/* OVERLAY: DCC Aesthetic (Reduced opacity to ensure image visibility) */}
+  <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden opacity-20">
     <div className="w-full h-full bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
   </div>
 
-  {/* COORDINATES HUD */}
   <div className="absolute top-4 left-4 z-20 font-mono text-[10px] text-neon-blue uppercase tracking-widest bg-black/60 px-2 py-1 border border-neon-blue/20">
     REC ● LIVE_FEED // 39.6654° N, 105.2057° W
   </div>
 
   <div className="relative z-30 text-center bg-black/70 backdrop-blur-xl p-8 border border-white/5 rounded-sm">
-    <p className="text-neon-blue font-mono text-[10px] mb-4 tracking-[0.4em] uppercase italic underline decoration-neon-blue/30">Node: Venue_196 // Site_Sync_Active</p>
+    <p className="text-neon-blue font-mono text-[10px] mb-4 tracking-[0.4em] uppercase italic underline decoration-neon-blue/30">
+      Node: Venue_196 // Site_Sync_Active
+    </p>
     <a href="/gallery" className="group inline-flex items-center gap-4 px-8 py-3 border border-zinc-700 hover:border-neon-blue transition-all bg-black/40">
       <span className="text-zinc-200 font-mono text-xs tracking-[0.2em] uppercase group-hover:text-white">
         Execute_Visual_Sync // <span className="text-neon-blue underline italic font-bold tracking-widest">Open_Intel_Gallery</span>
@@ -53,6 +53,9 @@ export default function ShuttlesPage() {
     </a>
   </div>
 </section>
+
+
+
         {/* SECTION D: SERVICE_VECTORS */}
         {/* Purpose: Booking triggers for Shared and VIP transportation */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
