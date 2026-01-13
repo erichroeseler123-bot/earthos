@@ -29,3 +29,6 @@ export async function getLiveShows(): Promise<Show[]> {
     return []; 
   }
 }
+
+// Fixes all legacy imports by aliasing the new function to the old name
+export const shows = getLiveShows;
