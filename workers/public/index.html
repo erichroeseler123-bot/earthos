@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Party at Red Rocks</title>
+  <style>
+    body { background:#000; color:#fff; font-family:sans-serif; padding:40px }
+    img { max-width:300px; display:block }
+    a { color:#0af }
+  </style>
+</head>
+<body>
+  <h1>Upcoming Shows at Red Rocks</h1>
+  <div id="events">Loading…</div>
+
+  <script>
+    fetch("https://partyatredrocks-events.denverairportpickup.workers.dev/events")
+      .then(r => r.json())
+      .then(events => {
+        const el = document.getElementById("events");
+        el.innerHTML = events.map(e => `
+          <h2>${e.title}</h2>
+          <p>${new Date(e.date).toLocaleString()}</p>
+          ${e.performers.map(p => `<img src="${p.image}" />`).join("")}
+          <p><a href="${e.tickets.url}" target="_blank">Buy Tickets</a></p>
+        `).join("");
+      });
+  </script>
+</body>
+</html>

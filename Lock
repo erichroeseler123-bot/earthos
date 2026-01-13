@@ -1,0 +1,198 @@
+"use client";
+
+import { useMemo } from "react";
+import { useSearchParams } from "next/navigation";
+import Head from "next/head";
+import { RED_ROCKS_2026 } from "../../shows-2026";
+
+/* -----------------------------
+   Helpers
+------------------------------ */
+
+function groupByMonth(shows) {
+  return shows.reduce((acc, show) => {
+    acc[show.month] = acc[show.month] || [];
+    acc[show.month].push(show);
+    return acc;
+  }, {});
+}
+
+function eventSchema(show) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "MusicEvent",
+    name: `${show.artists[0]} at Red Rocks Amphitheatre`,
+    startDate: `${show.date}T${show.time}`,
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    location: {
+      "@type": "Place",
+      name: "Red Rocks Amphitheatre",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Morrison",
+        addressRegion: "CO",
+        addressCountry: "US",
+      },
+    },
+    image: [show.image],
+    performer: {
+      "@type": "MusicGroup",
+      name: show.artists[0],
+    },
+    offers: {
+      "@type": "Offer",
+      url: show.tickets,
+      availability: show.soldOut
+        ? "https://schema.org/SoldOut"
+        : "https://schema.org/InStock",
+      priceCurrency: "USD",
+    },
+    organizer: {
+      "@type": "Organization",
+      name: "Party @ Red Rocks",
+      url: "https://partyatredrocks.com",
+    },
+  };
+}
+
+/* -----------------------------
+   Page
+------------------------------ */
+
+export default function CalendarPage() {
+  const searchParams = useSearchParams();
+  const showId = searchParams.get("show");
+
+  const sortedShows = useMemo(() => {
+    return [...RED_ROCKS_2026].sort(
+      (a, b) => new Date(`${a.date} ${a.time}`) - new Date(`${b.date} ${b.time}`)
+    );
+  }, []);
+
+  const showsByMonth = useMemo(
+    () => groupByMonth(sortedShows),
+    [sortedShows]
+  );
+
+  const activeShow =
+    sortedShows.find((s) => s.id === showId) || sortedShows[0];
+
+  const canonicalUrl = activeShow
+    ? `https://partyatredrocks.com/calendar?show=${activeShow.id}`
+    : `https://partyatredrocks.com/calendar`;
+
+  return (
+    <>
+      {/* -----------------------------
+          SEO HEAD
+      ------------------------------ */}
+      <Head>
+        <title>
+          {activeShow
+            ? `${activeShow.artists[0]} at Red Rocks – Tickets, Shuttle & Info`
+            : "Red Rocks Concert Calendar – Tickets, Shuttles & Tailgates"}
+        </title>
+
+        <meta
+          name="description"
+          content={
+            activeShow
+              ? `Plan your night for ${activeShow.artists[0]} at Red Rocks. Tickets, shuttle transportation, tailgates, and live show intelligence.`
+              : "Official Red Rocks concert calendar. Tickets, shuttle transportation, tailgates, and live show intelligence powered by DCC."
+          }
+        />
+
+        {/* Canonical URL (CRITICAL) */}
+        <link rel="canonical" href={canonicalUrl} />
+
+        {/* JSON-LD Event Schema */}
+        {activeShow && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(eventSchema(activeShow)),
+            }}
+          />
+        )}
+      </Head>
+
+      {/* -----------------------------
+          HERO (ALWAYS ON TOP)
+      ------------------------------ */}
+      {activeShow && (
+        <section className="relative h-[65vh] overflow-hidden">
+          <img
+            src={activeShow.image}
+            alt={activeShow.artists[0]}
+            className="absolute inset-0 w-full h-full object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/10" />
+
+          <div className="absolute bottom-0 p-6 max-w-xl">
+            <h1 className="text-3xl font-black">
+              {activeShow.artists[0]}
+            </h1>
+            <p className="text-white/70 mb-4">
+              {new Date(activeShow.date).toDateString()} · {activeShow.time}
+            </p>
+
+            {/* PRIMARY CTA */}
+            <a
+              href="/shuttle"
+              className="block text-center py-4 rounded border border-black bg-blue-500 font-bold mb-3"
+            >
+              🚐 Shuttle to Red Rocks
+            </a>
+
+            {/* SECONDARY CTAS */}
+            <div className="grid grid-cols-2 gap-3">
+              <a
+                href={activeShow.tickets}
+                target="_blank"
+                className="block text-center py-3 rounded bg-red-600 font-bold"
+              >
+                🎟 Tickets
+              </a>
+              <a
+                href={`/concert/${activeShow.artists[0]
+                  .toLowerCase()
+                  .replace(/\s+/g, "-")}`}
+                className="block text-center py-3 rounded bg-yellow-500 font-bold text-black"
+              >
+                🎶 Concert Page
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* -----------------------------
+          CALENDAR LIST
+      ------------------------------ */}
+      <main className="px-4 py-6 bg-black text-white">
+        {Object.entries(showsByMonth).map(([month, shows]) => (
+          <section key={month} className="mb-8">
+            <h2 className="text-yellow-400 font-bold mb-3">
+              {month} 2026
+            </h2>
+            {shows.map((show) => (
+              <div
+                key={show.id}
+                className="py-3 border-b border-white/10"
+              >
+                <div className="text-sm text-white/60">
+                  {new Date(show.date).toDateString()}
+                </div>
+                <div className="font-semibold">
+                  {show.artists.join(", ")}
+                </div>
+              </div>
+            ))}
+          </section>
+        ))}
+      </main>
+    </>
+  );
+}
+

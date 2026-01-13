@@ -1,0 +1,39 @@
+// calendar.js — Red Rocks 2026 (baseline)
+
+const EVENTS = {
+  "2026-05-03": {
+    artist: "Odesza",
+    time: "6:30 PM",
+    shuttle: true
+  },
+  "2026-05-07": {
+    artist: "Zeds Dead",
+    time: "7:00 PM",
+    shuttle: true
+  },
+  "2026-05-15": {
+    artist: "Kacey Musgraves",
+    time: "6:00 PM",
+    shuttle: true
+  }
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".day").forEach(day => {
+    const date = day.dataset.date;
+    if (!EVENTS[date]) return;
+
+    day.classList.add("has-show");
+    day.innerHTML = `
+      <div class="show">
+        <strong>${EVENTS[date].artist}</strong>
+        <span>${EVENTS[date].time}</span>
+      </div>
+    `;
+
+    day.addEventListener("mouseenter", () => {
+      document.querySelector("#dcc-preview").innerText =
+        `${EVENTS[date].artist} — ${EVENTS[date].time}`;
+    });
+  });
+});

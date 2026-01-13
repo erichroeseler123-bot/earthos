@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Show Details | Party at Red Rocks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="/concerts.js" defer></script>
+  <script src="/show.js" defer></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <h1>Party at Red Rocks</h1>
+    <p>Guaranteed shuttle & private transport</p>
+  </header>
+
+  <main class="layout">
+    <!-- LEFT: SHOW INFO -->
+    <section class="show-info">
+      <h2 id="show-title">Loading…</h2>
+      <p id="show-date" class="show-date"></p>
+      <p class="venue">Red Rocks Amphitheatre · Morrison, CO</p>
+
+      <img id="show-image" class="hero-image" />
+
+      <p class="description">
+        Don’t worry about parking, traffic, or drinking & driving.
+        Book a round-trip shuttle or private SUV and just enjoy the show.
+      </p>
+
+      <a id="tickets-link" target="_blank" class="tickets-link">
+        View tickets on SeatGeek →
+      </a>
+    </section>
+
+    <!-- RIGHT: BOOKING SIDEBAR -->
+    <aside class="sidebar">
+      <div class="price-card">
+        <div class="price">
+          <strong>$59</strong>
+          <span>Round-trip shuttle</span>
+        </div>
+        <button id="shuttle-btn" class="primary">
+          Book Shuttle ($59)
+        </button>
+      </div>
+
+      <div class="price-card">
+        <div class="price">
+          <strong>$499</strong>
+          <span>Private Suburban</span>
+        </div>
+        <button id="suburban-btn" class="secondary">
+          Private Suburban ($499)
+        </button>
+      </div>
+    </aside>
+  </main>
+</body>
+</html>
