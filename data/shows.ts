@@ -3,7 +3,7 @@ export interface Show {
   date: string; time: string; artist: string;
 }
 
-// CANNON_LOCK: Static authoritative data to prevent build loops
+// CANNON_LOCK: Static authoritative data to prevent infinite build loops
 export const shows: Show[] = [{
   slug: "dcc-event-2026-04-03-inzo",
   title: "INZO - EARTHOS LIVE",
