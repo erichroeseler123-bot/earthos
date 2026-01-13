@@ -12,31 +12,56 @@ export default function ShuttlesPage() {
       <main className="p-8 lg:p-12 max-w-7xl">
         
 {/* SECTION B: INTEL_HEADER & GLOBAL_SEARCH */}
-<header className="mb-12">
-  <p className="text-[10px] text-neon-blue mb-2 tracking-[0.4em] uppercase italic font-bold">
-    Global Intelligence // System_Active
-  </p>
+        <header className="mb-12">
+          <p className="text-[10px] text-neon-blue mb-2 tracking-[0.4em] uppercase italic font-bold">
+            Global Intelligence // System_Active
+          </p>
+          <h1 className="text-6xl font-black uppercase italic tracking-tighter mb-8">
+            TRANSPORT <span className="text-neon-blue not-italic">INTEL</span>
+          </h1>
 
-  {/* Search Form for Server-Side Routing */}
-  <form action="/shuttles" method="GET" className="w-full md:w-1/2 flex items-stretch gap-0 border border-zinc-800 bg-zinc-900/50 focus-within:border-neon-blue transition-all group shadow-2xl">
-    <input 
-      name="q"
-      type="text" 
-      placeholder="Search Venue, Performer, or Coordinate..." 
-      className="flex-1 bg-transparent px-4 py-3 text-sm font-mono text-white placeholder:text-zinc-600 outline-none"
-    />
-    <button type="submit" className="bg-neon-blue hover:bg-blue-500 text-white px-6 py-3 font-black text-xs uppercase tracking-widest transition-all group-hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-      Execute_Search
-    </button>
-  </form>
+          {/* SEARCH_NODE: Positioned under the title at 50% width */}
+          <form action="/shuttles" method="GET" className="w-full md:w-1/2 flex items-stretch gap-0 border border-zinc-800 bg-zinc-900/50 focus-within:border-neon-blue transition-all group shadow-2xl">
+            <input 
+              name="q"
+              type="text" 
+              placeholder="Search Venue, Performer, or Coordinate..." 
+              className="flex-1 bg-transparent px-4 py-3 text-sm font-mono text-white placeholder:text-zinc-600 outline-none"
+            />
+            <button type="submit" className="bg-neon-blue hover:bg-blue-500 text-white px-6 py-3 font-black text-xs uppercase tracking-widest transition-all">
+              Execute_Search
+            </button>
+          </form>
+        </header>
 
-  <div className="mt-8">
-    <h1 className="text-4xl font-black uppercase italic tracking-tighter">
-      TRANSPORT <span className="text-neon-blue not-italic">INTEL</span>
-    </h1>
-  </div>
-</header>
+        {/* SECTION C: VISUAL_SYNC_PORTAL */}
+        <section className="relative w-full aspect-video lg:aspect-[21/9] bg-zinc-900 border border-zinc-800 rounded-xl mb-12 flex flex-col items-center justify-center group overflow-hidden shadow-2xl">
+          
+          {/* PROXIED IMAGE SOURCE: Attempting to bypass local hotlink blocks */}
+          <img 
+            src="https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Red_Rocks_Amphitheatre_July_2015_01.jpg/1280px-Red_Rocks_Amphitheatre_July_2015_01.jpg" 
+            alt="RED ROCKS SURVEY"
+            className="absolute inset-0 w-full h-full object-cover z-0 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000"
+          />
+          
+          {/* INTEL OVERLAY */}
+          <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden opacity-25">
+            <div className="w-full h-full bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
+          </div>
 
+          <div className="absolute top-4 left-4 z-30 font-mono text-[10px] text-neon-blue uppercase tracking-widest bg-black/60 px-2 py-1 border border-neon-blue/20">
+            REC ● LIVE_FEED // 39.6654° N, 105.2057° W
+          </div>
+
+          <div className="relative z-30 text-center bg-black/70 backdrop-blur-xl p-8 border border-white/5 rounded-sm">
+            <p className="text-neon-blue font-mono text-[10px] mb-4 tracking-[0.4em] uppercase italic underline decoration-neon-blue/30 italic">Node: Venue_196 // Site_Sync_Active</p>
+            <a href="/gallery" className="group inline-flex items-center gap-4 px-8 py-3 border border-zinc-700 hover:border-neon-blue transition-all bg-black/40">
+              <span className="text-zinc-200 font-mono text-xs tracking-[0.2em] uppercase group-hover:text-white font-bold">
+                Execute_Visual_Sync // <span className="text-neon-blue underline italic font-black tracking-widest uppercase">Open_Intel_Gallery</span>
+              </span>
+            </a>
+          </div>
+        </section>
 
 
 {/* SECTION C: VISUAL_SYNC_PORTAL (THE HERO SECTION) */}
