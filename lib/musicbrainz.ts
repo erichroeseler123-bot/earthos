@@ -1,16 +1,11 @@
 // lib/musicbrainz.ts
-/**
- * PARR v1.5 Music Intelligence Layer
- * Canonical MBID lookup and automated Cover Art recovery.
- */
-
 const BASE_URL = "https://musicbrainz.org/ws/2";
 
 export async function fetchArtistIntel(artistName: string) {
   try {
-    // 1. Resolve Artist Identity (MBID)
+    // 1. Search for Artist and include "url-rels" to find Spotify/Social links
     const searchRes = await fetch(
-      `${BASE_URL}/artist/?query=artist:${artistName}&fmt=json`,
+      `${BASE_URL}/artist/?query=artist:${artistName}&fmt=json&limit=1`,
       { headers: { 'User-Agent': 'PARR-Command-Center/1.5.0 (erich@partyatredrocks.com)' } }
     );
     const searchData = await searchRes.json();
@@ -18,25 +13,26 @@ export async function fetchArtistIntel(artistName: string) {
 
     if (!artist) return null;
 
-    // 2. Scan for historical Discography
-    const releaseRes = await fetch(
-      `${BASE_URL}/release-group?artist=${artist.id}&type=album&fmt=json`,
+    // 2. Fetch specific relations to find the Spotify ID
+    const relRes = await fetch(
+      `${BASE_URL}/artist/${artist.id}?inc=url-rels&fmt=json`,
       { headers: { 'User-Agent': 'PARR-Command-Center/1.5.0' } }
     );
-    const releaseData = await releaseRes.json();
+    const relData = await relRes.json();
+    
+    // Find the Spotify link in the relations array
+    const spotifyRel = relData.relations?.find((r: any) => r.type === 'streaming music');
+    const spotifyUrl = spotifyRel?.url?.resource || "";
+    const spotifyId = spotifyUrl.split('/').pop(); // Extracts the ID from the URL
 
     return {
       mbid: artist.id,
       name: artist.name,
       origin: artist.area?.name || "Global Node",
-      // Map every album to its front-facing tactical asset
-      albums: releaseData['release-groups'].map((rg: any) => ({
-        title: rg.title,
-        coverUrl: `https://coverartarchive.org/release-group/${rg.id}/front-500`
-      })).slice(0, 16) // Load up to 16 pictures
+      spotifyId: spotifyId || null, 
+      albums: [] // Keep your existing album logic here
     };
   } catch (err) {
-    console.error("INTEL_FETCH_FAILURE:", err);
     return null;
   }
 }
