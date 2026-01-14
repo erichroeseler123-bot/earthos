@@ -143,14 +143,17 @@ export default function EarthOSConsole() {
             </h2>
           </div>
 
-          <div className="space-y-16">
-            {Object.entries(groupedShows).map(([month, monthShows]) => (
-              <div key={month} className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <h3 className="text-5xl font-black uppercase italic text-zinc-900 leading-none">{month}</h3>
-                  <div className="h-[1px] flex-1 bg-zinc-900" />
-                </div>
-                
+// Inside the groupedShows map:
+<div key={month} className="space-y-6">
+  <div className="flex items-center gap-4">
+    {/* UPDATED: text-zinc-900 -> text-white */}
+    <h3 className="text-5xl font-black uppercase italic text-white leading-none">
+      {month}
+    </h3>
+    <div className="h-[1px] flex-1 bg-zinc-900" />
+  </div>
+  {/* ... rest of the cards */}
+</div>                
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
                   {monthShows.map((show, idx) => (
                     <div 
