@@ -8,14 +8,13 @@ export default function ArtistPage() {
   const params = useParams();
   const slug = params.slug as string;
   const artistName = slug.replace(/-/g, ' ').toUpperCase();
-
-  // This assumes your images are named like 'two-friends.jpg' or 'puscifer.jpg'
   const imagePath = `/artists/${slug}.jpg`;
 
   return (
     <div className="min-h-screen bg-black text-white font-mono p-6 md:p-12 lg:p-24 selection:bg-neon-blue selection:text-black">
+      {/* 🛠️ FIXED: Escaped the < character using {"< "} */}
       <Link href="/" className="text-neon-blue text-[10px] mb-12 block font-black uppercase tracking-widest hover:pl-2 transition-all">
-        < RETURN_TO_COMMAND_CENTER
+        {"< "}RETURN_TO_COMMAND_CENTER
       </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
@@ -46,18 +45,16 @@ export default function ArtistPage() {
 
         {/* 📸 RIGHT: DYNAMIC ASSET FRAME */}
         <div className="relative aspect-square w-full max-w-2xl mx-auto rounded-3xl border border-zinc-800 overflow-hidden group">
-          <div className="absolute inset-0 bg-zinc-900 animate-pulse group-hover:hidden" />
           <img 
             src={imagePath} 
             alt={artistName}
             className="relative z-10 object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
             onError={(e) => {
-              // If image is missing, show a tactical placeholder
               e.currentTarget.src = "https://placehold.co/600x600/000000/00f2ff?text=INTEL_MISSING";
             }}
           />
           <div className="absolute bottom-6 left-6 z-20 bg-black/80 border border-neon-blue/30 p-3 backdrop-blur-md">
-            <p className="text-[9px] text-neon-blue font-black tracking-widest uppercase">// ASSET_VERIFIED: {slug}.JPG</p>
+            <p className="text-[9px] text-neon-blue font-black tracking-widest uppercase">// ASSET_VERIFIED: {slug.toUpperCase()}.JPG</p>
           </div>
         </div>
       </div>
