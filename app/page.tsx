@@ -1,106 +1,82 @@
-'use client';
+"use client";
+import React, { useState, useRef } from 'react';
+import Map, { MapRef } from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import DCCSidebar from '@/components/DCCSidebar';
 
-import React, { Suspense, useEffect, useState } from 'react';
-import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
-import { shows } from '../data/shows'; 
-import GlobalSearch from '../components/GlobalSearch';
+export default function EarthOSConsole() {
+  const mapRef = useRef<MapRef>(null);
 
-// INDIVIDUAL BAND NODE COMPONENT
-function BandImage({ artist }: { artist: string }) {
-  const [imgUrl, setImgUrl] = useState<string>('');
-
-  useEffect(() => {
-    async function fetchImage() {
-      const res = await fetch(`/api/resolve-image?artist=${encodeURIComponent(artist)}`);
+  // The "Fly To" function for your search bar
+  const handleSearch = async (query: string) => {
+    try {
+      const token = "pk.eyJ1IjoiZXdyZXdyMTIiLCJhIjoiY21rZTlkZGdyMDRtYjNkb2pidWllYnRubCJ9.xswpddGPQQYFWQpj2aRYFg";
+      const res = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${token}`
+      );
       const data = await res.json();
-      setImgUrl(data.url);
+      
+      if (data.features && data.features.length > 0) {
+        const [lng, lat] = data.features[0].center;
+        mapRef.current?.flyTo({
+          center: [lng, lat],
+          zoom: 12,
+          duration: 3000,
+          essential: true
+        });
+      }
+    } catch (err) {
+      console.error("DCC_SEARCH_ERROR:", err);
     }
-    fetchImage();
-  }, [artist]);
+  };
 
   return (
-    <div className="w-48 h-28 overflow-hidden border border-zinc-700 bg-zinc-800 flex-shrink-0 relative">
-      {imgUrl ? (
-        <img src={imgUrl} alt={artist} className="w-full h-full object-cover" />
-      ) : (
-        <div className="w-full h-full animate-pulse bg-zinc-900" />
-      )}
-    </div>
-  );
-}
+    <main className="flex h-screen w-full bg-black overflow-hidden font-mono text-white">
+      {/* SIDEBAR: Pass the handleSearch function to the component */}
+      <DCCSidebar onSearch={handleSearch} />
 
-function HomeContent() {
-  const searchParams = useSearchParams();
-  const searchTerm = searchParams.get('search')?.toLowerCase() || '';
-  const filteredShows = shows.filter(s => s.title.toLowerCase().includes(searchTerm) || s.artist.toLowerCase().includes(searchTerm));
+      {/* MAP VIEWPORT: The Intelligence Layer */}
+      <section className="flex-1 relative bg-zinc-900 border-l border-zinc-800">
+        <Map
+          ref={mapRef}
+          initialViewState={{
+            longitude: -105.2103, // Red Rocks Longitude
+            latitude: 39.6647,   // Red Rocks Latitude
+            zoom: 11
+          }}
+          style={{ width: '100%', height: '100%' }}
+          mapStyle="mapbox://styles/mapbox/dark-v11"
+          mapboxAccessToken="pk.eyJ1IjoiZXdyZXdyMTIiLCJhIjoiY21rZTlkZGdyMDRtYjNkb2pidWllYnRubCJ9.xswpddGPQQYFWQpj2aRYFg" 
+        />
 
-  return (
-    <>
-      <header className="mb-12 border-b border-zinc-800 pb-8">
-        <h1 className="text-6xl font-black uppercase italic tracking-tighter mb-4 text-white">RED ROCKS <span className="text-neon-blue not-italic">TRANSPORT</span></h1>
-        <p className="text-xs font-black uppercase tracking-widest text-zinc-500 italic mb-8 border-l-2 border-neon-blue pl-4">Shuttles from Denver & Golden // Door-to-Door Private SUV</p>
-        <div className="w-full h-64 overflow-hidden border border-zinc-800 mb-8 bg-zinc-900 relative">
-          <Image src="/fleet.jpg" alt="Fleet" fill className="object-cover" priority />
-        </div>
-        <GlobalSearch />
-      </header>
-
-      <section className="mb-24 grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="group border-2 border-neon-blue bg-neon-blue/5 rounded-2xl overflow-hidden shadow-2xl">
-          <div className="w-full h-[300px] overflow-hidden relative border-b border-neon-blue">
-            <div className="absolute inset-0 -top-[100px] w-full h-[400px]">
-              <Image src="/sprintershuttle.jpg" alt="Sprinter" fill className="object-cover" />
+        {/* HUD OVERLAY: Visual data for the Command Center feel */}
+        <div className="absolute top-6 right-6 flex flex-col gap-2 items-end pointer-events-none">
+          <div className="bg-black/90 border border-neon-blue/30 p-4 backdrop-blur-md">
+            <p className="text-[10px] text-neon-blue font-black tracking-widest uppercase mb-2">
+              // ACTIVE_SECTOR_SCAN
+            </p>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-1">
+              <p className="text-[8px] text-zinc-500 uppercase">Status</p>
+              <p className="text-[8px] text-zinc-500 uppercase">Sync</p>
+              <p className="text-[10px] text-green-500 font-bold uppercase">Optimal</p>
+              <p className="text-[10px] text-white font-bold uppercase">100%</p>
             </div>
-          </div>
-          <div className="p-8">
-            <h4 className="text-4xl font-black italic uppercase mb-2 text-white">$59 SHUTTLE</h4>
-            <a href="/book?type=shuttle" className="block w-full py-4 border-2 border-current text-center font-black uppercase text-sm hover:bg-neon-blue hover:text-black transition-all">EXECUTE_BOOKING</a>
           </div>
         </div>
 
-        <div className="group border-2 border-matrix-green bg-matrix-green/5 rounded-2xl overflow-hidden shadow-2xl">
-          <div className="w-full h-[300px] overflow-hidden relative border-b border-matrix-green">
-            <div className="absolute inset-0 -top-[100px] w-full h-[400px]">
-              <Image src="/redrockssuburban.jpg" alt="Suburban" fill className="object-cover" />
-            </div>
-          </div>
-          <div className="p-8">
-            <h4 className="text-4xl font-black italic uppercase mb-2 text-white">PRIVATE SUV</h4>
-            <a href="/book?type=suv" className="block w-full py-4 border-2 border-current text-center font-black uppercase text-sm hover:bg-matrix-green hover:text-black transition-all">REQUEST_PRIVATE_SYNC</a>
-          </div>
+        {/* SCANNER ANIMATION: A subtle horizontal scanning bar at the bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-zinc-900/50">
+          <div className="h-full bg-neon-blue/40 w-1/4 animate-[scan_4s_infinite_linear]" />
         </div>
       </section>
 
-      <section className="border-t border-zinc-800 pt-16">
-        <p className="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500 italic mb-8 underline">Upcoming_Red_Rocks_Intelligence</p>
-        <div className="grid grid-cols-1 gap-6">
-          {filteredShows.map((node) => (
-            <div key={node.slug} className="p-4 border border-zinc-800 bg-zinc-900/30 flex flex-col md:flex-row items-center gap-6 group hover:border-neon-blue transition-all mb-4">
-              <BandImage artist={node.artist} />
-              <div className="flex-1">
-                <a href={`/artists/${encodeURIComponent(node.artist)}`} className="block group-hover:text-neon-blue">
-                  <h5 className="font-black italic uppercase text-xl text-white">{node.title}</h5>
-                  <p className="text-[10px] text-neon-blue underline mt-1 italic uppercase font-bold tracking-widest">Artist_Intel: {node.artist}</p>
-                </a>
-              </div>
-              <div className="text-right text-white font-mono font-black italic">{node.date}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-    </>
-  );
-}
-
-export default function HomePage() {
-  return (
-    <div className="min-h-screen bg-black text-white font-mono w-full pb-20">
-      <main className="p-8 lg:p-12 max-w-7xl mx-auto">
-        <Suspense fallback={<div className="text-neon-blue animate-pulse uppercase">Resolving_Visual_Nodes...</div>}>
-          <HomeContent />
-        </Suspense>
-      </main>
-    </div>
+      {/* Keyframe for the scanner bar */}
+      <style jsx global>{`
+        @keyframes scan {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(400%); }
+        }
+      `}</style>
+    </main>
   );
 }
