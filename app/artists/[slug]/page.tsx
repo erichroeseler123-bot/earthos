@@ -1,68 +1,55 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { fetchArtistIntel, fetchArtistNews } from "@/lib/musicbrainz";
-import { fetchRedRocksWeather } from "@/lib/weather";
+import { fetchArtistIntel } from "@/lib/musicbrainz";
 import Link from 'next/link';
 
-export default function ArtistNode() {
+export default function ArtistBioNode() {
   const { slug } = useParams();
   const [intel, setIntel] = useState<any>(null);
-  const [weather, setWeather] = useState<any>(null);
   const artistName = (slug as string).replace(/-/g, ' ');
 
   useEffect(() => {
     async function activate() {
-      const [intelData, weatherData] = await Promise.all([
-        fetchArtistIntel(artistName),
-        fetchRedRocksWeather()
-      ]);
-      setIntel(intelData);
-      setWeather(weatherData);
+      const data = await fetchArtistIntel(artistName);
+      setIntel(data);
     }
     activate();
   }, [artistName]);
 
   return (
     <div className="min-h-screen bg-black text-white font-mono p-6 md:p-12 lg:p-24 selection:bg-neon-blue selection:text-black">
-      {/* ... (Keep your Header and Return link) ... */}
+      <Link href="/" className="text-neon-blue text-[10px] mb-12 block font-black uppercase tracking-widest hover:pl-2 transition-all">
+        {"< "}RETURN_TO_COMMAND_CENTER
+      </Link>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
         <div className="space-y-10">
-          {/* ... (Keep Audio and Transport Panels) ... */}
+          <header className="border-b border-zinc-800 pb-8">
+            <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter leading-none">
+              {intel?.name || artistName.toUpperCase()}
+            </h1>
+            <Link href={`/shows/${slug}`} className="inline-block mt-6 bg-neon-blue text-black px-6 py-2 rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-white transition-all">
+              VIEW_TACTICAL_SHOW_INTEL
+            </Link>
+          </header>
 
-          {/* 🌦️ WEATHER INTEL WIDGET */}
-          <div className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-3xl space-y-6">
-            <div className="flex justify-between items-center border-b border-zinc-800 pb-4">
-              <h3 className="text-xl font-black italic uppercase tracking-tight">Environmental_Intel</h3>
-              <span className="text-[9px] text-neon-blue font-bold uppercase tracking-widest">LOC: RED_ROCKS_AMPHITHEATRE</span>
-            </div>
-            
-            {weather ? (
-              <div className="grid grid-cols-2 gap-8">
-                <div className="space-y-1">
-                  <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest">// CURRENT_TEMP</p>
-                  <p className="text-4xl font-black italic text-white">{weather.current.temp}°F</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest">// SHOW_LOW</p>
-                  <p className="text-4xl font-black italic text-zinc-400">{weather.tonight.low}°F</p>
-                </div>
-                <div className="col-span-2 p-3 bg-zinc-900/80 rounded-xl border border-zinc-800">
-                  <p className="text-[9px] text-zinc-500 font-bold uppercase tracking-widest mb-1">// PRECIPITATION_PROBABILITY</p>
-                  <div className="w-full bg-black h-2 rounded-full overflow-hidden">
-                    <div className="bg-neon-blue h-full transition-all duration-1000" style={{ width: `${weather.tonight.precip}%` }} />
-                  </div>
-                  <p className="mt-2 text-[10px] font-black uppercase tracking-tighter">SIGNAL: {weather.tonight.precip}% CHANCE OF RAIN</p>
-                </div>
-              </div>
-            ) : (
-              <p className="text-[9px] text-zinc-600 uppercase italic animate-pulse">// PINGING_WEATHER_SATELLITE...</p>
+          <div className="bg-zinc-900/60 border border-zinc-800 p-2 rounded-3xl overflow-hidden min-h-[380px]">
+            <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest p-3">// LIVE_STREAMING_NODE</p>
+            {intel?.spotifyId && (
+              <iframe src={`https://open.spotify.com/embed/artist/${intel.spotifyId}?theme=0`} width="100%" height="380" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" className="rounded-2xl" />
             )}
           </div>
         </div>
 
-        {/* ... (Keep Gallery and Intel Panel) ... */}
+        <div className="space-y-8">
+          <h2 className="text-2xl font-black italic uppercase tracking-tighter border-b border-zinc-800 pb-4">// DISCOGRAPHY_RECON</h2>
+          <div className="grid grid-cols-3 gap-2">
+            {intel?.albums?.map((album: any, i: number) => (
+              <img key={i} src={album.coverUrl} className="aspect-square object-cover border border-zinc-800 rounded-lg hover:scale-105 transition-transform" />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
