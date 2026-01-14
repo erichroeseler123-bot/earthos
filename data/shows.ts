@@ -1,8 +1,13 @@
 export interface Show {
-  slug: string; title: string; image: string; 
-  date: string; time: string; artist: string;
+  slug: string;
+  title: string;
+  image: string;
+  date: string;
+  time: string;
+  artist: string;
 }
 
+// CANNON_LOCK: Full 2026 Authoritative Schedule (Icelantic excluded)
 export const shows: Show[] = [
   { slug: "crankdat-rrx-2026", title: "CRANKDAT // DR. FRESCH", image: "", date: "2026-03-27", time: "18:00", artist: "Crankdat" },
   { slug: "ravenscoon-rrx-2026", title: "RAVENSCOON // JANTSEN", image: "", date: "2026-03-28", time: "18:00", artist: "Ravenscoon" },
@@ -36,7 +41,7 @@ export const shows: Show[] = [
   { slug: "rufus-du-sol-2026-1", title: "RÜFÜS DU SOL", image: "", date: "2026-07-03", time: "18:30", artist: "RÜFÜS DU SOL" },
   { slug: "rufus-du-sol-2026-2", title: "RÜFÜS DU SOL", image: "", date: "2026-07-04", time: "18:30", artist: "RÜFÜS DU SOL" },
   { slug: "widespread-panic-2026-1", title: "WIDESPREAD PANIC", image: "", date: "2026-07-10", time: "18:00", artist: "Widespread Panic" },
-  { slug: "widespread-panic-2026-2", title: "WIDESPREAD PANIC", image: " ", date: "2026-07-11", time: "18:00", artist: "Widespread Panic" },
+  { slug: "widespread-panic-2026-2", title: "WIDESPREAD PANIC", image: "", date: "2026-07-11", time: "18:00", artist: "Widespread Panic" },
   { slug: "khruangbin-rrx-2026", title: "KHRUANGBIN", image: "", date: "2026-07-17", time: "18:30", artist: "Khruangbin" },
   { slug: "tame-impala-rrx-2026", title: "TAME IMPALA", image: "", date: "2026-07-18", time: "18:30", artist: "Tame Impala" },
   { slug: "nine-inch-nails-2026", title: "NINE INCH NAILS", image: "", date: "2026-07-24", time: "18:30", artist: "Nine Inch Nails" },
