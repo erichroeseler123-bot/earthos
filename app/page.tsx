@@ -23,7 +23,7 @@ function HomeContent() {
         <GlobalSearch />
       </header>
 
-      {/* SERVICE_EXECUTION_NODES */}
+      {/* SERVICE_NODES */}
       <section className="mb-24 grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="p-8 border-2 border-neon-blue bg-neon-blue/5 rounded-2xl group hover:bg-neon-blue hover:text-black transition-all">
           <h4 className="text-4xl font-black italic uppercase mb-4">$59 SHUTTLE</h4>
@@ -35,7 +35,7 @@ function HomeContent() {
         </div>
       </section>
 
-      {/* CONCERT_LIST_BOTTOM */}
+      {/* FULL_CONCERT_LIST */}
       <section className="border-t border-zinc-800 pt-16">
         <p className="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500 italic mb-8 underline">Resolved_Intelligence_Nodes</p>
         <div className="grid grid-cols-1 gap-6">
@@ -52,9 +52,9 @@ function HomeContent() {
                   </a>
                 </p>
               </div>
-              <div className="text-right text-white">
+              <div className="text-right text-white font-mono">
                 <p className="text-xl font-black italic">{node.date}</p>
-                <p className="text-[10px] text-zinc-500 font-bold tracking-widest uppercase">{node.time}</p>
+                <p className="text-[10px] text-zinc-500 font-bold tracking-widest uppercase">Launch_Time: {node.time}</p>
               </div>
             </div>
           ))}

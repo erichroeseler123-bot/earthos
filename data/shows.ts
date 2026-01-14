@@ -1,13 +1,9 @@
 export interface Show {
-  slug: string;
-  title: string;
-  image: string;
-  date: string;
-  time: string;
-  artist: string;
+  slug: string; title: string; image: string; 
+  date: string; time: string; artist: string;
 }
 
-// CANNON_LOCK: Full 2026 Authoritative Schedule (Icelantic excluded)
+// CANNON_LOCK: Authoritative 2026 Schedule (Excluding Icelantic)
 export const shows: Show[] = [
   { slug: "crankdat-rrx-2026", title: "CRANKDAT // DR. FRESCH", image: "", date: "2026-03-27", time: "18:00", artist: "Crankdat" },
   { slug: "ravenscoon-rrx-2026", title: "RAVENSCOON // JANTSEN", image: "", date: "2026-03-28", time: "18:00", artist: "Ravenscoon" },
@@ -18,8 +14,8 @@ export const shows: Show[] = [
   { slug: "john-mulaney-rrx-2026", title: "JOHN MULANEY", image: "", date: "2026-04-15", time: "19:00", artist: "John Mulaney" },
   { slug: "bbno-oliver-tree-2026", title: "BBNO$ // OLIVER TREE", image: "", date: "2026-04-16", time: "18:00", artist: "bbno$" },
   { slug: "sublime-rrx-2026", title: "SUBLIME - 2 DAY PASS", image: "", date: "2026-04-17", time: "18:00", artist: "Sublime" },
-  { slug: "pretty-lights-rrx-2026", title: "PRETTY LIGHTS - NIGHT 1", image: "", date: "2026-04-24", time: "18:30", artist: "Pretty Lights" },
-  { slug: "pretty-lights-rrx-2026-night2", title: "PRETTY LIGHTS - NIGHT 2", image: "", date: "2026-04-25", time: "18:30", artist: "Pretty Lights" },
+  { slug: "pretty-lights-rrx-2026-1", title: "PRETTY LIGHTS - NIGHT 1", image: "", date: "2026-04-24", time: "18:30", artist: "Pretty Lights" },
+  { slug: "pretty-lights-rrx-2026-2", title: "PRETTY LIGHTS - NIGHT 2", image: "", date: "2026-04-25", time: "18:30", artist: "Pretty Lights" },
   { slug: "string-cheese-incident-2026-1", title: "STRING CHEESE INCIDENT", image: "", date: "2026-05-01", time: "18:00", artist: "String Cheese Incident" },
   { slug: "string-cheese-incident-2026-2", title: "STRING CHEESE INCIDENT", image: "", date: "2026-05-02", time: "18:00", artist: "String Cheese Incident" },
   { slug: "odesza-rrx-2026-1", title: "ODESZA", image: "", date: "2026-05-08", time: "18:30", artist: "ODESZA" },
