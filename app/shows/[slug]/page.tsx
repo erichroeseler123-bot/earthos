@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import { fetchRedRocksWeather } from "@/lib/weather";
 import Link from 'next/link';
 
-export default function ShowTacticalNode() {
+export default function ShowTacticalPage() {
   const { slug } = useParams();
   const [weather, setWeather] = useState<any>(null);
   const artistName = (slug as string).replace(/-/g, ' ').toUpperCase();
@@ -20,8 +20,8 @@ export default function ShowTacticalNode() {
   const packingList = [
     "Comfortable Walking Shoes",
     "Empty Water Bottle",
-    weather?.tonight?.precip > 30 ? "RAIN PONCHO REQUIRED" : "Sunglasses",
-    weather?.tonight?.low < 55 ? "WARM LAYERS / HOODIE" : "Light Jacket"
+    weather?.tonight?.precip > 30 ? "RAIN PONCHO (WET OPS ACTIVE)" : "Sunglasses",
+    weather?.tonight?.low < 55 ? "WARM LAYERS (NIGHT OPS ACTIVE)" : "Light Jacket"
   ];
 
   return (
@@ -38,7 +38,7 @@ export default function ShowTacticalNode() {
           <div className="space-y-4">
             {packingList.map((item, i) => (
               <p key={i} className="text-sm font-black uppercase italic tracking-tighter flex items-center gap-3">
-                <span className="h-2 w-2 bg-neon-blue rounded-full" /> {item}
+                <span className="h-3 w-3 bg-neon-blue rounded-full animate-pulse" /> {item}
               </p>
             ))}
           </div>
