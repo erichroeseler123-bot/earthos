@@ -9,11 +9,11 @@ export default function SidebarSatMap() {
 
   useEffect(() => {
     if (map.current || !mapContainer.current) return;
-    
+
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/satellite-v9',
-      center: [-105.2054, 39.6654], // Red Rocks
+      center: [-105.2054, 39.6654],
       zoom: 15.5,
       pitch: 65,
       bearing: 0,
@@ -41,7 +41,7 @@ export default function SidebarSatMap() {
       <p className="text-[9px] text-neon-blue uppercase font-black tracking-widest border-l-2 border-neon-blue pl-2 mb-2">
         // SITE_INTEL_ROTATING
       </p>
-      <div ref={mapContainer} className="h-44 w-full border border-zinc-800 bg-zinc-900 shadow-2xl" />
+      <div ref={mapContainer} className="h-64 w-full border border-zinc-800 bg-zinc-900 shadow-2xl" />
     </div>
   );
 }
