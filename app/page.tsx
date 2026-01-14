@@ -1,8 +1,8 @@
 {filteredShows.map((node) => (
   <div key={node.slug} className="p-4 border border-zinc-800 bg-zinc-900/30 flex flex-col md:flex-row items-center gap-6 group hover:border-neon-blue transition-all mb-4">
-    {/* VISUAL_NODE */}
+    {/* VISUAL_NODE: Shows the picture from the data file */}
     {node.image && (
-      <div className="w-full md:w-32 h-20 overflow-hidden border border-zinc-700">
+      <div className="w-full md:w-32 h-20 overflow-hidden border border-zinc-700 bg-zinc-800">
         <img src={node.image} alt={node.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
       </div>
     )}
