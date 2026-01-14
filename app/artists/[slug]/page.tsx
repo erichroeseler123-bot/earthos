@@ -1,68 +1,74 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { fetchArtistIntel, fetchArtistNews } from "@/lib/musicbrainz";
 import { fetchRedRocksWeather } from "@/lib/weather";
 import Link from 'next/link';
 
-export default function ArtistNode() {
+export default function ShowNode() {
   const { slug } = useParams();
-  const [intel, setIntel] = useState<any>(null);
   const [weather, setWeather] = useState<any>(null);
-  const artistName = (slug as string).replace(/-/g, ' ');
+  const [setlist, setSetlist] = useState<any>(null);
 
   useEffect(() => {
     async function activate() {
-      const [intelData, weatherData] = await Promise.all([
-        fetchArtistIntel(artistName),
-        fetchRedRocksWeather()
-      ]);
-      setIntel(intelData);
+      const weatherData = await fetchRedRocksWeather();
       setWeather(weatherData);
+      
+      // 🎵 Setlist.fm API Handshake (Requires your API Key)
+      const res = await fetch(`https://api.setlist.fm/rest/1.0/artist/${slug}/setlists`, {
+        headers: { 'x-api-key': 'YOUR_API_KEY', 'Accept': 'application/json' }
+      });
+      const data = await res.json();
+      setSetlist(data.setlist?.[0]);
     }
     activate();
-  }, [artistName]);
+  }, [slug]);
+
+  // 🎒 Tactical Packing Logic
+  const getPackingList = () => {
+    const list = ["Comfortable Walking Shoes", "Sunscreen", "Empty Water Bottle"]; //
+    if (weather?.tonight?.precip > 30) list.push("Rain Poncho (No Umbrellas Allowed)"); //
+    if (weather?.tonight?.low < 55) list.push("Warm Layers (Chilly at Night)"); //
+    return list;
+  };
 
   return (
-    <div className="min-h-screen bg-black text-white font-mono p-6 md:p-12 lg:p-24 selection:bg-neon-blue selection:text-black">
-      {/* ... (Keep your Header and Return link) ... */}
+    <div className="min-h-screen bg-black text-white font-mono p-8 md:p-24">
+      <Link href="/" className="text-neon-blue text-[10px] mb-12 block font-black uppercase tracking-widest">
+        {"< "}RETURN_TO_COMMAND_CENTER
+      </Link>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
-        <div className="space-y-10">
-          {/* ... (Keep Audio and Transport Panels) ... */}
-
-          {/* 🌦️ WEATHER INTEL WIDGET */}
-          <div className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-3xl space-y-6">
-            <div className="flex justify-between items-center border-b border-zinc-800 pb-4">
-              <h3 className="text-xl font-black italic uppercase tracking-tight">Environmental_Intel</h3>
-              <span className="text-[9px] text-neon-blue font-bold uppercase tracking-widest">LOC: RED_ROCKS_AMPHITHEATRE</span>
-            </div>
-            
-            {weather ? (
-              <div className="grid grid-cols-2 gap-8">
-                <div className="space-y-1">
-                  <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest">// CURRENT_TEMP</p>
-                  <p className="text-4xl font-black italic text-white">{weather.current.temp}°F</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest">// SHOW_LOW</p>
-                  <p className="text-4xl font-black italic text-zinc-400">{weather.tonight.low}°F</p>
-                </div>
-                <div className="col-span-2 p-3 bg-zinc-900/80 rounded-xl border border-zinc-800">
-                  <p className="text-[9px] text-zinc-500 font-bold uppercase tracking-widest mb-1">// PRECIPITATION_PROBABILITY</p>
-                  <div className="w-full bg-black h-2 rounded-full overflow-hidden">
-                    <div className="bg-neon-blue h-full transition-all duration-1000" style={{ width: `${weather.tonight.precip}%` }} />
-                  </div>
-                  <p className="mt-2 text-[10px] font-black uppercase tracking-tighter">SIGNAL: {weather.tonight.precip}% CHANCE OF RAIN</p>
-                </div>
-              </div>
-            ) : (
-              <p className="text-[9px] text-zinc-600 uppercase italic animate-pulse">// PINGING_WEATHER_SATELLITE...</p>
-            )}
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        {/* 🎒 TACTICAL PACKING LIST */}
+        <div className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-3xl">
+          <h2 className="text-2xl font-black italic uppercase tracking-tighter mb-6 border-b border-zinc-800 pb-4">
+            Tactical_Packing_List
+          </h2>
+          <ul className="space-y-4">
+            {getPackingList().map((item, i) => (
+              <li key={i} className="flex items-center gap-3 text-sm font-bold uppercase">
+                <span className="h-2 w-2 bg-neon-blue rounded-full" /> {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* ... (Keep Gallery and Intel Panel) ... */}
+        {/* 🎵 SETLIST RECON */}
+        <div className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-3xl">
+          <h2 className="text-2xl font-black italic uppercase tracking-tighter mb-6 border-b border-zinc-800 pb-4">
+            Recent_Setlist_Intel
+          </h2>
+          {setlist ? (
+            <div className="space-y-2">
+              <p className="text-[10px] text-zinc-500 uppercase mb-4">Venue: {setlist.venue?.name}</p>
+              {setlist.sets?.set[0]?.song.map((s: any, i: number) => (
+                <p key={i} className="text-xs font-black uppercase italic">{i + 1}. {s.name}</p>
+              ))}
+            </div>
+          ) : (
+            <p className="text-[9px] text-zinc-600 italic">// SCANNING_SETLIST_FM_DATABASE...</p>
+          )}
+        </div>
       </div>
     </div>
   );

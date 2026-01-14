@@ -1,24 +1,20 @@
 // lib/musicbrainz.ts
+const BASE_URL = "https://musicbrainz.org/ws/2";
 
-// ... (keep your existing fetchArtistIntel function) ...
+// ✅ FIXED: Explicitly export the function
+export async function fetchArtistIntel(artistName: string) {
+  try {
+    const searchRes = await fetch(
+      `${BASE_URL}/artist/?query=artist:${artistName}&fmt=json&limit=1`,
+      { headers: { 'User-Agent': 'PARR-Command-Center/1.5.0 (erich@partyatredrocks.com)' } }
+    );
+    const searchData = await searchRes.json();
+    return searchData.artists[0] || null;
+  } catch (err) {
+    return null;
+  }
+}
 
 export async function fetchArtistNews(artistName: string) {
-  try {
-    const query = encodeURIComponent(`${artistName} Red Rocks`);
-    const res = await fetch(`https://news.google.com/rss/search?q=${query}&hl=en-US&gl=US&ceid=US:en`);
-    const text = await res.text();
-    
-    // Tactical XML Parsing (Basic regex for RSS titles/links)
-    const titles = [...text.matchAll(/<title>(.*?)<\/title>/g)].slice(1, 4).map(m => m[1]);
-    const links = [...text.matchAll(/<link>(.*?)<\/link>/g)].slice(1, 4).map(m => m[1]);
-
-    return titles.map((title, i) => ({
-      title: title.split(' - ')[0], // Strip the source name for a cleaner UI
-      source: title.split(' - ')[1] || "INTEL_SOURCE",
-      url: links[i]
-    }));
-  } catch (err) {
-    console.error("NEWS_RECON_FAILURE:", err);
-    return [];
-  }
+  // ... (Your existing news logic)
 }
