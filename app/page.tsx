@@ -19,6 +19,12 @@ function HomeContent() {
       <header className="mb-12 border-b border-zinc-800 pb-8">
         <p className="text-[10px] text-neon-blue mb-2 tracking-[0.4em] uppercase font-black italic">Intelligence Layer // System_Active</p>
         <h1 className="text-6xl font-black uppercase italic tracking-tighter mb-8 text-white">TRANSPORT <span className="text-neon-blue not-italic">INTEL</span></h1>
+        
+        {/* THIS IS THE MISSING IMAGE BLOCK */}
+        <div className="w-full h-64 overflow-hidden border border-zinc-800 mb-8 bg-zinc-900">
+          <img src="/fleet.jpg" alt="Red Rocks Fleet" className="w-full h-full object-cover opacity-80" />
+        </div>
+
         <GlobalSearch />
       </header>
 
