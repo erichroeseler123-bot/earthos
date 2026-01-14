@@ -1,25 +1,37 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { fetchRedRocksWeather } from "@/lib/weather";
 import Link from 'next/link';
 
-export default function ShowPage() {
+export default function ShowExecutionNode() {
   const { slug } = useParams();
-  
+  const [weather, setWeather] = useState<any>(null);
+  const artistName = (slug as string).replace(/-/g, ' ').toUpperCase();
+
+  useEffect(() => {
+    async function activate() {
+      const weatherData = await fetchRedRocksWeather();
+      setWeather(weatherData);
+    }
+    activate();
+  }, [slug]);
+
   return (
-    <div className="min-h-screen bg-black text-white font-mono p-8 flex items-center justify-center">
-      <div className="max-w-xl w-full border border-zinc-800 p-12 rounded-3xl bg-zinc-900/40 text-center space-y-8">
-        <p className="text-neon-blue text-xs font-black tracking-[0.4em] uppercase animate-pulse">// ACCESSING_TACTICAL_DATA</p>
-        <h1 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter">
-          EVENT_ID: {slug}
-        </h1>
-        <div className="h-px bg-zinc-800 w-full" />
-        <p className="text-zinc-500 text-xs uppercase font-bold tracking-widest">
-          Operational Status: PRE-DEPLOYMENT
-        </p>
-        <Link href="/" className="inline-block bg-white text-black px-8 py-4 rounded-full font-black text-xs uppercase hover:bg-neon-blue transition-all">
-          Back to Command Center
-        </Link>
+    <div className="min-h-screen bg-black text-white font-mono p-8 md:p-24 flex flex-col gap-12">
+      <div className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-3xl">
+        <h2 className="text-3xl font-black italic uppercase tracking-tighter mb-8 border-b border-zinc-800 pb-4">
+          Tactical_Packing_List: {artistName}
+        </h2>
+        <div className="space-y-4">
+          <p className="text-sm font-black uppercase italic tracking-tighter">• Comfortable Walking Shoes</p>
+          <p className="text-sm font-black uppercase italic tracking-tighter">• Empty Water Bottle</p>
+          {weather?.tonight?.precip > 30 && <p className="text-neon-blue text-sm font-black uppercase italic tracking-tighter">• RAIN PONCHO REQUIRED</p>}
+        </div>
+      </div>
+      <div className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-3xl">
+        <h2 className="text-3xl font-black italic uppercase tracking-tighter mb-8 border-b border-zinc-800 pb-4">Recent_Setlist_Intel</h2>
+        <p className="text-xs text-zinc-600 italic animate-pulse">// SCANNING_SETLIST_FM...</p>
       </div>
     </div>
   );
