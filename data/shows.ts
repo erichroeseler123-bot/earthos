@@ -3,7 +3,7 @@ export interface Show {
   date: string; time: string; artist: string;
 }
 
-// CANNON_LOCK: Full 2026 Authoritative Schedule (Excluding Icelantic)
+// CANNON_LOCK: Full 2026 schedule (Excluding Icelantic)
 export const shows: Show[] = [
   { slug: "crankdat-rrx-2026", title: "CRANKDAT // DR. FRESCH", image: "", date: "2026-03-27", time: "18:00", artist: "Crankdat" },
   { slug: "ravenscoon-rrx-2026", title: "RAVENSCOON // JANTSEN", image: "", date: "2026-03-28", time: "18:00", artist: "Ravenscoon" },
