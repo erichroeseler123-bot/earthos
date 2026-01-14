@@ -4,14 +4,14 @@ export const SHUTTLE_ROUTES = {
   features: [
     {
       type: "Feature",
-      properties: { name: "Denver Shuttle", color: "#3b82f6" },
+      properties: { name: "Denver Shuttle (Sheraton)", color: "#3b82f6" },
       geometry: {
         type: "LineString",
         coordinates: [
-          [-104.9997, 39.7527], // Union Station
+          [-104.9893, 39.7431], // Sheraton Downtown (1550 Court Pl)
           [-105.0250, 39.7400], 
           [-105.1300, 39.7100], 
-          [-105.2054, 39.6654]  // Red Rocks
+          [-105.2054, 39.6654]  // Red Rocks Stage
         ]
       }
     },
@@ -23,7 +23,7 @@ export const SHUTTLE_ROUTES = {
         coordinates: [
           [-105.2211, 39.7555], // Golden Pickup
           [-105.2150, 39.7200], 
-          [-105.2054, 39.6654]  // Red Rocks
+          [-105.2054, 39.6654]  // Red Rocks Stage
         ]
       }
     }

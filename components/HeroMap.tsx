@@ -21,11 +21,8 @@ export default function HeroMap() {
       zoom: 10.5,
       pitch: 45,
       cooperativeGestures: true, // Requires 2 fingers on mobile
-      interactive: false // Starts locked; can be toggled if needed
+      interactive: false // Locked on desktop by default
     });
-
-    // To allow internal scrolling while keeping the page scrollable
-    map.current.scrollZoom.disable(); 
 
     map.current.on('load', () => {
       map.current?.addSource('shuttle-routes', {
@@ -45,20 +42,6 @@ export default function HeroMap() {
           'line-blur': 1
         }
       });
-
-      map.current?.addLayer({
-        id: 'route-labels',
-        type: 'symbol',
-        source: 'shuttle-routes',
-        layout: {
-          'text-field': ['get', 'name'],
-          'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-          'text-size': 10,
-          'symbol-placement': 'point',
-          'text-offset': [0, 1.5]
-        },
-        paint: { 'text-color': '#ffffff' }
-      });
     });
 
     registerMap(map.current);
@@ -66,11 +49,8 @@ export default function HeroMap() {
   }, [registerMap]);
 
   return (
-    <section className="w-full h-[400px] border border-zinc-800 relative group overflow-hidden brightness-110 contrast-105">
-      <div className="absolute top-4 left-4 z-10 bg-black/80 border border-neon-blue/30 p-2 backdrop-blur-md">
-        <p className="text-[10px] text-neon-blue font-black tracking-widest uppercase">// TACTICAL_SHUTTLE_INTEL</p>
-      </div>
-      <div ref={mapContainer} className="w-full h-full" />
+    <section className="w-full h-[400px] border border-zinc-800 relative group overflow-hidden">
+      <div ref={mapContainer} className="w-full h-full brightness-110 contrast-105" />
     </section>
   );
 }
