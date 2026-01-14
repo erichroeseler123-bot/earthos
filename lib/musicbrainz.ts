@@ -3,7 +3,7 @@ const BASE_URL = "https://musicbrainz.org/ws/2";
 
 export async function fetchArtistIntel(artistName: string) {
   try {
-    // 1. Search for Artist and include "url-rels" to find Spotify/Social links
+    // 1. Search for Artist and include URL relations to find Spotify
     const searchRes = await fetch(
       `${BASE_URL}/artist/?query=artist:${artistName}&fmt=json&limit=1`,
       { headers: { 'User-Agent': 'PARR-Command-Center/1.5.0 (erich@partyatredrocks.com)' } }
@@ -13,26 +13,30 @@ export async function fetchArtistIntel(artistName: string) {
 
     if (!artist) return null;
 
-    // 2. Fetch specific relations to find the Spotify ID
+    // 2. Fetch specific relations for the Spotify ID
     const relRes = await fetch(
-      `${BASE_URL}/artist/${artist.id}?inc=url-rels&fmt=json`,
+      `${BASE_URL}/artist/${artist.id}?inc=url-rels+release-groups\u0026fmt=json`,
       { headers: { 'User-Agent': 'PARR-Command-Center/1.5.0' } }
     );
     const relData = await relRes.json();
     
-    // Find the Spotify link in the relations array
-    const spotifyRel = relData.relations?.find((r: any) => r.type === 'streaming music');
-    const spotifyUrl = spotifyRel?.url?.resource || "";
-    const spotifyId = spotifyUrl.split('/').pop(); // Extracts the ID from the URL
+    // Extract Spotify ID from relations
+    const spotifyRel = relData.relations?.find((r: any) => r.type === 'streaming music' && r.url.resource.includes('spotify'));
+    const spotifyId = spotifyRel?.url?.resource ? spotifyRel.url.resource.split('/').pop().split('?')[0] : null;
 
     return {
       mbid: artist.id,
       name: artist.name,
       origin: artist.area?.name || "Global Node",
-      spotifyId: spotifyId || null, 
-      albums: [] // Keep your existing album logic here
+      spotifyId: spotifyId,
+      // Map release groups to Cover Art Archive
+      albums: relData['release-groups']?.map((rg: any) => ({
+        title: rg.title,
+        coverUrl: `https://coverartarchive.org/release-group/${rg.id}/front-500`
+      })).slice(0, 12) || []
     };
   } catch (err) {
+    console.error("INTEL_RECON_FAILURE:", err);
     return null;
   }
 }
