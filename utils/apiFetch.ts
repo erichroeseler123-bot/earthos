@@ -1,32 +1,20 @@
 import { cache } from 'react';
 
-// Priority 1: SeatGeek (Uses 'seatgeekclientid')
-export const getSeatGeekImage = cache(async (artist: string) => {
+export const getArtistImage = cache(async (artist: string) => {
   try {
-    const res = await fetch(`https://api.seatgeek.com/2/performers?q=${encodeURIComponent(artist)}&client_id=${process.env.seatgeekclientid}`);
-    const data = await res.json();
-    return data.performers?.[0]?.image || null;
-  } catch { return null; }
-});
+    // SYSTEM 1: SEATGEEK (Official Performance Imagery)
+    const sgRes = await fetch(`https://api.seatgeek.com/2/performers?q=${encodeURIComponent(artist)}&client_id=${process.env.seatgeekclientid}`);
+    const sgData = await sgRes.json();
+    if (sgData.performers?.[0]?.image) return sgData.performers[0].image;
 
-// Priority 2: Bandsintown (Uses 'bandsintownid')
-export const getBandsintownImage = cache(async (artist: string) => {
-  try {
-    const res = await fetch(`https://rest.bandsintown.com/artists/${encodeURIComponent(artist)}?app_id=${process.env.bandsintownid}`);
-    const data = await res.json();
-    return data.image_url || null;
-  } catch { return null; }
-});
+    // SYSTEM 2: BANDSINTOWN (Official Artist Visuals)
+    const bitRes = await fetch(`https://rest.bandsintown.com/artists/${encodeURIComponent(artist)}?app_id=${process.env.bandsintownid}`);
+    const bitData = await bitRes.json();
+    if (bitData.image_url) return bitData.image_url;
 
-// Priority 3: MusicBrainz Metadata (Uses 'musicbrainsid' as User-Agent)
-export const getMusicBrainzInfo = cache(async (artist: string) => {
-  try {
-    const headers = { 'User-Agent': process.env.musicbrainsid || 'PartyAtRedRocks/1.0' };
-    const searchRes = await fetch(`https://musicbrainz.org/ws/2/artist/?query=artist:${encodeURIComponent(artist)}&fmt=json`, { headers });
-    const searchData = await searchRes.json();
-    const mbid = searchData.artists?.[0]?.id;
-    if (!mbid) return null;
-    const detailRes = await fetch(`https://musicbrainz.org/ws/2/artist/${mbid}?inc=genres+url-rels&fmt=json`, { headers });
-    return await detailRes.json();
-  } catch { return null; }
+    // FALLBACK: UNSPLASH (Contextual Stage Visuals)
+    return `https://source.unsplash.com/featured/800x450/?${encodeURIComponent(artist)},concert,band`;
+  } catch (err) {
+    return `https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800`;
+  }
 });
