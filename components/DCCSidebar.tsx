@@ -13,7 +13,7 @@ export default function DCCSidebar({ setSearch, searchValue }: SidebarProps) {
 
   return (
     <div className="flex flex-col gap-6 font-mono">
-      {/* 🔍 ARTIST SEARCH (Primary on all devices) */}
+      {/* 🔍 ARTIST SEARCH */}
       <div className="bg-zinc-900/50 border border-zinc-800 p-4 rounded-xl">
         <p className="text-[10px] font-black tracking-widest text-zinc-500 uppercase mb-3">// ARTIST_INTEL_SEARCH</p>
         <div className="flex gap-1">
@@ -37,7 +37,7 @@ export default function DCCSidebar({ setSearch, searchValue }: SidebarProps) {
               onClick={() => flyTo(preset)}
               className="w-full text-left p-2 border border-zinc-800 bg-black text-[9px] text-zinc-400 hover:text-neon-blue hover:border-neon-blue transition-all uppercase font-bold rounded"
             >
-              > {preset.label}
+              {"> "}{preset.label}
             </button>
           ))}
         </div>
