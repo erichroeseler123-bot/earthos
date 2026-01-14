@@ -18,50 +18,60 @@ function HomeContent() {
   return (
     <>
       <header className="mb-12 border-b border-zinc-800 pb-8">
-        <h1 className="text-6xl font-black uppercase italic tracking-tighter mb-8 text-white">TRANSPORT <span className="text-neon-blue not-italic">INTEL</span></h1>
+        <h1 className="text-6xl font-black uppercase italic tracking-tighter mb-4 text-white leading-none">RED ROCKS <span className="text-neon-blue not-italic">TRANSPORT</span></h1>
+        <p className="text-xs font-black uppercase tracking-widest text-zinc-500 italic mb-8 border-l-2 border-neon-blue pl-4">
+          Shuttles from Denver & Golden // Door-to-Door Private SUV Sync
+        </p>
         
-        <div className="w-full h-64 overflow-hidden border border-zinc-800 mb-8 bg-zinc-900 relative">
+        <div className="w-full h-64 overflow-hidden border border-zinc-800 mb-8 bg-zinc-900 relative shadow-2xl">
           <Image src="/fleet.jpg" alt="Fleet" fill className="object-cover" priority />
         </div>
         <GlobalSearch />
       </header>
 
-      {/* SERVICE_NODES: COLOR ALWAYS */}
+      {/* SERVICE NODES: Using your 400x400 square images */}
       <section className="mb-24 grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="group border-2 border-neon-blue bg-neon-blue/5 rounded-2xl overflow-hidden shadow-2xl">
-          <div className="w-full h-48 relative">
+          <div className="w-full aspect-square relative border-b border-neon-blue">
             <Image src="/sprintershuttle.jpg" alt="Sprinter" fill className="object-cover" />
           </div>
           <div className="p-8">
-            <h4 className="text-4xl font-black italic uppercase mb-4 text-white">$59 SHUTTLE</h4>
+            <h4 className="text-4xl font-black italic uppercase mb-2 text-white">$59 SHUTTLE</h4>
+            <p className="text-[10px] font-bold text-zinc-400 mb-4 uppercase tracking-tighter italic">DENVER & GOLDEN DEPARTURES // SHARED RIDE NODES</p>
             <a href="/book?type=shuttle" className="block w-full py-4 border-2 border-current text-center font-black uppercase text-sm hover:bg-neon-blue hover:text-black transition-all">EXECUTE_BOOKING</a>
           </div>
         </div>
 
         <div className="group border-2 border-matrix-green bg-matrix-green/5 rounded-2xl overflow-hidden shadow-2xl">
-          <div className="w-full h-48 relative">
+          <div className="w-full aspect-square relative border-b border-matrix-green">
             <Image src="/redrockssuburban.jpg" alt="Suburban" fill className="object-cover" />
           </div>
           <div className="p-8">
-            <h4 className="text-4xl font-black italic uppercase mb-4 text-white">VIP SUV</h4>
-            <a href="/book?type=suv" className="block w-full py-4 border-2 border-current text-center font-black uppercase text-sm hover:bg-matrix-green hover:text-black transition-all">REQUEST_VIP_SYNC</a>
+            <h4 className="text-4xl font-black italic uppercase mb-2 text-white">PRIVATE SUV</h4>
+            <p className="text-[10px] font-bold text-zinc-400 mb-4 uppercase tracking-tighter italic">DOOR-TO-DOOR SYNC // PRIVATE TRANSPORT EXECUTION</p>
+            <a href="/book?type=suv" className="block w-full py-4 border-2 border-current text-center font-black uppercase text-sm hover:bg-matrix-green hover:text-black transition-all">REQUEST_PRIVATE_SYNC</a>
           </div>
         </div>
       </section>
 
-      {/* CONCERT_LIST: REAL BAND LINKS */}
+      {/* CONCERT_LIST: WIDE FORMAT IMAGES */}
       <section className="border-t border-zinc-800 pt-16">
-        <p className="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500 italic mb-8 underline">Resolved_Intelligence_Nodes</p>
+        <p className="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500 italic mb-8 underline">Upcoming_Red_Rocks_Intelligence</p>
         <div className="grid grid-cols-1 gap-6">
           {filteredShows.map((node) => (
             <div key={node.slug} className="p-4 border border-zinc-800 bg-zinc-900/30 flex flex-col md:flex-row items-center gap-6 group hover:border-neon-blue transition-all mb-4">
-              <div className="w-32 h-20 overflow-hidden border border-zinc-700 bg-zinc-800 flex-shrink-0 relative">
-                <Image src={`https://source.unsplash.com/featured/400x300/?${encodeURIComponent(node.artist)},concert`} alt={node.artist} fill className="object-cover" />
+              <div className="w-48 h-28 overflow-hidden border border-zinc-700 bg-zinc-800 flex-shrink-0 relative">
+                <Image 
+                   src={`https://source.unsplash.com/featured/800x450/?${encodeURIComponent(node.artist)},concert,band`} 
+                   alt={node.artist} 
+                   fill 
+                   className="object-cover" 
+                />
               </div>
               <div className="flex-1">
                 <a href={`/artists/${encodeURIComponent(node.artist)}`} className="block group-hover:text-neon-blue transition-colors">
                   <h5 className="font-black italic uppercase text-xl text-white">{node.title}</h5>
-                  <p className="text-xs text-neon-blue underline mt-1 italic">Pull_Artist_Intel: {node.artist}</p>
+                  <p className="text-[10px] text-neon-blue underline mt-1 italic uppercase font-bold tracking-widest">Artist_Intel: {node.artist}</p>
                 </a>
               </div>
               <div className="text-right text-white font-mono"><p className="text-lg font-black italic">{node.date}</p></div>
