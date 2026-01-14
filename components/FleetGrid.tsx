@@ -1,5 +1,5 @@
 import React from 'react';
-import { getBookingUrl } from "@/rezdy";
+import { getBookingUrl } from "@/lib/rezdy";
 
 export default function FleetGrid() {
   return (
@@ -17,7 +17,7 @@ export default function FleetGrid() {
           </div>
         </div>
         <div className="text-center space-y-2">
-          <h3 className="text-2xl font-black italic uppercase tracking-tighter italic">SHUTTLE EXEC</h3>
+          <h3 className="text-2xl font-black italic uppercase tracking-tighter">SHUTTLE EXEC</h3>
           <p className="text-zinc-500 text-[9px] uppercase font-bold">PICKUP: SHERATON DOWNTOWN (COURT ST)</p>
           <a 
             href={getBookingUrl('shuttle')} 
@@ -41,7 +41,7 @@ export default function FleetGrid() {
           </div>
         </div>
         <div className="text-center space-y-2">
-          <h3 className="text-2xl font-black italic uppercase tracking-tighter italic">PRIVATE SUV NODE</h3>
+          <h3 className="text-2xl font-black italic uppercase tracking-tighter">PRIVATE SUV NODE</h3>
           <p className="text-zinc-500 text-[9px] uppercase font-bold">DOOR-TO-DOOR SERVICE</p>
           <a 
             href={getBookingUrl('suv')} 
