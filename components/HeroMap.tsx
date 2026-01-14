@@ -2,12 +2,14 @@
 import React, { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { useMap } from "@/app/context/MapContext";
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiZXdyZXdyMTIiLCJhIjoiY21rZTlkZGdyMDRtYjNkb2pidWllYnRubCJ9.xswpddGPQQYFWQpj2aRYFg';
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
 export default function HeroMap() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
+  const { registerMap } = useMap();
 
   useEffect(() => {
     if (map.current || !mapContainer.current) return;
@@ -18,8 +20,14 @@ export default function HeroMap() {
       zoom: 11,
       pitch: 45,
     });
-    return () => map.current?.remove();
-  }, []);
+
+    registerMap(map.current);
+
+    return () => {
+      map.current?.remove();
+      map.current = null;
+    };
+  }, [registerMap]);
 
   return (
     <section className="w-full h-[450px] border border-zinc-800 relative group overflow-hidden">
