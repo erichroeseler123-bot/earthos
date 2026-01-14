@@ -1,4 +1,3 @@
-// lib/routes.ts
 export const SHUTTLE_ROUTES = {
   type: "FeatureCollection",
   features: [
@@ -17,11 +16,11 @@ export const SHUTTLE_ROUTES = {
     },
     {
       type: "Feature",
-      properties: { name: "Golden Shuttle", color: "#00f2ff" },
+      properties: { name: "Golden Shuttle (Trailhead Tap)", color: "#00f2ff" },
       geometry: {
         type: "LineString",
         coordinates: [
-          [-105.2211, 39.7555], 
+          [-105.2215, 39.7552], // Trailhead Taphouse (1177 12th St)
           [-105.2150, 39.7200], 
           [-105.2054, 39.6654] 
         ]
