@@ -1,12 +1,10 @@
 export async function onRequest(context) {
-  // Pulls the encrypted key you verified in your dashboard
+  // Pulls the encrypted GEMINI_API_KEY from your Pages settings
   const API_KEY = context.env.GEMINI_API_KEY; 
   
-  const prompt = {
+  const payload = {
     contents: [{
-      parts: [{
-        text: "Write a 1-sentence professional intelligence briefing for a transportation 'Command Center' regarding Red Rocks Amphitheatre. Mention it's 28°F and clear. Keep it under 20 words and use all caps."
-      }]
+      parts: [{ text: "Write a 1-sentence intelligence SITREP for Red Rocks Amphitheatre command center. Professional, tactical, all caps, under 15 words." }]
     }]
   };
 
@@ -14,7 +12,7 @@ export async function onRequest(context) {
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(prompt)
+      body: JSON.stringify(payload)
     });
 
     const data = await response.json();
@@ -24,6 +22,6 @@ export async function onRequest(context) {
       headers: { "Content-Type": "application/json" }
     });
   } catch (error) {
-    return new Response(JSON.stringify({ briefing: "SITREP_OFFLINE: CHECK_API_KEY" }));
+    return new Response(JSON.stringify({ briefing: "SITREP_OFFLINE: CHECK_ENCRYPTED_KEYS" }));
   }
 }

@@ -13,14 +13,13 @@
         body { font-family: 'Space+Mono', monospace; margin:0; background:#000; color:#fff; }
         .dcc-map-container { position: relative; width: 100%; background: #000; border: 1px solid #27272a; border-radius: 2px; overflow: hidden; margin-top: 10px; }
         #tactical-feed { width: 100%; height: 200px; filter: brightness(0.8) contrast(1.2); }
-        #birds-eye-feed { width: 100%; height: 180px; filter: grayscale(0.2) brightness(0.7); }
+        #birds-eye-feed { width: 100%; height: 160px; filter: grayscale(0.2) brightness(0.7); }
         .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: rgba(0, 242, 255, 0.4); box-shadow: 0 0 10px rgba(0, 242, 255, 0.8); z-index: 10; pointer-events: none; animation: dccScan 5s linear infinite; }
         @keyframes dccScan { 0% { top: 0%; opacity: 0; } 5% { opacity: 1; } 95% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
     </style>
 </head>
 <body class="min-h-screen flex flex-col md:flex-row overflow-x-hidden">
-
-    <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-black border-r border-zinc-800 p-6 flex flex-col gap-6 transition-transform duration-300 md:relative md:translate-x-0">
+    <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-black border-r border-zinc-800 p-6 flex flex-col gap-6 md:relative md:translate-x-0">
         <div>
             <p class="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500 italic mb-1">Intelligence Layer</p>
             <h1 class="text-2xl font-black italic text-white uppercase">EARTHOS <span class="text-neon-blue not-italic">DCC</span></h1>
@@ -34,17 +33,9 @@
         <div class="border-y border-zinc-800 py-4 space-y-2 text-[9px] uppercase font-bold text-zinc-500">
             <p class="text-neon-blue">// SITE_LAT: 39.6654° N</p>
             <p class="text-neon-blue">// SITE_LON: 105.2054° W</p>
-            
-            <div class="dcc-map-container">
-                <div id="tactical-feed"></div>
-                <div class="scan-line"></div>
-            </div>
+            <div class="dcc-map-container"><div id="tactical-feed"></div><div class="scan-line"></div></div>
             <p id="heading-display" class="text-[8px] text-zinc-600 font-mono uppercase mt-1">HEADING: 320° // SAT_ACTIVE</p>
-
-            <div class="dcc-map-container">
-                <div id="birds-eye-feed"></div>
-            </div>
-            <p class="text-[7px] text-zinc-700 italic uppercase">STATUS: RED_ROCKS_NODE_LOCKED</p>
+            <div class="dcc-map-container"><div id="birds-eye-feed"></div></div>
         </div>
 
         <nav class="flex flex-col gap-3 font-bold uppercase italic text-[10px]">
@@ -62,32 +53,31 @@
     </main>
 
     <script>
-        // DCC CORE SETTINGS - SYNCED TO CLOUDFLARE ENV
-        const GOOGLE_API_KEY = "AlzaSyAvqPbald4nw..."; // Pulling from your Plaintext 'Google_map'
-        const GOOGLE_MAP_ID  = "5c1b9f3082e0cc4ec..."; // Pulling from your Plaintext 'map_id_satelite'
+        // DCC SYNC: Pulling the plaintext keys from your Dashboard
+        const GOOGLE_API_KEY = "AlzaSyAvqPbald4nw..."; // From your 'Google_map' variable
+        const GOOGLE_MAP_ID  = "5c1b9f3082e0cc4ec..."; // From your 'map_id_satelite' variable
 
         (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Re-imports might be a no-op."):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
             key: GOOGLE_API_KEY, v: "beta"
         });
 
         let heading = 320;
-
         async function initDCC() {
             const { Map } = await google.maps.importLibrary("maps");
             const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
-            const redRocksPos = { lat: 39.6654, lng: -105.2057 };
+            const pos = { lat: 39.6654, lng: -105.2057 };
 
             const tacticalMap = new Map(document.getElementById("tactical-feed"), {
-                center: redRocksPos, zoom: 17.2, tilt: 50, heading: heading, 
+                center: pos, zoom: 17.2, tilt: 50, heading: heading, 
                 mapId: GOOGLE_MAP_ID, mapTypeId: 'satellite', disableDefaultUI: true,
             });
 
             const birdsEyeMap = new Map(document.getElementById("birds-eye-feed"), {
-                center: redRocksPos, zoom: 13, mapId: GOOGLE_MAP_ID, disableDefaultUI: true, gestureHandling: "none"
+                center: pos, zoom: 13, mapId: GOOGLE_MAP_ID, disableDefaultUI: true, gestureHandling: "none"
             });
 
             const pin = new PinElement({ background: "#00f2ff", borderColor: "#fff", scale: 0.7 });
-            new AdvancedMarkerElement({ map: birdsEyeMap, position: redRocksPos, title: "RED ROCKS", content: pin.element });
+            new AdvancedMarkerElement({ map: birdsEyeMap, position: pos, title: "RED ROCKS", content: pin.element });
 
             setInterval(() => {
                 heading += 0.05; tacticalMap.setHeading(heading);
@@ -95,18 +85,11 @@
                 if (display) display.innerText = `HEADING: ${Math.floor(heading)}° // SAT_ACTIVE`;
             }, 50);
 
-            // Fetch Real-time Events
-            fetch("https://partyatredrocks-events.denverairportpickup.workers.dev")
+            // Fetch AI Intelligence from the backend function
+            fetch("/api/intel-briefing")
                 .then(r => r.json())
-                .then(events => {
-                    const el = document.getElementById("events");
-                    el.innerHTML = events.map(e => `
-                        <div class="bg-zinc-900/30 border border-zinc-800 p-6 rounded-sm hover:border-neon-blue transition-all">
-                            <h3 class="text-neon-blue font-black italic uppercase text-lg mb-2">${e.title}</h3>
-                            <a href="${e.tickets.url}" target="_blank" class="bg-zinc-900 border border-zinc-800 px-4 py-2 text-[10px] text-neon-blue font-bold uppercase hover:bg-neon-blue hover:text-black">Secure Access →</a>
-                        </div>
-                    `).join("");
-                });
+                .then(data => { document.getElementById("intel-text").innerText = data.briefing; })
+                .catch(() => { document.getElementById("intel-text").innerText = "SITREP_PENDING: ANALYZING_GEO_NODES"; });
         }
         initDCC();
     </script>
