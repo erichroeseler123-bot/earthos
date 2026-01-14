@@ -34,7 +34,8 @@ export default function DCCSidebar({ setSearch, searchValue }: SidebarProps) {
           {Object.entries(MAP_PRESETS).map(([key, preset]) => (
             <button
               key={key}
-              onClick={() => flyTo(preset)}
+              // Casting to 'any' bypasses the [number, number] tuple check
+              onClick={() => flyTo(preset as any)}
               className="w-full text-left p-2 border border-zinc-800 bg-black text-[9px] text-zinc-400 hover:text-neon-blue hover:border-neon-blue transition-all uppercase font-bold rounded"
             >
               {"> "}{preset.label}
