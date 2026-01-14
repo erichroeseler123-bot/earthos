@@ -1,71 +1,43 @@
 "use client";
-import React, { useState } from "react";
+import React from 'react';
 import { useMap } from "@/app/context/MapContext";
 import { MAP_PRESETS } from "@/lib/presets";
-import { geocode } from "@/lib/geocode";
 
-export default function DCCSidebar() {
+interface SidebarProps {
+  setSearch: (val: string) => void;
+  searchValue: string;
+}
+
+export default function DCCSidebar({ setSearch, searchValue }: SidebarProps) {
   const { flyTo } = useMap();
-  const [inputValue, setInputValue] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputValue.trim()) return;
-
-    setLoading(true);
-    const coords = await geocode(inputValue);
-    setLoading(false);
-
-    if (coords) {
-      flyTo({
-        center: coords,
-        zoom: 14,
-        pitch: 45,
-      });
-    } else {
-      alert("LOCATION_NOT_RESOLVED");
-    }
-  };
 
   return (
     <div className="flex flex-col gap-6 font-mono">
-      {/* SEARCH COMMAND */}
-      <div className="bg-zinc-900/50 border border-zinc-800 p-4">
-        <p className="text-[10px] font-black tracking-widest text-zinc-500 uppercase mb-3">
-          // GLOBAL_INTEL
-        </p>
-        <form onSubmit={handleSearch} className="flex gap-1">
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder={loading ? "SEARCHING..." : "ENTER LOCATION..."}
-            className="w-1/2 bg-black border border-zinc-800 p-2 text-[10px] text-white focus:border-neon-blue outline-none"
+      {/* 🔍 ARTIST SEARCH (Primary on all devices) */}
+      <div className="bg-zinc-900/50 border border-zinc-800 p-4 rounded-xl">
+        <p className="text-[10px] font-black tracking-widest text-zinc-500 uppercase mb-3">// ARTIST_INTEL_SEARCH</p>
+        <div className="flex gap-1">
+          <input 
+            type="text" 
+            value={searchValue}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="SEARCH ARTISTS..."
+            className="w-full bg-black border border-zinc-800 p-2 text-[10px] text-white focus:border-neon-blue outline-none rounded"
           />
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex-1 bg-neon-blue text-white text-[9px] font-black uppercase hover:bg-white hover:text-black transition-all disabled:opacity-50"
-          >
-            Execute
-          </button>
-        </form>
+        </div>
       </div>
 
-      {/* TACTICAL PRESETS */}
-      <div className="bg-zinc-900/50 border border-zinc-800 p-4">
-        <p className="text-[10px] font-black tracking-widest text-zinc-500 uppercase mb-3">
-          // TACTICAL_PRESETS
-        </p>
+      {/* 📍 TACTICAL PRESETS (Desktop Only) */}
+      <div className="hidden md:block bg-zinc-900/50 border border-zinc-800 p-4 rounded-xl">
+        <p className="text-[10px] font-black tracking-widest text-zinc-500 uppercase mb-3">// TACTICAL_PRESETS</p>
         <div className="flex flex-col gap-2">
           {Object.entries(MAP_PRESETS).map(([key, preset]) => (
             <button
               key={key}
               onClick={() => flyTo(preset)}
-              className="w-full text-left p-2 border border-zinc-800 bg-black text-[9px] text-zinc-400 hover:text-neon-blue hover:border-neon-blue transition-all uppercase font-bold"
+              className="w-full text-left p-2 border border-zinc-800 bg-black text-[9px] text-zinc-400 hover:text-neon-blue hover:border-neon-blue transition-all uppercase font-bold rounded"
             >
-              &gt; {preset.label}
+              > {preset.label}
             </button>
           ))}
         </div>
