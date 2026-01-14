@@ -7,7 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-black antialiased shadow-none border-none outline-none overflow-hidden">
+      <body className="bg-black antialiased overflow-hidden m-0 p-0">
         {children}
       </body>
     </html>
