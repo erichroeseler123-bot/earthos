@@ -15,7 +15,7 @@ export default function EarthOSConsole() {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/dark-v11',
-      center: [-105.2103, 39.6647], // Red Rocks Coordinates
+      center: [-105.2103, 39.6647], // Red Rocks
       zoom: 11,
       pitch: 45,
     });
@@ -33,19 +33,13 @@ export default function EarthOSConsole() {
 
   return (
     <main className="flex h-screen w-full bg-black overflow-hidden font-mono text-white">
-      {/* SIDEBAR */}
       <DCCSidebar onSearch={handleSearch} />
-
-      {/* MAP VIEWPORT: This must be the ONLY thing on the right */}
       <section className="flex-1 relative border-l border-zinc-800">
         <div ref={mapContainer} className="w-full h-full" />
-        
-        {/* HUD OVERLAY */}
-        <div className="absolute top-6 right-6 pointer-events-none">
-          <div className="bg-black/90 border border-neon-blue/30 p-4 backdrop-blur-md">
-            <p className="text-[10px] text-neon-blue font-black tracking-widest uppercase mb-1">// SECTOR_SCAN</p>
-            <p className="text-[10px] text-white uppercase font-bold">Status: Optimal</p>
-          </div>
+        {/* SECTOR HUD */}
+        <div className="absolute top-6 right-6 pointer-events-none bg-black/80 border border-neon-blue/30 p-4 backdrop-blur-md">
+          <p className="text-[10px] text-neon-blue font-black tracking-widest uppercase mb-1">// SECTOR_SCAN</p>
+          <p className="text-[10px] text-white uppercase font-bold">Status: Optimal</p>
         </div>
       </section>
     </main>
