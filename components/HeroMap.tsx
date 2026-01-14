@@ -23,11 +23,13 @@ export default function HeroMap() {
     });
 
     map.current.on('load', () => {
+      // Add Route Source
       map.current?.addSource('shuttle-routes', {
         type: 'geojson',
         data: SHUTTLE_ROUTES as any
       });
 
+      // Add Route Layer (Neon Blue Line)
       map.current?.addLayer({
         id: 'route-lines',
         type: 'line',
@@ -41,6 +43,7 @@ export default function HeroMap() {
         }
       });
 
+      // Add Route Labels
       map.current?.addLayer({
         id: 'route-labels',
         type: 'symbol',
