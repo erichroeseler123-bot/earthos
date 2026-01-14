@@ -25,7 +25,7 @@ export default function DCCSidebar({ onSearch }: SidebarProps) {
         />
         <button type="submit" className="flex-1 bg-neon-blue text-white text-[9px] font-black uppercase">
           Search
-        </div>
+        </button>
       </form>
     </div>
   );
