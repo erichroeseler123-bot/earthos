@@ -12,7 +12,10 @@ export default function EarthOSConsole() {
   const map1 = useRef<mapboxgl.Map | null>(null);
   const map2 = useRef<mapboxgl.Map | null>(null);
 
+  const RED_ROCKS_COORDS: [number, number] = [-105.2054, 39.6654];
+
   useEffect(() => {
+    // 1. Regional Tactical Map (Static Dark Mode)
     if (!map1.current && mapContainer1.current) {
       map1.current = new mapboxgl.Map({
         container: mapContainer1.current,
@@ -21,14 +24,37 @@ export default function EarthOSConsole() {
         zoom: 9,
       });
     }
+
+    // 2. Site Intel Map (Rotating Satellite at Angle)
     if (!map2.current && mapContainer2.current) {
       map2.current = new mapboxgl.Map({
         container: mapContainer2.current,
         style: 'mapbox://styles/mapbox/satellite-v9',
-        center: [-105.2054, 39.6654], 
-        zoom: 15,
+        center: RED_ROCKS_COORDS, 
+        zoom: 15.5,
+        pitch: 65, // Aggressive Angle
+        bearing: 0,
+        interactive: false
+      });
+
+      // Add Red Rocks Marker
+      new mapboxgl.Marker({ color: '#3b82f6' }) // Neon Blue Marker
+        .setLngLat(RED_ROCKS_COORDS)
+        .addTo(map2.current);
+
+      // Rotation Loop
+      const rotateCamera = () => {
+        if (map2.current) {
+          map2.current.rotateTo((map2.current.getBearing() + 0.15) % 360, { duration: 0 });
+          requestAnimationFrame(rotateCamera);
+        }
+      };
+      
+      map2.current.on('load', () => {
+        rotateCamera();
       });
     }
+
     return () => {
       map1.current?.remove();
       map2.current?.remove();
@@ -48,45 +74,55 @@ export default function EarthOSConsole() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-black text-white font-mono">
-      {/* SIDEBAR WITH DUAL MAPS */}
+      {/* SIDEBAR WITH DUAL STACKED MAPS */}
       <aside className="w-full md:w-80 bg-black border-r border-zinc-800 p-6 flex flex-col gap-6">
         <DCCSidebar onSearch={handleSearch} />
-        <div className="flex flex-col gap-4">
-          <div className="space-y-1">
-            <p className="text-[9px] text-neon-blue uppercase font-black tracking-widest">// REGIONAL_TACTICAL</p>
-            <div ref={mapContainer1} className="h-40 w-full border border-zinc-800 bg-zinc-900 shadow-2xl" />
+        
+        <div className="flex flex-col gap-6">
+          <div className="space-y-2">
+            <p className="text-[9px] text-neon-blue uppercase font-black tracking-widest border-l-2 border-neon-blue pl-2">
+              // REGIONAL_TACTICAL
+            </p>
+            <div ref={mapContainer1} className="h-44 w-full border border-zinc-800 bg-zinc-900" />
           </div>
-          <div className="space-y-1">
-            <p className="text-[9px] text-neon-blue uppercase font-black tracking-widest">// SITE_INTEL_SAT</p>
-            <div ref={mapContainer2} className="h-40 w-full border border-zinc-800 bg-zinc-900 shadow-2xl" />
+          
+          <div className="space-y-2">
+            <p className="text-[9px] text-neon-blue uppercase font-black tracking-widest border-l-2 border-neon-blue pl-2">
+              // SITE_INTEL_ROTATING
+            </p>
+            <div ref={mapContainer2} className="h-44 w-full border border-zinc-800 bg-zinc-900" />
           </div>
         </div>
       </aside>
 
-      {/* RESTORED MARKETING CONTENT */}
+      {/* MAIN MARKETING CONTENT */}
       <main className="flex-1 overflow-y-auto p-8 lg:p-12">
         <div className="max-w-6xl mx-auto space-y-12">
           <section className="text-center space-y-4">
             <h1 className="text-6xl font-black uppercase italic tracking-tighter">
               RED ROCKS <span className="text-neon-blue">TRANSPORT</span>
             </h1>
-            <p className="text-zinc-500 text-[10px] tracking-[0.4em] uppercase font-bold">Shuttles from Denver & Golden // Door-to-Door Private SUV</p>
-            <img src="https://partyatredrocks.com/hero/transport.jpg" className="w-full h-[450px] object-cover border border-zinc-800 grayscale hover:grayscale-0 transition-all duration-700" alt="Fleet Hero" />
+            <p className="text-zinc-500 text-[10px] tracking-[0.4em] uppercase font-bold">
+              Shuttles from Denver & Golden // Door-to-Door Private SUV
+            </p>
+            <img 
+              src="https://partyatredrocks.com/hero/transport.jpg" 
+              className="w-full h-[450px] object-cover border border-zinc-800 grayscale" 
+              alt="Fleet Hero" 
+            />
           </section>
 
           <section className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-20">
-            <div className="bg-zinc-900/40 border border-zinc-800 p-8 hover:border-neon-blue transition-colors group">
+            <div className="bg-zinc-900/40 border border-zinc-800 p-8">
               <img src="https://partyatredrocks.com/images/shuttle.jpg" className="w-full h-56 object-cover mb-6 border border-zinc-800" alt="Shuttle" />
-              <h3 className="text-2xl font-black italic uppercase italic tracking-tighter">9 SHUTTLE EXEC</h3>
-              <p className="text-zinc-500 text-[10px] my-4 leading-relaxed uppercase font-bold">Scheduled service from key Denver hubs directly to the stage.</p>
-              <a href="/book?type=shuttle" className="block w-full bg-neon-blue text-center py-4 text-[11px] font-black uppercase tracking-widest text-white hover:bg-white hover:text-black transition-all">Secure Spot</a>
+              <h3 className="text-2xl font-black italic uppercase">$59 SHUTTLE EXEC</h3>
+              <a href="/book?type=shuttle" className="block w-full bg-neon-blue text-center py-4 text-[11px] font-black uppercase text-white mt-4">Secure Spot</a>
             </div>
 
-            <div className="bg-zinc-900/40 border border-zinc-800 p-8 hover:border-neon-blue transition-colors group">
+            <div className="bg-zinc-900/40 border border-zinc-800 p-8">
               <img src="https://partyatredrocks.com/images/suv.jpg" className="w-full h-56 object-cover mb-6 border border-zinc-800" alt="SUV" />
-              <h3 className="text-2xl font-black italic uppercase italic tracking-tighter">PRIVATE SUV NODE</h3>
-              <p className="text-zinc-500 text-[10px] my-4 leading-relaxed uppercase font-bold">VIP door-to-door transport for groups up to 7 in premium Suburbans.</p>
-              <a href="/book?type=suv" className="block w-full border border-zinc-800 text-center py-4 text-[11px] font-black uppercase tracking-widest text-zinc-400 hover:bg-white hover:text-black transition-all">Request Deployment</a>
+              <h3 className="text-2xl font-black italic uppercase">PRIVATE SUV NODE</h3>
+              <a href="/book?type=suv" className="block w-full border border-zinc-800 text-center py-4 text-[11px] font-black uppercase text-zinc-400 mt-4">Request Deployment</a>
             </div>
           </section>
         </div>
