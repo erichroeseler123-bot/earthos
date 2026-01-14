@@ -20,16 +20,19 @@ export default function HeroMap() {
       center: [-105.1103, 39.7147],
       zoom: 10.5,
       pitch: 45,
+      cooperativeGestures: true, // Requires 2 fingers on mobile
+      interactive: false // Starts locked; can be toggled if needed
     });
 
+    // To allow internal scrolling while keeping the page scrollable
+    map.current.scrollZoom.disable(); 
+
     map.current.on('load', () => {
-      // Add Route Source
       map.current?.addSource('shuttle-routes', {
         type: 'geojson',
         data: SHUTTLE_ROUTES as any
       });
 
-      // Add Route Layer (Neon Blue Line)
       map.current?.addLayer({
         id: 'route-lines',
         type: 'line',
@@ -43,7 +46,6 @@ export default function HeroMap() {
         }
       });
 
-      // Add Route Labels
       map.current?.addLayer({
         id: 'route-labels',
         type: 'symbol',
@@ -64,7 +66,7 @@ export default function HeroMap() {
   }, [registerMap]);
 
   return (
-    <section className="w-full h-[500px] border border-zinc-800 relative group overflow-hidden brightness-110 contrast-105">
+    <section className="w-full h-[400px] border border-zinc-800 relative group overflow-hidden brightness-110 contrast-105">
       <div className="absolute top-4 left-4 z-10 bg-black/80 border border-neon-blue/30 p-2 backdrop-blur-md">
         <p className="text-[10px] text-neon-blue font-black tracking-widest uppercase">// TACTICAL_SHUTTLE_INTEL</p>
       </div>
