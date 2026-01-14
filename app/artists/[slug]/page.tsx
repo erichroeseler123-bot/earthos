@@ -31,14 +31,14 @@ export default function ArtistNode() {
              </h1>
           </header>
 
-          {/* 🎵 FUNCTIONAL AUDIO STREAM */}
+          {/* 🎵 FUNCTIONAL AUDIO STREAM - NO MORE grayscale */}
           <div className="bg-zinc-900/60 border border-zinc-800 p-2 rounded-3xl overflow-hidden min-h-[380px] flex flex-col">
              <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest p-3">// LIVE_STREAMING_NODE</p>
              {intel?.spotifyId ? (
                <iframe 
                  src={`https://open.spotify.com/embed/artist/${intel.spotifyId}?utm_source=generator&theme=0`} 
-                 width="100%" height="380" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                 className="rounded-2xl grayscale flex-1"
+                 width="100%" height="380" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" 
+                 className="rounded-2xl flex-1"
                />
              ) : (
                <div className="flex-1 flex items-center justify-center text-[10px] text-zinc-700 font-black uppercase tracking-widest bg-black rounded-2xl animate-pulse">
@@ -49,12 +49,16 @@ export default function ArtistNode() {
         </div>
 
         <div className="space-y-12">
-          {/* 📸 AUTOMATED PICTURE GALLERY */}
+          {/* 📸 FULL COLOR AUTOMATED PICTURE GALLERY */}
           <h2 className="text-2xl font-black italic uppercase tracking-tighter border-b border-zinc-800 pb-4">// DISCOGRAPHY_RECON</h2>
           <div className="grid grid-cols-3 gap-2">
             {intel?.albums?.map((album: any, i: number) => (
               <div key={i} className="group relative aspect-square border border-zinc-800 bg-zinc-900 overflow-hidden rounded-lg">
-                <img src={album.coverUrl} alt={album.title} className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-500" />
+                <img 
+                  src={album.coverUrl} 
+                  alt={album.title} 
+                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110" 
+                />
               </div>
             ))}
           </div>

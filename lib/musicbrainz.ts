@@ -3,7 +3,7 @@ const BASE_URL = "https://musicbrainz.org/ws/2";
 
 export async function fetchArtistIntel(artistName: string) {
   try {
-    // 1. Fetch Artist MBID and URL Relations in a single tactical sweep
+    // 1. Fetch Artist MBID and URL Relations
     const searchRes = await fetch(
       `${BASE_URL}/artist/?query=artist:${artistName}&fmt=json&limit=1`,
       { headers: { 'User-Agent': 'PARR-Command-Center/1.5.0 (erich@partyatredrocks.com)' } }
@@ -22,9 +22,10 @@ export async function fetchArtistIntel(artistName: string) {
     
     // Extract Spotify ID directly from the authoritative relations array
     const spotifyRel = relData.relations?.find((r: any) => 
-      r.type === 'streaming music' && r.url.resource.includes('spotify.com/artist/')
+      r.type === 'streaming music' && r.url.resource.includes('spotify.com')
     );
     
+    // Parse the ID from the Spotify URL (e.g., /artist/6mK6m...)
     const spotifyId = spotifyRel?.url?.resource ? 
       spotifyRel.url.resource.split('artist/').pop().split('?')[0] : null;
 
