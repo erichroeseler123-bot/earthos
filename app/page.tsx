@@ -35,7 +35,7 @@ function HomeContent() {
         </div>
       </section>
 
-      {/* CONCERT_INTELLIGENCE_NODES */}
+      {/* FULL_CONCERT_LIST */}
       <section className="border-t border-zinc-800 pt-16">
         <p className="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500 italic mb-8 underline">Resolved_Intelligence_Nodes</p>
         <div className="grid grid-cols-1 gap-6">
@@ -54,7 +54,7 @@ function HomeContent() {
               </div>
               <div className="text-right text-white font-mono">
                 <p className="text-xl font-black italic">{node.date}</p>
-                <p className="text-[10px] text-zinc-500 font-bold tracking-widest uppercase">{node.time}</p>
+                <p className="text-[10px] text-zinc-500 font-bold tracking-widest uppercase">Launch_Time: {node.time}</p>
               </div>
             </div>
           ))}
@@ -69,7 +69,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-black text-white font-mono w-full pb-20">
       <EventTicker />
       <main className="p-8 lg:p-12 max-w-7xl mx-auto">
-        <Suspense fallback={<div className="text-neon-blue animate-pulse uppercase">Syncing_Intelligence_Layer...</div>}>
+        <Suspense fallback={<div className="text-neon-blue animate-pulse uppercase tracking-widest">Syncing_Intelligence_Layer...</div>}>
           <HomeContent />
         </Suspense>
       </main>
