@@ -65,18 +65,29 @@ function HomeContent() {
         <GlobalSearch />
       </header>
 
-      {/* SERVICE_EXECUTION_NODES */}
-      <section className="mb-24 grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="p-8 border-2 border-neon-blue bg-neon-blue/5 rounded-2xl group hover:bg-neon-blue hover:text-black transition-all shadow-2xl shadow-blue-900/20">
-          <h4 className="text-4xl font-black italic uppercase mb-4">$59 SHUTTLE</h4>
-          <a href="/book?type=shuttle" className="block w-full py-4 border-2 border-current text-center font-black uppercase text-sm">EXECUTE_BOOKING</a>
-        </div>
-        <div className="p-8 border-2 border-matrix-green bg-matrix-green/5 rounded-2xl group hover:bg-matrix-green hover:text-black transition-all shadow-2xl shadow-green-900/20">
-          <h4 className="text-4xl font-black italic uppercase mb-4">VIP SUV</h4>
-          <a href="/book?type=suv" className="block w-full py-4 border-2 border-current text-center font-black uppercase text-sm">REQUEST_VIP_SYNC</a>
-        </div>
-      </section>
+<section className="mb-24 grid grid-cols-1 md:grid-cols-2 gap-8">
+  {/* $59 SHUTTLE VECTOR */}
+  <div className="group">
+    <div className="w-full h-48 overflow-hidden border border-zinc-800 mb-4 bg-zinc-900">
+      <img src="/sprintershuttle.jpg" alt="Sprinter Shuttle" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+    </div>
+    <div className="p-8 border-2 border-neon-blue bg-neon-blue/5 rounded-2xl group-hover:bg-neon-blue group-hover:text-black transition-all shadow-2xl">
+      <h4 className="text-4xl font-black italic uppercase mb-4">$59 SHUTTLE</h4>
+      <a href="/book?type=shuttle" className="block w-full py-4 border-2 border-current text-center font-black uppercase text-sm">EXECUTE_BOOKING</a>
+    </div>
+  </div>
 
+  {/* VIP SUV VECTOR */}
+  <div className="group">
+    <div className="w-full h-48 overflow-hidden border border-zinc-800 mb-4 bg-zinc-900">
+      <img src="/redrockssuburban.jpg" alt="VIP Suburban" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+    </div>
+    <div className="p-8 border-2 border-matrix-green bg-matrix-green/5 rounded-2xl group-hover:bg-matrix-green group-hover:text-black transition-all shadow-2xl">
+      <h4 className="text-4xl font-black italic uppercase mb-4">VIP SUV</h4>
+      <a href="/book?type=suv" className="block w-full py-4 border-2 border-current text-center font-black uppercase text-sm">REQUEST_VIP_SYNC</a>
+    </div>
+  </div>
+</section>
       {/* CONCERT_LIST */}
       <section className="border-t border-zinc-800 pt-16">
         <p className="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500 italic mb-8 underline">Resolved_Intelligence_Nodes</p>

@@ -1,6 +1,5 @@
 import React from 'react';
-import { shows } from '../data/shows';
-
+import { shows } from '../../data/shows'; // Verified relative path fix
 export default function SchedulePage() {
   return (
     <div className="min-h-screen bg-black p-8 lg:p-12 font-mono">
