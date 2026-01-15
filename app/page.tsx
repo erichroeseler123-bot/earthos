@@ -84,32 +84,36 @@ export default function ShuttleHomePage() {
         </div>
       </section>
 
-      {/* --- LIVE LOGISTICS LIST --- */}
-      <section className="bg-slate-950 py-24 px-6 text-white border-y border-blue-900/50">
+{/* --- SECTION 2: LIVE LOGISTICS (CLEAN LIST) --- */}
+      <section className="bg-slate-950 py-32 px-6 text-white border-y border-blue-900/50">
         <div className="max-w-4xl mx-auto text-left">
-          <div className="mb-16">
-            <h3 className="text-blue-500 font-black tracking-[0.3em] uppercase text-sm mb-4 italic">Upcoming Schedule</h3>
-            <h4 className="text-6xl font-black uppercase italic tracking-tighter leading-none">Live Logistics</h4>
+          <div className="mb-20">
+            <h3 className="text-blue-500 font-black tracking-[0.4em] uppercase text-sm mb-4 italic">Upcoming Schedule</h3>
+            <h4 className="text-7xl font-black uppercase italic tracking-tighter leading-none">Live Logistics</h4>
           </div>
+
           <div className="space-y-4">
             {UPCOMING_SHOWS.map((show) => (
-              <div key={show.id} onClick={handleBooking} className="group flex flex-col md:flex-row md:items-center justify-between p-8 bg-slate-900/50 rounded-3xl border border-white/5 hover:border-blue-500 hover:bg-slate-900 transition-all cursor-pointer">
+              <div 
+                key={show.id} 
+                onClick={handleBooking}
+                className="group flex flex-col md:flex-row md:items-center justify-between p-10 bg-slate-900/40 rounded-[2rem] border border-white/5 hover:border-blue-500 hover:bg-slate-900 transition-all cursor-pointer shadow-xl"
+              >
                 <div>
-                  <h5 className="text-2xl font-black uppercase italic tracking-tighter text-white mb-1">{show.artist}</h5>
-                  <div className="flex items-center gap-4 text-slate-400 text-xs font-bold uppercase tracking-widest">
+                  <h5 className="text-3xl font-black uppercase italic tracking-tighter text-white mb-2 leading-none">{show.artist}</h5>
+                  <div className="flex items-center gap-6 text-slate-400 text-xs font-black uppercase tracking-[0.1em]">
                     <span className="flex items-center gap-2"><Calendar className="w-4 h-4 text-blue-500" /> {show.date}</span>
-                    <span className="flex items-center gap-2"><Clock className="w-4 h-4 text-blue-500" /> {show.time}</span>
+                    <span className="flex items-center gap-2"><Clock className="w-4 h-4 text-blue-500" /> DOORS @ {show.time}</span>
                   </div>
                 </div>
-                <div className="mt-6 md:mt-0 italic font-black text-blue-500 uppercase text-xs tracking-[0.2em] group-hover:text-white transition-colors">
-                  Request Transport <ChevronRight className="inline w-4 h-4 ml-1" />
+                <div className="mt-8 md:mt-0 italic font-black text-blue-500 uppercase text-sm tracking-widest group-hover:text-white transition-colors flex items-center">
+                  Request Transit <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             ))}
           </div>
         </div>
       </section>
-
       <footer className="bg-white py-12 border-t border-slate-100 text-center text-slate-400 text-[10px] font-black uppercase tracking-[0.4em]">
         © 2026 Party @ Red Rocks! | 6 Suburbans, 5 Transit Vans
       </footer>
