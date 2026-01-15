@@ -91,6 +91,9 @@ export default function EarthOSConsole() {
     return groups;
   }, [search]);
 
+  // Next upcoming show for hero buttons
+  const nextShowSlug = "two-friends";
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-black text-white font-mono selection:bg-neon-blue selection:text-black">
       {/* 🛠️ SIDEBAR (STICKY) */}
@@ -109,14 +112,26 @@ export default function EarthOSConsole() {
             RED ROCKS <span className="text-neon-blue">TRANSPORT</span>
           </h1>
           <p className="text-zinc-500 text-[10px] tracking-[0.3em] uppercase font-bold">May — Nov 2026 Season</p>
+          
+          {/* 🔘 TOP HERO BUTTONS - NEON BLUE SYNC */}
+          <div className="flex flex-col sm:flex-row gap-4 pt-6">
+            <Link 
+              href={`/shows/${nextShowSlug}`}
+              className="px-8 py-4 bg-neon-blue text-black font-black uppercase italic tracking-tighter text-sm rounded-full hover:bg-white transition-all shadow-[0_0_20px_#00f2ff] text-center"
+            >
+              SECURE_SPOT
+            </Link>
+            <Link 
+              href={`/shows/${nextShowSlug}`}
+              className="px-8 py-4 bg-neon-blue text-black font-black uppercase italic tracking-tighter text-sm rounded-full hover:bg-white transition-all shadow-[0_0_20px_#00f2ff] text-center"
+            >
+              REQUEST_DEPLOYMENT
+            </Link>
+          </div>
         </section>
 
-        {/* HERO MAP (HIDDEN ON MOBILE) */}
+        {/* HERO MAP */}
         <section className="hidden md:block space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-black italic uppercase tracking-tighter">Mission_Control_Map</h2>
-            <span className="text-[9px] text-zinc-600 uppercase font-bold tracking-widest animate-pulse">● System_Active</span>
-          </div>
           <HeroMap />
         </section>
 
@@ -141,7 +156,6 @@ export default function EarthOSConsole() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {monthShows.map((show, idx) => {
-                    // ✅ STANDARDIZED SLUG LOGIC
                     const slug = show.artist.toLowerCase().replace(/ /g, "-").replace(/“|”/g, "");
                     return (
                       <div key={idx} className="group p-5 border border-zinc-800 bg-zinc-900/40 rounded-xl transition-all block">
@@ -153,17 +167,16 @@ export default function EarthOSConsole() {
                           {show.artist}
                         </h4>
                         
-                        {/* 🔗 TACTICAL LINK DECK */}
                         <div className="flex gap-2 mt-4">
                           <Link 
                             href={`/artists/${slug}`} 
-                            className="text-[9px] bg-zinc-800 px-3 py-2 rounded-full font-black uppercase tracking-widest hover:bg-neon-blue hover:text-black transition-all"
+                            className="text-[9px] bg-neon-blue text-black px-3 py-2 rounded-full font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_10px_#00f2ff]"
                           >
                             ARTIST_BIO
                           </Link>
                           <Link 
                             href={`/shows/${slug}`} 
-                            className="text-[9px] bg-neon-blue text-black px-3 py-2 rounded-full font-black uppercase tracking-widest hover:bg-white transition-all"
+                            className="text-[9px] bg-neon-blue text-black px-3 py-2 rounded-full font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_10px_#00f2ff]"
                           >
                             BOOK_SHOW
                           </Link>
