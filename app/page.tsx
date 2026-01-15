@@ -41,8 +41,8 @@ export default function ShuttleHomePage() {
             <button onClick={handleBooking} className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-full font-black text-lg shadow-2xl uppercase tracking-widest transition-all">
               Book A Ride
             </button>
-            <a href="tel:3030000000" className="bg-white hover:bg-slate-100 text-slate-900 px-10 py-4 rounded-full font-black text-lg shadow-2xl flex items-center justify-center uppercase tracking-widest transition-all">
-              <PhoneCall className="mr-2 w-5 h-5" /> (303) 000-0000
+            <a href="tel:7203696292" className="bg-white hover:bg-slate-100 text-slate-900 px-10 py-4 rounded-full font-black text-lg shadow-2xl flex items-center justify-center uppercase tracking-widest transition-all">
+              <PhoneCall className="mr-2 w-5 h-5" /> (720) 369-6292
             </a>
           </div>
         </div>
