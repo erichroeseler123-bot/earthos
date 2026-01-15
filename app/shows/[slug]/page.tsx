@@ -1,5 +1,5 @@
 "use client";
-export const dynamic = "force-dynamic"; // ⚡ FORCE CACHE BYPASS
+export const dynamic = "force-dynamic"; // ⚡ BYPASSES VERCEL CACHE
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
@@ -10,7 +10,7 @@ export default function ShowTacticalPage() {
   const { slug } = useParams();
   const [weather, setWeather] = useState<any>(null);
   
-  // ✅ SET SUBURBAN AS DEFAULT
+  // ✅ SUBURBAN IS NOW THE DEFAULT CHOICE
   const [activeTab, setActiveTab] = useState<'denver' | 'golden' | 'suburban'>('suburban');
   
   const artistName = (slug as string).replace(/-/g, ' ').toUpperCase();
@@ -43,15 +43,16 @@ export default function ShowTacticalPage() {
           </div>
         </div>
 
-        {/* RIGHT: THE GLOWING CONSOLE */}
+        {/* RIGHT: THE SELECTION CONSOLE */}
         <div className="lg:col-span-8 space-y-6">
           
-          {/* 📡 INSTRUCTIONAL HEADER */}
+          {/* 📡 NEW INSTRUCTIONAL HEADER */}
           <div className="space-y-2 mb-4">
-            <p className="text-[10px] text-neon-blue font-black tracking-[0.4em] uppercase">// SYSTEM_READY</p>
-            <h2 className="text-3xl font-black italic uppercase tracking-tighter">CHOOSE_YOUR_TRANSPORTATION</h2>
+            <p className="text-[10px] text-neon-blue font-black tracking-[0.4em] uppercase font-bold tracking-widest animate-pulse">// SYSTEM_READY</p>
+            <h2 className="text-3xl font-black italic uppercase tracking-tighter">CHOOSE_FROM_3_OPTIONS</h2>
           </div>
 
+          {/* ⚡ TABS: FORCED NEON BLUE UPDATE */}
           <div className="flex flex-col sm:flex-row gap-4">
             {[
               { id: 'suburban', label: 'PRIVATE_SUBURBAN' },
@@ -64,17 +65,18 @@ export default function ShowTacticalPage() {
                 className={`
                   flex-1 px-6 py-5 rounded-2xl font-black uppercase italic tracking-tighter text-base transition-all duration-300
                   ${activeTab === tab.id 
-                    ? 'bg-neon-blue text-black shadow-[0_0_50px_#00f2ff] scale-105 border-2 border-white/20' 
+                    ? 'bg-neon-blue text-black shadow-[0_0_55px_#00f2ff] scale-105 border-2 border-white/30' 
                     : 'bg-zinc-900 text-zinc-500 border border-zinc-800 hover:border-neon-blue hover:text-white'
                   }
                 `}
               >
-                {activeTab === tab.id && <span className="mr-2 animate-pulse text-[12px]">●</span>}
+                {activeTab === tab.id && <span className="mr-2 animate-pulse text-[14px]">●</span>}
                 {tab.label}
               </button>
             ))}
           </div>
 
+          {/* IFRAME CONTAINER */}
           <div className="bg-white rounded-3xl overflow-hidden min-h-[800px] shadow-2xl shadow-neon-blue/20">
             {activeTab === 'denver' && <iframe width="100%" height="1000px" frameBorder="0" src="https://gosnotransportation58.rezdy.com/714441/shuttle-from-denver-to-red-rocks?iframe=true" />}
             {activeTab === 'golden' && <iframe width="100%" height="1000px" frameBorder="0" src="https://gosnotransportation58.rezdy.com/714885/golden-shuttle-to-red-rocks?iframe=true" />}
