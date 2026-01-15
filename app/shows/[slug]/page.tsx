@@ -9,7 +9,10 @@ import Link from 'next/link';
 export default function ShowTacticalPage() {
   const { slug } = useParams();
   const [weather, setWeather] = useState<any>(null);
-  const [activeTab, setActiveTab] = useState<'denver' | 'golden' | 'suburban'>('denver');
+  
+  // ✅ SET SUBURBAN AS DEFAULT
+  const [activeTab, setActiveTab] = useState<'denver' | 'golden' | 'suburban'>('suburban');
+  
   const artistName = (slug as string).replace(/-/g, ' ').toUpperCase();
 
   useEffect(() => {
@@ -40,13 +43,20 @@ export default function ShowTacticalPage() {
           </div>
         </div>
 
-        {/* RIGHT: THE GLOWING TABS */}
+        {/* RIGHT: THE GLOWING CONSOLE */}
         <div className="lg:col-span-8 space-y-6">
+          
+          {/* 📡 INSTRUCTIONAL HEADER */}
+          <div className="space-y-2 mb-4">
+            <p className="text-[10px] text-neon-blue font-black tracking-[0.4em] uppercase">// SYSTEM_READY</p>
+            <h2 className="text-3xl font-black italic uppercase tracking-tighter">CHOOSE_YOUR_TRANSPORTATION</h2>
+          </div>
+
           <div className="flex flex-col sm:flex-row gap-4">
             {[
+              { id: 'suburban', label: 'PRIVATE_SUBURBAN' },
               { id: 'denver', label: 'DENVER_SHUTTLE' },
-              { id: 'golden', label: 'GOLDEN_SHUTTLE' },
-              { id: 'suburban', label: 'PRIVATE_SUBURBAN' }
+              { id: 'golden', label: 'GOLDEN_SHUTTLE' }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -59,7 +69,7 @@ export default function ShowTacticalPage() {
                   }
                 `}
               >
-                {activeTab === tab.id && <span className="mr-2 animate-pulse">●</span>}
+                {activeTab === tab.id && <span className="mr-2 animate-pulse text-[12px]">●</span>}
                 {tab.label}
               </button>
             ))}
