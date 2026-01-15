@@ -141,13 +141,10 @@ export default function EarthOSConsole() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {monthShows.map((show, idx) => {
+                    // ✅ STANDARDIZED SLUG LOGIC
                     const slug = show.artist.toLowerCase().replace(/ /g, "-").replace(/“|”/g, "");
                     return (
-                      <Link 
-                        key={idx} 
-                        href={`/artists/${slug}`}
-                        className="group p-5 border border-zinc-800 bg-zinc-900/40 rounded-xl hover:border-neon-blue/50 transition-all block"
-                      >
+                      <div key={idx} className="group p-5 border border-zinc-800 bg-zinc-900/40 rounded-xl transition-all block">
                         <div className="flex justify-between items-start mb-2">
                           <span className="text-[10px] text-neon-blue font-black tracking-widest uppercase">{show.date}</span>
                           <span className="text-[9px] text-zinc-700 font-mono">{show.time}</span>
@@ -155,10 +152,23 @@ export default function EarthOSConsole() {
                         <h4 className="font-black uppercase italic text-lg leading-tight group-hover:text-neon-blue transition-colors">
                           {show.artist}
                         </h4>
-                        {show.details && (
-                          <p className="text-[9px] text-zinc-500 uppercase font-bold mt-2 border-t border-zinc-800/50 pt-2">{show.details}</p>
-                        )}
-                      </Link>
+                        
+                        {/* 🔗 TACTICAL LINK DECK */}
+                        <div className="flex gap-2 mt-4">
+                          <Link 
+                            href={`/artists/${slug}`} 
+                            className="text-[9px] bg-zinc-800 px-3 py-2 rounded-full font-black uppercase tracking-widest hover:bg-neon-blue hover:text-black transition-all"
+                          >
+                            ARTIST_BIO
+                          </Link>
+                          <Link 
+                            href={`/shows/${slug}`} 
+                            className="text-[9px] bg-neon-blue text-black px-3 py-2 rounded-full font-black uppercase tracking-widest hover:bg-white transition-all"
+                          >
+                            BOOK_SHOW
+                          </Link>
+                        </div>
+                      </div>
                     );
                   })}
                 </div>
