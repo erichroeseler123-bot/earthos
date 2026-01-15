@@ -9,23 +9,49 @@ import {
   PhoneCall,
   Star,
   Clock,
-  ExternalLink
+  ExternalLink,
+  Play
 } from 'lucide-react';
 
-// This section will be replaced by your Vercel API fetch logic later.
-// For now, it defines the structure your API images and data will plug into.
-const UPCOMING_EVENTS = [
+// This data structure is ready to be connected to your Vercel API
+const CONCERT_LINEUP = [
   {
     id: 1,
-    artist: "Artist Name",
-    date: "June 15, 2026",
-    time: "7:00 PM",
-    guests: "Special Guest",
-    image: "/api/image-fetch?id=1", // This represents your Vercel API image route
-    listenLink: "#",
-    bookingLink: "#"
+    artist: "Artist Name 1",
+    date: "June 20, 2026",
+    doors: "6:00 PM",
+    guests: "Special Guest A",
+    // These images will come from your Vercel API
+    image: "https://api.partyatredrocks.com/v1/images/artist1", 
+    listenLink: "https://open.spotify.com/...",
   },
-  // Add more event objects here
+  {
+    id: 2,
+    artist: "Artist Name 2",
+    date: "July 04, 2026",
+    doors: "7:30 PM",
+    guests: "Supporting Act B",
+    image: "https://api.partyatredrocks.com/v1/images/artist2",
+    listenLink: "https://music.apple.com/...",
+  },
+  {
+    id: 3,
+    artist: "Artist Name 3",
+    date: "August 15, 2026",
+    doors: "6:30 PM",
+    guests: "Special Guest C",
+    image: "https://api.partyatredrocks.com/v1/images/artist3",
+    listenLink: "https://soundcloud.com/...",
+  },
+  {
+    id: 4,
+    artist: "Artist Name 4",
+    date: "Sept 10, 2026",
+    doors: "8:00 PM",
+    guests: "With Guest D",
+    image: "https://api.partyatredrocks.com/v1/images/artist4",
+    listenLink: "https://spotify.com/...",
+  }
 ];
 
 export default function ShuttleHomePage() {
@@ -39,10 +65,10 @@ export default function ShuttleHomePage() {
           alt="Party @ Red Rocks Hero"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-slate-950/70" /> 
+        <div className="absolute inset-0 bg-slate-950/60" /> 
         
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center text-white">
-          <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-4 italic">
+          <h1 className="text-6xl md:text-9xl font-black uppercase tracking-tighter mb-4 italic">
             Party @ <span className="text-blue-500">Red Rocks!</span>
           </h1>
           <p className="text-xl md:text-3xl font-bold mb-10 text-slate-100 uppercase tracking-widest">
@@ -59,42 +85,48 @@ export default function ShuttleHomePage() {
         </div>
       </header>
 
-      {/* --- DYNAMIC EVENT LINEUP (API DRIVEN) --- */}
+      {/* --- CONCERT LINEUP SECTION --- */}
       <section className="bg-slate-950 py-32 px-6 text-white border-y border-blue-900/50">
-        <div className="max-w-7xl mx-auto text-center">
-            <h3 className="text-blue-500 font-black tracking-[0.3em] uppercase text-sm mb-4">Event Logistics</h3>
-            <h4 className="text-6xl font-black uppercase italic tracking-tighter mb-16">The Summer Lineup</h4>
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h3 className="text-blue-500 font-black tracking-[0.3em] uppercase text-sm mb-4">Summer 2026</h3>
+            <h4 className="text-6xl font-black uppercase italic tracking-tighter">The Lineup</h4>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {UPCOMING_EVENTS.map((event) => (
-              <div key={event.id} className="group flex flex-col bg-slate-900/40 rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-blue-500 transition-all duration-500 shadow-2xl">
-                {/* Image handled by Vercel API */}
+            {CONCERT_LINEUP.map((show) => (
+              <div key={show.id} className="group flex flex-col bg-slate-900/50 rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-blue-500 transition-all duration-500">
+                {/* Image from API */}
                 <div className="aspect-[4/5] overflow-hidden relative">
                   <img 
-                    src={event.image} 
-                    alt={event.artist}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-60 group-hover:opacity-100"
+                    src={show.image} 
+                    alt={show.artist}
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 opacity-50 group-hover:opacity-100"
                     onError={(e) => { e.currentTarget.src = "/hi.jpg" }} 
                   />
-                  <div className="absolute top-4 left-4 bg-blue-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">
-                    {event.date}
+                  <div className="absolute top-6 left-6 bg-blue-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">
+                    {show.date}
                   </div>
                 </div>
 
-                <div className="p-8 flex flex-col flex-grow text-left">
-                  <h5 className="text-2xl font-black uppercase italic tracking-tighter mb-1">{event.artist}</h5>
-                  <p className="text-blue-500 text-[10px] font-black uppercase tracking-widest mb-4">Special Guest: {event.guests}</p>
+                <div className="p-10 flex flex-col flex-grow text-left">
+                  <h5 className="text-3xl font-black uppercase italic tracking-tighter mb-1 leading-none">{show.artist}</h5>
+                  <p className="text-blue-500 text-[11px] font-black uppercase tracking-[0.2em] mb-6">w/ {show.guests}</p>
                   
-                  <div className="flex items-center gap-2 text-slate-400 text-xs font-bold mb-8">
-                    <Clock className="w-4 h-4 text-slate-500" />
-                    <span>Doors: {event.time}</span>
+                  <div className="flex items-center gap-3 text-slate-400 text-xs font-bold mb-10">
+                    <Clock className="w-4 h-4 text-blue-500" />
+                    <span>Doors at {show.doors}</span>
                   </div>
 
-                  <div className="mt-auto grid grid-cols-2 gap-3">
-                    <a href={event.listenLink} className="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-xl text-[10px] font-black uppercase transition-colors">
-                      <Music className="w-3 h-3" /> Listen
+                  <div className="mt-auto flex flex-col gap-3">
+                    <a 
+                      href={show.listenLink} 
+                      target="_blank" 
+                      className="flex items-center justify-center gap-3 bg-white hover:bg-slate-200 text-slate-900 py-4 rounded-2xl text-xs font-black uppercase transition-all"
+                    >
+                      <Play className="w-4 h-4 fill-current" /> Listen Now
                     </a>
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl text-[10px] font-black uppercase transition-colors">
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl text-xs font-black uppercase transition-all">
                       Book Shuttle
                     </button>
                   </div>
@@ -108,56 +140,56 @@ export default function ShuttleHomePage() {
       {/* --- FLEET SECTION --- */}
       <section className="py-24 px-6 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-blue-600 font-black tracking-[0.2em] uppercase text-sm mb-3">Professional Assets</h2>
-          <h3 className="text-5xl font-black text-slate-900 uppercase italic">The 2026 Fleet</h3>
+          <h2 className="text-blue-600 font-black tracking-[0.2em] uppercase text-sm mb-3 text-left md:text-center">Our Assets</h2>
+          <h3 className="text-5xl font-black text-slate-900 uppercase italic text-left md:text-center">The Professional Fleet</h3>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Suburban Card */}
-          <div className="group overflow-hidden rounded-[2rem] border-2 border-slate-100 shadow-xl hover:border-blue-500 transition-all duration-500">
-            <div className="h-[400px] overflow-hidden bg-slate-200">
-              <img src="/suburban123.jpg" alt="Luxury Suburban" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+          <div className="group overflow-hidden rounded-[2.5rem] border-2 border-slate-50 shadow-2xl hover:border-blue-500 transition-all duration-500">
+            <div className="h-[450px] overflow-hidden bg-slate-100">
+              <img src="/suburban123.jpg" alt="Luxury Suburban" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             </div>
-            <div className="p-10 bg-white">
+            <div className="p-12 bg-white text-left">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h4 className="text-3xl font-black uppercase italic tracking-tighter">Luxury Suburbans</h4>
-                  <p className="text-slate-500 font-bold uppercase text-xs tracking-widest mt-1 text-left">Mountain Spec AWD</p>
+                  <h4 className="text-4xl font-black uppercase italic tracking-tighter">Luxury Suburbans</h4>
+                  <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest mt-1">AWD Mountain Logistics</p>
                 </div>
-                <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-xs font-black uppercase">6 Units</span>
+                <span className="bg-blue-600 text-white px-5 py-2 rounded-full text-xs font-black uppercase italic">6 Units</span>
               </div>
-              <p className="text-slate-600 mb-8 text-lg leading-relaxed text-left font-medium">Professional-grade transit for families and small groups. Ideal for ski resort links and airport drop-offs.</p>
+              <p className="text-slate-600 mb-8 text-lg font-medium leading-relaxed">The gold standard for private travel. Perfect for families, corporate events, and direct ski resort transfers.</p>
               <div className="flex gap-4">
-                <div className="bg-slate-50 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-black uppercase text-slate-500">
-                  <Users className="w-4 h-4" /> 7 Pax
+                <div className="bg-slate-50 px-5 py-3 rounded-2xl flex items-center gap-3 text-xs font-black uppercase text-slate-600 border border-slate-100">
+                  <Users className="w-4 h-4 text-blue-500" /> 7 Pax
                 </div>
-                <div className="bg-slate-50 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-black uppercase text-slate-500">
-                  <ShieldCheck className="w-4 h-4" /> Winter Rated
+                <div className="bg-slate-50 px-5 py-3 rounded-2xl flex items-center gap-3 text-xs font-black uppercase text-slate-600 border border-slate-100">
+                  <ShieldCheck className="w-4 h-4 text-blue-500" /> Winter Rated
                 </div>
               </div>
             </div>
           </div>
 
           {/* Transit Van */}
-          <div className="group overflow-hidden rounded-[2rem] border-2 border-slate-100 shadow-xl hover:border-blue-500 transition-all duration-500">
-            <div className="h-[400px] overflow-hidden bg-slate-200">
-              <img src="/shuttle123.jpg" alt="Transit Van" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+          <div className="group overflow-hidden rounded-[2.5rem] border-2 border-slate-50 shadow-2xl hover:border-blue-500 transition-all duration-500">
+            <div className="h-[450px] overflow-hidden bg-slate-100">
+              <img src="/shuttle123.jpg" alt="Transit Van" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             </div>
-            <div className="p-10 bg-white">
-              <div className="flex justify-between items-start mb-4 text-left">
+            <div className="p-12 bg-white text-left">
+              <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h4 className="text-3xl font-black uppercase italic tracking-tighter">High-Roof Transit</h4>
-                  <p className="text-slate-500 font-bold uppercase text-xs tracking-widest mt-1">Group Logistics</p>
+                  <h4 className="text-4xl font-black uppercase italic tracking-tighter">High-Roof Transit</h4>
+                  <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest mt-1">Group Transit Expert</p>
                 </div>
-                <span className="bg-slate-900 text-white px-4 py-1 rounded-full text-xs font-black uppercase">1 Unit</span>
+                <span className="bg-slate-900 text-white px-5 py-2 rounded-full text-xs font-black uppercase italic">1 Unit</span>
               </div>
-              <p className="text-slate-600 mb-8 text-lg leading-relaxed text-left font-medium">Maximum capacity for wedding parties, large groups, and custom event routes.</p>
+              <p className="text-slate-600 mb-8 text-lg font-medium leading-relaxed">Maximum capacity for wedding parties, large groups, and custom event routes across the front range.</p>
               <div className="flex gap-4">
-                <div className="bg-slate-50 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-black uppercase text-slate-500">
-                  <Users className="w-4 h-4" /> 14 Pax
+                <div className="bg-slate-50 px-5 py-3 rounded-2xl flex items-center gap-3 text-xs font-black uppercase text-slate-600 border border-slate-100">
+                  <Users className="w-4 h-4 text-blue-500" /> 14 Pax
                 </div>
-                <div className="bg-slate-50 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-black uppercase text-slate-500">
-                  <Star className="w-4 h-4" /> Standing Room
+                <div className="bg-slate-50 px-5 py-3 rounded-2xl flex items-center gap-3 text-xs font-black uppercase text-slate-600 border border-slate-100">
+                  <Star className="w-4 h-4 text-blue-500" /> Full Standing Room
                 </div>
               </div>
             </div>
@@ -165,8 +197,8 @@ export default function ShuttleHomePage() {
         </div>
       </section>
 
-      <footer className="bg-white py-12 border-t border-slate-100 text-center text-slate-500 text-xs font-bold uppercase tracking-widest">
-        <p>© 2026 Party @ Red Rocks! | 6 Suburbans, 1 Van</p>
+      <footer className="bg-white py-12 border-t border-slate-100 text-center text-slate-400 text-[10px] font-black uppercase tracking-[0.4em]">
+        <p>© 2026 Party @ Red Rocks! | 6 Suburbans, 1 Transit Van</p>
       </footer>
     </div>
   );
