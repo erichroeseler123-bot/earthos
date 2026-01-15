@@ -1,198 +1,178 @@
-"use client";
+import React from 'react';
+import { 
+  Calendar, 
+  ShieldCheck, 
+  MapPin, 
+  Music, 
+  Snowflake, 
+  Plane, 
+  Users, 
+  PhoneCall,
+  ChevronRight
+} from 'lucide-react';
 
-import React, { useMemo, useState } from "react";
-import DCCSidebar from "@/components/DCCSidebar";
-import HeroMap from "@/components/HeroMap";
-import FleetGrid from "@/components/FleetGrid";
-import SidebarSatMap from "@/components/SidebarSatMap";
-import Link from "next/link";
-
-// 2026 OPERATIONAL DATA
-const SHOWS = [
-  { date: "May 1", artist: "Two Friends", time: "7:00 PM", details: "" },
-  { date: "May 2", artist: "Jason Isbell and the 400 Unit", time: "7:00 PM", details: "w/ Gillian Welch & David Rawlings" },
-  { date: "May 3", artist: "Puscifer", time: "7:30 PM", details: "With Dave Hill" },
-  { date: "May 6", artist: "Bright Eyes", time: "7:00 PM", details: "21 Years of Wide Awake & Digital Ash" },
-  { date: "May 7", artist: "Alejandro Fernández", time: "8:00 PM", details: "de Rey a Rey w/ Camila Fernández" },
-  { date: "May 9", artist: "Cloonee", time: "7:00 PM", details: "w/ KETTAMA, Omar+, Cole Knight" },
-  { date: "May 10", artist: "Hippie Sabotage", time: "7:00 PM", details: "With Danny Brown" },
-  { date: "May 11", artist: "YUNGBLUD", time: "8:00 PM", details: "IDOLS – THE WORLD TOUR" },
-  { date: "May 13", artist: "Russell Dickerson", time: "7:00 PM", details: "With Niko Moon" },
-  { date: "May 16", artist: "LIGHTCODE BY LSDREAM", time: "9:30 AM", details: "Morning Set" },
-  { date: "May 16", artist: "LSDREAM: DREAMROCKS II", time: "6:00 PM", details: "w/ Elohim, Steller, Seth David" },
-  { date: "May 17", artist: "THE ELOVATERS", time: "5:00 PM", details: "w/ Collie Buddz, Protoje" },
-  { date: "May 18", artist: "Khalid", time: "7:30 PM", details: "w/ Lauv" },
-  { date: "May 19", artist: "Kevin Gates", time: "7:00 PM", details: "w/ Ty Dolla $ign, Shoreline Mafia" },
-  { date: "May 21", artist: "flipturn", time: "6:00 PM", details: "w/ Richy Mitch & The Coal Miners" },
-  { date: "May 22", artist: "Seven Lions", time: "6:00 PM", details: "" },
-  { date: "May 23", artist: "FISHER", time: "7:00 PM", details: "" },
-  { date: "May 24", artist: "Alabama Shakes", time: "7:00 PM", details: "w/ JJ Grey & Mofro" },
-  { date: "May 25", artist: "Alabama Shakes", time: "7:00 PM", details: "w/ JJ Grey & Mofro" },
-  { date: "May 29", artist: "Michael Franti & Spearhead", time: "7:00 PM", details: "w/ The Original Wailers" },
-  { date: "May 30", artist: "Alan Walker", time: "6:00 PM", details: "" },
-  { date: "Jun 2", artist: "Alex Warren", time: "7:30 PM", details: "" },
-  { date: "Jun 4", artist: "Brit Floyd – THE WALL", time: "8:00 PM", details: "" },
-  { date: "Jun 5", artist: "Brit Floyd – DARK SIDE", time: "8:00 PM", details: "" },
-  { date: "Jun 6", artist: "Big Head Todd & Monsters", time: "7:00 PM", details: "w/ 4 Non Blondes" },
-  { date: "Jun 10", artist: "Lord Huron", time: "7:30 PM", details: "" },
-  { date: "Jun 14", artist: "Trevor Hall & Thievery Corp", time: "5:30 PM", details: "w/ Poranguí" },
-  { date: "Jun 15", artist: "Rod Stewart", time: "7:30 PM", details: "w/ Richard Marx" },
-  { date: "Jun 16", artist: "Rod Stewart", time: "7:30 PM", details: "w/ Richard Marx" },
-  { date: "Jun 17", artist: "Amyl and The Sniffers", time: "8:00 PM", details: "w/ L7, PARTY DOZEN" },
-  { date: "Jun 18", artist: "THIRD DAY 30th", time: "7:00 PM", details: "w/ Michael W. Smith" },
-  { date: "Jun 19", artist: "Louis Tomlinson", time: "7:00 PM", details: "w/ The Aces" },
-  { date: "Jun 20", artist: "O.A.R.", time: "6:30 PM", details: "w/ Gavin DeGraw" },
-  { date: "Jun 23", artist: "“Weird Al” Yankovic", time: "7:30 PM", details: "w/ Puddles Pity Party" },
-  { date: "Jul 1", artist: "Treaty Oak Revival", time: "7:00 PM", details: "" },
-  { date: "Jul 2", artist: "DEADROCKS XII: Zeds Dead", time: "4:30 PM", details: "" },
-  { date: "Jul 3", artist: "DEADROCKS XII: Zeds Dead", time: "5:00 PM", details: "" },
-  { date: "Jul 10", artist: "The Avett Brothers", time: "7:30 PM", details: "w/ The Lemonheads" },
-  { date: "Jul 11", artist: "The Avett Brothers", time: "7:30 PM", details: "w/ Asleep At The Wheel" },
-  { date: "Jul 12", artist: "The Avett Brothers", time: "6:30 PM", details: "w/ Graham Nash" },
-  { date: "Jul 14", artist: "KALEO", time: "7:30 PM", details: "w/ Elle King" },
-  { date: "Jul 15", artist: "The Head And The Heart", time: "7:30 PM", details: "w/ CO Symphony" },
-  { date: "Jul 16", artist: "The Head And The Heart", time: "7:30 PM", details: "w/ Wilderado" },
-  { date: "Jul 17", artist: "The String Cheese Incident", time: "6:00 PM", details: "w/ Clay Street Unit" },
-  { date: "Jul 18", artist: "The String Cheese Incident", time: "7:00 PM", details: "" },
-  { date: "Jul 29", artist: "Parker McCollum", time: "7:30 PM", details: "w/ Gary Allan" },
-  { date: "Jul 30", artist: "Killer Queen", time: "8:00 PM", details: "" },
-  { date: "Aug 13", artist: "Mt. Joy", time: "7:00 PM", details: "" },
-  { date: "Aug 14", artist: "Mt. Joy", time: "7:00 PM", details: "" },
-  { date: "Aug 17", artist: "Train", time: "6:45 PM", details: "25th Anniversary" },
-  { date: "Aug 23", artist: "Joe Bonamassa", time: "7:00 PM", details: "" },
-  { date: "Aug 26", artist: "Ray LaMontagne", time: "7:00 PM", details: "w/ The Weather Station" },
-  { date: "Sep 4", artist: "Maná", time: "8:30 PM", details: "" },
-  { date: "Sep 5", artist: "Maná", time: "8:30 PM", details: "" },
-  { date: "Sep 6", artist: "Gregory Alan Isakov", time: "8:00 PM", details: "w/ CO Symphony" },
-  { date: "Sep 7", artist: "Gregory Alan Isakov", time: "8:00 PM", details: "w/ CO Symphony" },
-  { date: "Sep 8", artist: "Five Finger Death Punch", time: "6:45 PM", details: "w/ Cody Jinks" },
-  { date: "Sep 17", artist: "Get The Led Out", time: "7:30 PM", details: "" },
-  { date: "Oct 18", artist: "Matt Rife", time: "7:00 PM", details: "" },
-  { date: "Oct 23", artist: "Mersiv", time: "5:00 PM", details: "Two Sets" },
-  { date: "Oct 26", artist: "Evanescence", time: "7:00 PM", details: "w/ K. Flay" },
-  { date: "Oct 29", artist: "Cypress Hill / Method Man", time: "6:00 PM", details: "Haunted Rocks" },
-  { date: "Nov 14", artist: "mike.", time: "5:30 PM", details: "" },
-  { date: "Nov 15", artist: "mike.", time: "2:30 PM", details: "" },
-];
-
-export default function EarthOSConsole() {
-  const [search, setSearch] = useState("");
-
-  const groupedShows = useMemo(() => {
-    const filtered = SHOWS.filter((s) =>
-      s.artist.toLowerCase().includes(search.toLowerCase())
-    );
-    const groups: Record<string, typeof SHOWS> = {};
-    filtered.forEach((show) => {
-      const month = show.date.split(" ")[0];
-      if (!groups[month]) groups[month] = [];
-      groups[month].push(show);
-    });
-    return groups;
-  }, [search]);
-
-  // Points to the first mission node (Two Friends)
-  const primaryMission = "two-friends";
-
+export default function ShuttleHomePage() {
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-black text-white font-mono selection:bg-neon-blue selection:text-black">
-      {/* 🛠️ SIDEBAR */}
-      <aside className="w-full md:w-80 bg-black border-r border-zinc-800 p-6 flex flex-col gap-8 md:sticky md:top-0 md:h-screen shrink-0 overflow-y-auto">
-        <DCCSidebar setSearch={setSearch} searchValue={search} />
-        <div className="hidden md:block space-y-4">
-          <p className="text-[9px] text-neon-blue uppercase font-black tracking-widest border-l-2 border-neon-blue pl-2">// LIVE_SITE_INTEL</p>
-          <SidebarSatMap />
-        </div>
-      </aside>
-
-      {/* 🚀 MAIN CONTENT */}
-      <main className="flex-1 p-8 lg:p-12 space-y-20 overflow-y-visible max-w-7xl">
-        {/* HERO SECTION */}
-        <section className="space-y-4 border-b border-zinc-800 pb-16">
-          <h1 className="text-5xl md:text-8xl font-black uppercase italic tracking-tighter leading-none mb-4">
-            MISSION <span className="text-neon-blue">READY</span>
+    <div className="min-h-screen bg-white text-slate-900">
+      
+      {/* --- HERO SECTION --- */}
+      <header className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+        {/* Background Image Placeholder: Black SUV / Colorado Road */}
+        <img 
+          src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=2000" 
+          alt="Premium Transport"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-slate-900/60" /> {/* Dark Overlay */}
+        
+        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center text-white">
+          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-4">
+            Destination <span className="text-blue-500">Command Center</span>
           </h1>
-          
-          <p className="text-zinc-500 text-[10px] tracking-[0.4em] uppercase font-bold mb-10">
-            Denver & Golden Shuttle Hub // Private Fleet Deployment
+          <p className="text-xl md:text-2xl font-medium mb-8 text-slate-200">
+            Colorado's Premier Private Transport: Suburbans & Vans
           </p>
-
-          {/* ⚡ THE PRIMARY BUTTONS */}
-          <div className="flex flex-col sm:flex-row gap-6 pt-10">
-            <Link 
-              href={`/shows/${primaryMission}`}
-              className="px-12 py-6 bg-neon-blue text-black font-black uppercase italic tracking-tighter text-lg rounded-xl hover:bg-white transition-all shadow-[0_0_30px_#00f2ff] text-center"
-            >
-              BOOK_SHUTTLE
-            </Link>
-            <Link 
-              href={`/shows/${primaryMission}`}
-              className="px-12 py-6 bg-neon-blue text-black font-black uppercase italic tracking-tighter text-lg rounded-xl hover:bg-white transition-all shadow-[0_0_30px_#00f2ff] text-center"
-            >
-              BOOK_PRIVATE_SUBURBAN
-            </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-full font-bold text-lg transition-all shadow-xl">
+              Book a Shuttle
+            </button>
+            <button className="bg-white hover:bg-slate-100 text-slate-900 px-10 py-4 rounded-full font-bold text-lg transition-all shadow-xl flex items-center justify-center">
+              <PhoneCall className="mr-2 w-5 h-5" /> (303) 555-0123
+            </button>
           </div>
-        </section>
+        </div>
+      </header>
 
-        {/* FLEET GRID */}
-        <section className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-black italic uppercase tracking-tighter text-zinc-500">Fleet_Inventory</h2>
-            <span className="text-[9px] text-green-500 font-bold animate-pulse tracking-widest uppercase">● Deployment_Ready</span>
+      {/* --- THE FLEET --- */}
+      <section className="py-20 px-6 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+          <div>
+            <h2 className="text-blue-600 font-bold tracking-widest uppercase text-sm mb-2">Our Assets</h2>
+            <h3 className="text-4xl font-black text-slate-900">The Professional Fleet</h3>
           </div>
-          <FleetGrid />
-        </section>
+          <p className="text-slate-500 max-w-md mt-4 md:mt-0">
+            Maintaining a premium fleet of 6 luxury Suburbans and a high-capacity Transit Van for any group size.
+          </p>
+        </div>
 
-        {/* 2026 SCHEDULE */}
-        <section className="space-y-12 pb-40">
-          <h2 className="text-4xl font-black italic uppercase tracking-tighter border-b border-zinc-800 pb-6">
-            Operational_Schedule <span className="text-neon-blue">2026</span>
-          </h2>
-
-          <div className="space-y-20">
-            {Object.entries(groupedShows).map(([month, monthShows]) => (
-              <div key={month} className="space-y-8">
-                <div className="flex items-center gap-6">
-                  <h3 className="text-6xl font-black uppercase italic text-white leading-none">{month}</h3>
-                  <div className="h-[1px] flex-1 bg-zinc-900" />
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {monthShows.map((show, idx) => {
-                    const slug = show.artist.toLowerCase().replace(/ /g, "-").replace(/“|”/g, "");
-                    return (
-                      <div key={idx} className="group p-6 border border-zinc-800 bg-zinc-900/40 rounded-2xl transition-all block">
-                        <div className="flex justify-between items-start mb-3">
-                          <span className="text-[11px] text-neon-blue font-black tracking-widest uppercase">{show.date}</span>
-                          <span className="text-[9px] text-zinc-700 font-mono tracking-tighter">{show.time}</span>
-                        </div>
-                        <h4 className="font-black uppercase italic text-xl leading-none group-hover:text-neon-blue transition-colors mb-6">
-                          {show.artist}
-                        </h4>
-                        
-                        <div className="flex gap-2">
-                          <Link 
-                            href={`/artists/${slug}`} 
-                            className="flex-1 text-center text-[10px] bg-zinc-800 text-zinc-400 py-3 rounded-lg font-black uppercase tracking-widest hover:bg-neon-blue hover:text-black transition-all"
-                          >
-                            BIO
-                          </Link>
-                          <Link 
-                            href={`/shows/${slug}`} 
-                            className="flex-1 text-center text-[10px] bg-neon-blue text-black py-3 rounded-lg font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_10px_#00f2ff]"
-                          >
-                            BOOK
-                          </Link>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Suburban Card */}
+          <div className="group overflow-hidden rounded-3xl border border-slate-200 shadow-sm hover:shadow-2xl transition-all">
+            <div className="h-64 overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=1000" 
+                alt="Luxury Suburban"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-8">
+              <div className="flex justify-between items-center mb-2">
+                <h4 className="text-2xl font-bold">Luxury Suburbans</h4>
+                <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold uppercase">6 Available</span>
               </div>
-            ))}
+              <p className="text-slate-600 mb-6">Perfect for families and small groups heading to ski resorts or airport transfers.</p>
+              <div className="flex items-center text-slate-400 gap-4 text-sm font-medium">
+                <span className="flex items-center gap-1"><Users className="w-4 h-4" /> 6-7 Passengers</span>
+                <span className="flex items-center gap-1"><ShieldCheck className="w-4 h-4" /> AWD Enabled</span>
+              </div>
+            </div>
           </div>
-        </section>
-      </main>
+
+          {/* Van Card */}
+          <div className="group overflow-hidden rounded-3xl border border-slate-200 shadow-sm hover:shadow-2xl transition-all">
+            <div className="h-64 overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=1000" 
+                alt="Transit Van"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-8">
+              <div className="flex justify-between items-center mb-2">
+                <h4 className="text-2xl font-bold">Group Transit Van</h4>
+                <span className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold uppercase">1 Available</span>
+              </div>
+              <p className="text-slate-600 mb-6">Our high-roof van is ideal for large groups and significant luggage requirements.</p>
+              <div className="flex items-center text-slate-400 gap-4 text-sm font-medium">
+                <span className="flex items-center gap-1"><Users className="w-4 h-4" /> 14 Passengers</span>
+                <span className="flex items-center gap-1"><ShieldCheck className="w-4 h-4" /> Professional Driver</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- SERVICES GRID --- */}
+      <section className="bg-slate-50 py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-black mb-4">Mountain & City Logistics</h2>
+            <div className="h-1 w-20 bg-blue-600 mx-auto" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {/* Red Rocks */}
+            <div className="bg-white p-10 rounded-3xl shadow-sm border border-slate-100">
+              <div className="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mb-6">
+                <Music className="w-8 h-8" />
+              </div>
+              <h4 className="text-2xl font-bold mb-4">Party at Red Rocks</h4>
+              <p className="text-slate-600 mb-6">The gold standard for concert transport. We handle the parking and the drive so you can focus on the show.</p>
+              <a href="#" className="text-blue-600 font-bold flex items-center group">View Packages <ChevronRight className="ml-1 w-4 h-4 group-hover:ml-2 transition-all" /></a>
+            </div>
+
+            {/* Ski Resorts */}
+            <div className="bg-white p-10 rounded-3xl shadow-sm border border-slate-100">
+              <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
+                <Snowflake className="w-8 h-8" />
+              </div>
+              <h4 className="text-2xl font-bold mb-4">Ski & Resort Links</h4>
+              <p className="text-slate-600 mb-6">Direct service to Breckenridge, Vail, and Summit County. Heavy-duty winter tires and experienced mountain drivers.</p>
+              <a href="#" className="text-blue-600 font-bold flex items-center group">Check Routes <ChevronRight className="ml-1 w-4 h-4 group-hover:ml-2 transition-all" /></a>
+            </div>
+
+            {/* Airport */}
+            <div className="bg-white p-10 rounded-3xl shadow-sm border border-slate-100">
+              <div className="w-16 h-16 bg-slate-100 text-slate-600 rounded-2xl flex items-center justify-center mb-6">
+                <Plane className="w-8 h-8" />
+              </div>
+              <h4 className="text-2xl font-bold mb-4">DIA Airport Transfer</h4>
+              <p className="text-slate-600 mb-6">Avoid the shared-shuttle loops. Get direct, private door-to-door service to and from Denver International.</p>
+              <a href="#" className="text-blue-600 font-bold flex items-center group">Book Pickup <ChevronRight className="ml-1 w-4 h-4 group-hover:ml-2 transition-all" /></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- QUICK CONTACT / FOOTER --- */}
+      <footer className="bg-slate-900 text-white py-20 px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div>
+            <h5 className="text-2xl font-black mb-6">DCC TRANSIT</h5>
+            <p className="text-slate-400 leading-relaxed">
+              Premium transportation logistics for Colorado's most popular destinations. Private, reliable, and professional.
+            </p>
+          </div>
+          <div>
+            <h5 className="text-lg font-bold mb-6">Service Areas</h5>
+            <ul className="space-y-3 text-slate-400">
+              <li className="flex items-center gap-2"><MapPin className="w-4 h-4 text-blue-500" /> Breckenridge / Summit County</li>
+              <li className="flex items-center gap-2"><MapPin className="w-4 h-4 text-blue-500" /> Vail / Eagle County</li>
+              <li className="flex items-center gap-2"><MapPin className="w-4 h-4 text-blue-500" /> Red Rocks Amphitheatre</li>
+              <li className="flex items-center gap-2"><MapPin className="w-4 h-4 text-blue-500" /> Denver International (DIA)</li>
+            </ul>
+          </div>
+          <div className="bg-slate-800 p-8 rounded-2xl">
+            <h5 className="text-lg font-bold mb-4">Need a Custom Quote?</h5>
+            <p className="text-slate-400 text-sm mb-6">We specialize in weddings, corporate events, and large group outings.</p>
+            <button className="w-full bg-blue-600 py-3 rounded-lg font-bold">Contact Dispatch</button>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-slate-800 text-center text-slate-500 text-sm">
+          <p>© {new Date().getFullYear()} Destination Command Center. All Rights Reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
+
