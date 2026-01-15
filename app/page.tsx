@@ -7,7 +7,7 @@ import FleetGrid from "@/components/FleetGrid";
 import SidebarSatMap from "@/components/SidebarSatMap";
 import Link from "next/link";
 
-// EXHAUSTIVE 2026 OPERATIONAL DATA
+// 2026 OPERATIONAL DATA
 const SHOWS = [
   { date: "May 1", artist: "Two Friends", time: "7:00 PM", details: "" },
   { date: "May 2", artist: "Jason Isbell and the 400 Unit", time: "7:00 PM", details: "w/ Gillian Welch & David Rawlings" },
@@ -91,12 +91,12 @@ export default function EarthOSConsole() {
     return groups;
   }, [search]);
 
-  // Target the first major show for the hero buttons
-  const primaryMissionSlug = "two-friends";
+  // Points to the first mission node (Two Friends)
+  const primaryMission = "two-friends";
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-black text-white font-mono selection:bg-neon-blue selection:text-black">
-      {/* 🛠️ SIDEBAR (STICKY) */}
+      {/* 🛠️ SIDEBAR */}
       <aside className="w-full md:w-80 bg-black border-r border-zinc-800 p-6 flex flex-col gap-8 md:sticky md:top-0 md:h-screen shrink-0 overflow-y-auto">
         <DCCSidebar setSearch={setSearch} searchValue={search} />
         <div className="hidden md:block space-y-4">
@@ -107,82 +107,81 @@ export default function EarthOSConsole() {
 
       {/* 🚀 MAIN CONTENT */}
       <main className="flex-1 p-8 lg:p-12 space-y-20 overflow-y-visible max-w-7xl">
-        <section className="space-y-4 border-b border-zinc-800 pb-10">
-          <h1 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter leading-none">
-            RED ROCKS <span className="text-neon-blue text-shadow-[0_0_20px_#00f2ff]">TRANSPORT</span>
+        {/* HERO SECTION */}
+        <section className="space-y-4 border-b border-zinc-800 pb-16">
+          <h1 className="text-5xl md:text-8xl font-black uppercase italic tracking-tighter leading-none mb-4">
+            MISSION <span className="text-neon-blue">READY</span>
           </h1>
-          <p className="text-zinc-500 text-[10px] tracking-[0.3em] uppercase font-bold">2026 Operational Season</p>
+          
+          <p className="text-zinc-500 text-[10px] tracking-[0.4em] uppercase font-bold mb-10">
+            Denver & Golden Shuttle Hub // Private Fleet Deployment
+          </p>
 
-          {/* ⚡ THE HERO BUTTONS: BLUE SYNC FIX */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-8">
+          {/* ⚡ THE PRIMARY BUTTONS */}
+          <div className="flex flex-col sm:flex-row gap-6 pt-10">
             <Link 
-              href={`/shows/${primaryMissionSlug}`}
-              className="px-10 py-5 bg-neon-blue text-black font-black uppercase italic tracking-tighter text-sm rounded-full hover:bg-white transition-all shadow-[0_0_25px_#00f2ff] text-center"
+              href={`/shows/${primaryMission}`}
+              className="px-12 py-6 bg-neon-blue text-black font-black uppercase italic tracking-tighter text-lg rounded-xl hover:bg-white transition-all shadow-[0_0_30px_#00f2ff] text-center"
             >
-              SECURE_SPOT
+              BOOK_SHUTTLE
             </Link>
             <Link 
-              href={`/shows/${primaryMissionSlug}`}
-              className="px-10 py-5 bg-neon-blue text-black font-black uppercase italic tracking-tighter text-sm rounded-full hover:bg-white transition-all shadow-[0_0_25px_#00f2ff] text-center"
+              href={`/shows/${primaryMission}`}
+              className="px-12 py-6 bg-neon-blue text-black font-black uppercase italic tracking-tighter text-lg rounded-xl hover:bg-white transition-all shadow-[0_0_30px_#00f2ff] text-center"
             >
-              REQUEST_DEPLOYMENT
+              BOOK_PRIVATE_SUBURBAN
             </Link>
           </div>
-        </section>
-
-        {/* HERO MAP */}
-        <section className="hidden md:block space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-black italic uppercase tracking-tighter">Mission_Control_Map</h2>
-            <span className="text-[9px] text-green-500 uppercase font-bold tracking-widest animate-pulse">● System_Live</span>
-          </div>
-          <HeroMap />
         </section>
 
         {/* FLEET GRID */}
         <section className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-black italic uppercase tracking-tighter text-zinc-500">Fleet_Inventory</h2>
+            <span className="text-[9px] text-green-500 font-bold animate-pulse tracking-widest uppercase">● Deployment_Ready</span>
+          </div>
           <FleetGrid />
         </section>
 
-        {/* OPERATIONAL SCHEDULE */}
+        {/* 2026 SCHEDULE */}
         <section className="space-y-12 pb-40">
           <h2 className="text-4xl font-black italic uppercase tracking-tighter border-b border-zinc-800 pb-6">
             Operational_Schedule <span className="text-neon-blue">2026</span>
           </h2>
 
-          <div className="space-y-16">
+          <div className="space-y-20">
             {Object.entries(groupedShows).map(([month, monthShows]) => (
-              <div key={month} className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <h3 className="text-5xl font-black uppercase italic text-white leading-none">{month}</h3>
+              <div key={month} className="space-y-8">
+                <div className="flex items-center gap-6">
+                  <h3 className="text-6xl font-black uppercase italic text-white leading-none">{month}</h3>
                   <div className="h-[1px] flex-1 bg-zinc-900" />
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {monthShows.map((show, idx) => {
                     const slug = show.artist.toLowerCase().replace(/ /g, "-").replace(/“|”/g, "");
                     return (
-                      <div key={idx} className="group p-5 border border-zinc-800 bg-zinc-900/40 rounded-xl transition-all block">
-                        <div className="flex justify-between items-start mb-2">
-                          <span className="text-[10px] text-neon-blue font-black tracking-widest uppercase">{show.date}</span>
-                          <span className="text-[9px] text-zinc-700 font-mono">{show.time}</span>
+                      <div key={idx} className="group p-6 border border-zinc-800 bg-zinc-900/40 rounded-2xl transition-all block">
+                        <div className="flex justify-between items-start mb-3">
+                          <span className="text-[11px] text-neon-blue font-black tracking-widest uppercase">{show.date}</span>
+                          <span className="text-[9px] text-zinc-700 font-mono tracking-tighter">{show.time}</span>
                         </div>
-                        <h4 className="font-black uppercase italic text-lg leading-tight group-hover:text-neon-blue transition-colors mb-4">
+                        <h4 className="font-black uppercase italic text-xl leading-none group-hover:text-neon-blue transition-colors mb-6">
                           {show.artist}
                         </h4>
                         
                         <div className="flex gap-2">
                           <Link 
                             href={`/artists/${slug}`} 
-                            className="text-[9px] bg-zinc-800 px-4 py-2 rounded-full font-black uppercase tracking-widest hover:bg-neon-blue hover:text-black transition-all"
+                            className="flex-1 text-center text-[10px] bg-zinc-800 text-zinc-400 py-3 rounded-lg font-black uppercase tracking-widest hover:bg-neon-blue hover:text-black transition-all"
                           >
-                            ARTIST_BIO
+                            BIO
                           </Link>
                           <Link 
                             href={`/shows/${slug}`} 
-                            className="text-[9px] bg-neon-blue text-black px-4 py-2 rounded-full font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_10px_#00f2ff]"
+                            className="flex-1 text-center text-[10px] bg-neon-blue text-black py-3 rounded-lg font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_10px_#00f2ff]"
                           >
-                            BOOK_SHOW
+                            BOOK
                           </Link>
                         </div>
                       </div>
