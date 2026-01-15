@@ -1,3 +1,5 @@
+'use client'; // This fixes the build error by allowing the onError handler
+
 import React from 'react';
 import { 
   ShieldCheck, 
@@ -13,8 +15,7 @@ import {
   Ticket
 } from 'lucide-react';
 
-// This is the data array that controls the "Live Event Logistics" section.
-// Replace these placeholders with your actual API data or fetch call.
+// Data for your dynamic concert boxes
 const UPCOMING_SHOWS = [
   {
     id: 1,
@@ -22,7 +23,7 @@ const UPCOMING_SHOWS = [
     date: "June 20, 2026",
     doors: "6:00 PM",
     guests: "Special Guest A",
-    image: "https://api.partyatredrocks.com/v1/images/artist1", // API Image URL
+    image: "https://api.partyatredrocks.com/v1/images/artist1", 
     listenLink: "https://spotify.com/...",
   },
   {
@@ -62,7 +63,7 @@ export default function ShuttleHomePage() {
       <header className="relative h-[85vh] flex items-center justify-center overflow-hidden">
         <img 
           src="/hero123.jpg" 
-          alt="Party @ Red Rocks"
+          alt="Party @ Red Rocks Hero"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-slate-950/60" /> 
@@ -85,66 +86,6 @@ export default function ShuttleHomePage() {
         </div>
       </header>
 
-      {/* --- FLEET SECTION --- */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-blue-600 font-black tracking-[0.2em] uppercase text-sm mb-3">Our Assets</h2>
-          <h3 className="text-5xl font-black text-slate-900 uppercase italic">The Professional Fleet</h3>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Suburban Card */}
-          <div className="group overflow-hidden rounded-[2.5rem] border-2 border-slate-50 shadow-2xl hover:border-blue-500 transition-all duration-500">
-            <div className="h-[450px] overflow-hidden bg-slate-100">
-              <img src="/suburban123.jpg" alt="Luxury Suburban" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            </div>
-            <div className="p-12 bg-white text-left">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h4 className="text-4xl font-black uppercase italic tracking-tighter">Luxury Suburbans</h4>
-                  <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest mt-1">AWD Mountain Logistics</p>
-                </div>
-                <span className="bg-blue-600 text-white px-5 py-2 rounded-full text-xs font-black uppercase italic">6 Units</span>
-              </div>
-              <p className="text-slate-600 mb-8 text-lg font-medium leading-relaxed">The gold standard for private travel. Perfect for families, corporate events, and direct ski resort transfers.</p>
-              <div className="flex gap-4">
-                <div className="bg-slate-50 px-5 py-3 rounded-2xl flex items-center gap-3 text-xs font-black uppercase text-slate-600 border border-slate-100">
-                  <Users className="w-4 h-4 text-blue-500" /> 7 Pax
-                </div>
-                <div className="bg-slate-50 px-5 py-3 rounded-2xl flex items-center gap-3 text-xs font-black uppercase text-slate-600 border border-slate-100">
-                  <ShieldCheck className="w-4 h-4 text-blue-500" /> Winter Rated
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* High-Roof Transit - Updated to 5 units and removed standing room */}
-          <div className="group overflow-hidden rounded-[2.5rem] border-2 border-slate-50 shadow-2xl hover:border-blue-500 transition-all duration-500">
-            <div className="h-[450px] overflow-hidden bg-slate-100">
-              <img src="/shuttle123.jpg" alt="Transit Van" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            </div>
-            <div className="p-12 bg-white text-left">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h4 className="text-4xl font-black uppercase italic tracking-tighter">High-Roof Transit</h4>
-                  <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest mt-1">Group Transit Expert</p>
-                </div>
-                <span className="bg-slate-900 text-white px-5 py-2 rounded-full text-xs font-black uppercase italic">5 Units</span>
-              </div>
-              <p className="text-slate-600 mb-8 text-lg font-medium leading-relaxed">Maximum capacity for wedding parties, large groups, and custom event routes across the front range.</p>
-              <div className="flex gap-4">
-                <div className="bg-slate-50 px-5 py-3 rounded-2xl flex items-center gap-3 text-xs font-black uppercase text-slate-600 border border-slate-100">
-                  <Users className="w-4 h-4 text-blue-500" /> 14 Pax
-                </div>
-                <div className="bg-slate-50 px-5 py-3 rounded-2xl flex items-center gap-3 text-xs font-black uppercase text-slate-600 border border-slate-100">
-                  <Star className="w-4 h-4 text-blue-500" /> Group Logistics
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* --- LIVE EVENT LOGISTICS SECTION --- */}
       <section className="bg-slate-950 py-32 px-6 text-white border-y border-blue-900/50">
         <div className="max-w-7xl mx-auto">
@@ -153,23 +94,22 @@ export default function ShuttleHomePage() {
             <h4 className="text-6xl font-black uppercase italic tracking-tighter leading-none">Party @ <br/>Red Rocks!</h4>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
             {UPCOMING_SHOWS.map((show) => (
               <div key={show.id} className="group flex flex-col bg-slate-900/50 rounded-[2.5rem] overflow-hidden border border-white/5 hover:border-blue-500 transition-all duration-500 shadow-2xl">
-                {/* Show Image */}
                 <div className="aspect-[4/5] overflow-hidden relative">
                   <img 
                     src={show.image} 
                     alt={show.artist}
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 opacity-50 group-hover:opacity-100"
-                    onError={(e) => { e.currentTarget.src = "/hi.jpg" }} // Fallback image if API fails
+                    onError={(e) => { e.currentTarget.src = "/hi.jpg" }} 
                   />
                   <div className="absolute top-6 left-6 bg-blue-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">
                     {show.date}
                   </div>
                 </div>
 
-                <div className="p-10 flex flex-col flex-grow text-left">
+                <div className="p-10 flex flex-col flex-grow">
                   <h5 className="text-3xl font-black uppercase italic tracking-tighter mb-1 leading-none">{show.artist}</h5>
                   <p className="text-blue-500 text-[11px] font-black uppercase tracking-[0.2em] mb-6">w/ {show.guests}</p>
                   
@@ -194,6 +134,66 @@ export default function ShuttleHomePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- FLEET SECTION --- */}
+      <section className="py-24 px-6 max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-blue-600 font-black tracking-[0.2em] uppercase text-sm mb-3">Our Assets</h2>
+          <h3 className="text-5xl font-black text-slate-900 uppercase italic">The Professional Fleet</h3>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 text-left">
+          {/* Suburban Card */}
+          <div className="group overflow-hidden rounded-[2.5rem] border-2 border-slate-50 shadow-2xl hover:border-blue-500 transition-all duration-500">
+            <div className="h-[450px] overflow-hidden bg-slate-100">
+              <img src="/suburban123.jpg" alt="Luxury Suburban" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="p-12 bg-white">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h4 className="text-4xl font-black uppercase italic tracking-tighter">Luxury Suburbans</h4>
+                  <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest mt-1">AWD Mountain Logistics</p>
+                </div>
+                <span className="bg-blue-600 text-white px-5 py-2 rounded-full text-xs font-black uppercase italic">6 Units</span>
+              </div>
+              <p className="text-slate-600 mb-8 text-lg font-medium leading-relaxed">The gold standard for private travel. Perfect for families, corporate events, and direct ski resort transfers.</p>
+              <div className="flex gap-4">
+                <div className="bg-slate-50 px-5 py-3 rounded-2xl flex items-center gap-3 text-xs font-black uppercase text-slate-600 border border-slate-100">
+                  <Users className="w-4 h-4 text-blue-500" /> 7 Pax
+                </div>
+                <div className="bg-slate-50 px-5 py-3 rounded-2xl flex items-center gap-3 text-xs font-black uppercase text-slate-600 border border-slate-100">
+                  <ShieldCheck className="w-4 h-4 text-blue-500" /> Winter Rated
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Transit Van - Corrected Count and Description */}
+          <div className="group overflow-hidden rounded-[2.5rem] border-2 border-slate-50 shadow-2xl hover:border-blue-500 transition-all duration-500">
+            <div className="h-[450px] overflow-hidden bg-slate-100">
+              <img src="/shuttle123.jpg" alt="Transit Van" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="p-12 bg-white">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h4 className="text-4xl font-black uppercase italic tracking-tighter">High-Roof Transit</h4>
+                  <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest mt-1">Group Transit Expert</p>
+                </div>
+                <span className="bg-slate-900 text-white px-5 py-2 rounded-full text-xs font-black uppercase italic">5 Units</span>
+              </div>
+              <p className="text-slate-600 mb-8 text-lg font-medium leading-relaxed">Maximum capacity for wedding parties, large groups, and custom event routes across the front range.</p>
+              <div className="flex gap-4">
+                <div className="bg-slate-50 px-5 py-3 rounded-2xl flex items-center gap-3 text-xs font-black uppercase text-slate-600 border border-slate-100">
+                  <Users className="w-4 h-4 text-blue-500" /> 14 Pax
+                </div>
+                <div className="bg-slate-50 px-5 py-3 rounded-2xl flex items-center gap-3 text-xs font-black uppercase text-slate-600 border border-slate-100">
+                  <Star className="w-4 h-4 text-blue-500" /> Group Logistics
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
