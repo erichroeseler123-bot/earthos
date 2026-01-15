@@ -91,8 +91,8 @@ export default function EarthOSConsole() {
     return groups;
   }, [search]);
 
-  // Next upcoming show for hero buttons
-  const nextShowSlug = "two-friends";
+  // Target the first major show for the hero buttons
+  const primaryMissionSlug = "two-friends";
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-black text-white font-mono selection:bg-neon-blue selection:text-black">
@@ -109,21 +109,21 @@ export default function EarthOSConsole() {
       <main className="flex-1 p-8 lg:p-12 space-y-20 overflow-y-visible max-w-7xl">
         <section className="space-y-4 border-b border-zinc-800 pb-10">
           <h1 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter leading-none">
-            RED ROCKS <span className="text-neon-blue">TRANSPORT</span>
+            RED ROCKS <span className="text-neon-blue text-shadow-[0_0_20px_#00f2ff]">TRANSPORT</span>
           </h1>
-          <p className="text-zinc-500 text-[10px] tracking-[0.3em] uppercase font-bold">May — Nov 2026 Season</p>
-          
-          {/* 🔘 TOP HERO BUTTONS - NEON BLUE SYNC */}
-          <div className="flex flex-col sm:flex-row gap-4 pt-6">
+          <p className="text-zinc-500 text-[10px] tracking-[0.3em] uppercase font-bold">2026 Operational Season</p>
+
+          {/* ⚡ THE HERO BUTTONS: BLUE SYNC FIX */}
+          <div className="flex flex-col sm:flex-row gap-4 mt-8">
             <Link 
-              href={`/shows/${nextShowSlug}`}
-              className="px-8 py-4 bg-neon-blue text-black font-black uppercase italic tracking-tighter text-sm rounded-full hover:bg-white transition-all shadow-[0_0_20px_#00f2ff] text-center"
+              href={`/shows/${primaryMissionSlug}`}
+              className="px-10 py-5 bg-neon-blue text-black font-black uppercase italic tracking-tighter text-sm rounded-full hover:bg-white transition-all shadow-[0_0_25px_#00f2ff] text-center"
             >
               SECURE_SPOT
             </Link>
             <Link 
-              href={`/shows/${nextShowSlug}`}
-              className="px-8 py-4 bg-neon-blue text-black font-black uppercase italic tracking-tighter text-sm rounded-full hover:bg-white transition-all shadow-[0_0_20px_#00f2ff] text-center"
+              href={`/shows/${primaryMissionSlug}`}
+              className="px-10 py-5 bg-neon-blue text-black font-black uppercase italic tracking-tighter text-sm rounded-full hover:bg-white transition-all shadow-[0_0_25px_#00f2ff] text-center"
             >
               REQUEST_DEPLOYMENT
             </Link>
@@ -132,6 +132,10 @@ export default function EarthOSConsole() {
 
         {/* HERO MAP */}
         <section className="hidden md:block space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-black italic uppercase tracking-tighter">Mission_Control_Map</h2>
+            <span className="text-[9px] text-green-500 uppercase font-bold tracking-widest animate-pulse">● System_Live</span>
+          </div>
           <HeroMap />
         </section>
 
@@ -140,7 +144,7 @@ export default function EarthOSConsole() {
           <FleetGrid />
         </section>
 
-        {/* EXHAUSTIVE SCHEDULE */}
+        {/* OPERATIONAL SCHEDULE */}
         <section className="space-y-12 pb-40">
           <h2 className="text-4xl font-black italic uppercase tracking-tighter border-b border-zinc-800 pb-6">
             Operational_Schedule <span className="text-neon-blue">2026</span>
@@ -163,20 +167,20 @@ export default function EarthOSConsole() {
                           <span className="text-[10px] text-neon-blue font-black tracking-widest uppercase">{show.date}</span>
                           <span className="text-[9px] text-zinc-700 font-mono">{show.time}</span>
                         </div>
-                        <h4 className="font-black uppercase italic text-lg leading-tight group-hover:text-neon-blue transition-colors">
+                        <h4 className="font-black uppercase italic text-lg leading-tight group-hover:text-neon-blue transition-colors mb-4">
                           {show.artist}
                         </h4>
                         
-                        <div className="flex gap-2 mt-4">
+                        <div className="flex gap-2">
                           <Link 
                             href={`/artists/${slug}`} 
-                            className="text-[9px] bg-neon-blue text-black px-3 py-2 rounded-full font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_10px_#00f2ff]"
+                            className="text-[9px] bg-zinc-800 px-4 py-2 rounded-full font-black uppercase tracking-widest hover:bg-neon-blue hover:text-black transition-all"
                           >
                             ARTIST_BIO
                           </Link>
                           <Link 
                             href={`/shows/${slug}`} 
-                            className="text-[9px] bg-neon-blue text-black px-3 py-2 rounded-full font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_10px_#00f2ff]"
+                            className="text-[9px] bg-neon-blue text-black px-4 py-2 rounded-full font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_10px_#00f2ff]"
                           >
                             BOOK_SHOW
                           </Link>
