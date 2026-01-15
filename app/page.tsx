@@ -18,10 +18,10 @@ export default function ShuttleHomePage() {
       
       {/* --- HERO SECTION --- */}
       <header className="relative h-[85vh] flex items-center justify-center overflow-hidden">
-        {/* Using your new hero123.jpg for the primary background */}
+        {/* Fixed Hero Image Filename */}
         <img 
           src="/hero123.jpg" 
-          alt="Destination Command Center"
+          alt="Party @ Red Rocks!"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-slate-900/50" /> 
@@ -52,7 +52,7 @@ export default function ShuttleHomePage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Suburban Card - suburban123.jpg */}
+          {/* Fixed Suburban Image Filename */}
           <div className="group overflow-hidden rounded-[2rem] border-2 border-slate-100 shadow-xl hover:border-blue-500 transition-all duration-500">
             <div className="h-[400px] overflow-hidden bg-slate-200">
               <img 
@@ -69,102 +69,54 @@ export default function ShuttleHomePage() {
                 </div>
                 <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-xs font-black uppercase">6 Units</span>
               </div>
-              <p className="text-slate-600 mb-8 text-lg leading-relaxed">The standard for Colorado mountain travel. Perfect for small groups and ski resort transfers.</p>
-              <div className="flex flex-wrap gap-4">
-                <div className="bg-slate-50 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-black uppercase text-slate-500">
-                  <Users className="w-4 h-4" /> 7 Pax
-                </div>
-                <div className="bg-slate-50 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-black uppercase text-slate-500">
-                  <ShieldCheck className="w-4 h-4" /> Winter Rated
-                </div>
-              </div>
+              <p className="text-slate-600 mb-8 text-lg leading-relaxed">The gold standard for Colorado mountain travel. Perfect for families and private resort transfers.</p>
             </div>
           </div>
 
-          {/* Transit Van - shuttle123.jpg */}
+          {/* Fixed Shuttle/Transit Image Filename */}
           <div className="group overflow-hidden rounded-[2rem] border-2 border-slate-100 shadow-xl hover:border-blue-500 transition-all duration-500">
             <div className="h-[400px] overflow-hidden bg-slate-200">
               <img 
                 src="/shuttle123.jpg" 
-                alt="Transit Van"
+                alt="Group Transit Van"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
             </div>
             <div className="p-10 bg-white">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h4 className="text-3xl font-black uppercase italic tracking-tighter">High-Roof Transit</h4>
-                  <p className="text-slate-500 font-bold uppercase text-xs tracking-widest mt-1">Group Logistics</p>
+                  <h4 className="text-3xl font-black uppercase italic tracking-tighter">Group Transit</h4>
+                  <p className="text-slate-500 font-bold uppercase text-xs tracking-widest mt-1">High-Capacity Logistics</p>
                 </div>
                 <span className="bg-slate-900 text-white px-4 py-1 rounded-full text-xs font-black uppercase">1 Unit</span>
               </div>
               <p className="text-slate-600 mb-8 text-lg leading-relaxed">Maximum capacity for large groups, wedding parties, and corporate events.</p>
-              <div className="flex flex-wrap gap-4">
-                <div className="bg-slate-50 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-black uppercase text-slate-500">
-                  <Users className="w-4 h-4" /> 14 Pax
-                </div>
-                <div className="bg-slate-50 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-black uppercase text-slate-500">
-                  <Star className="w-4 h-4" /> Full Standing Room
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* --- RED ROCKS LINEUP SECTION --- */}
-      <section className="bg-slate-950 py-32 px-6 text-white overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-600/5 blur-[120px] rounded-full -translate-y-1/2" />
-        
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
-            <div className="max-w-2xl">
-              <h3 className="text-blue-500 font-black tracking-widest uppercase text-sm mb-4">Live Event Logistics</h3>
-              <h4 className="text-6xl font-black uppercase italic tracking-tighter leading-none mb-6">Party at <br/>Red Rocks</h4>
-              <p className="text-slate-400 text-xl font-medium">Don't settle for shared shuttles. Experience the gold standard in concert transport with DCC.</p>
-            </div>
-            <button className="border-2 border-white/20 hover:border-blue-500 hover:text-blue-500 px-8 py-4 rounded-full font-black uppercase text-sm transition-all">
-              View All Shows
-            </button>
-          </div>
+      <section className="bg-slate-950 py-32 px-6 text-white overflow-hidden relative border-t border-blue-900">
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+            <h3 className="text-blue-500 font-black tracking-widest uppercase text-sm mb-4">Live Event Logistics</h3>
+            <h4 className="text-6xl font-black uppercase italic tracking-tighter leading-none mb-12">Party at Red Rocks</h4>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
-            {/* If you add artist images to public folder, replace /hi.jpg with /artist1.jpg etc */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="group cursor-pointer">
-                <div className="aspect-[3/4] rounded-3xl overflow-hidden mb-6 border border-white/10 group-hover:border-blue-500 transition-all duration-500">
-                  <img 
-                    src="/hi.jpg" 
-                    className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
-                    alt="Event"
-                  />
+              <div key={i} className="group">
+                <div className="aspect-[3/4] rounded-3xl overflow-hidden mb-4 border border-white/10 bg-slate-800 flex items-center justify-center">
+                  <Music className="w-12 h-12 text-slate-700 group-hover:text-blue-500 transition-colors" />
                 </div>
-                <h5 className="font-black uppercase tracking-tighter text-lg">Upcoming Event {i}</h5>
-                <p className="text-blue-500 font-bold text-xs uppercase tracking-widest mt-1">Reservations Open</p>
+                <p className="font-black uppercase tracking-tighter">Season Event {i}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* --- QUICK CONTACT FOOTER --- */}
-      <footer className="bg-white py-16 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-                <p className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-2">Fleet Summary</p>
-                <p className="text-slate-900 font-black text-2xl uppercase italic tracking-tighter">
-                    6 Suburbans • 1 Transit Van • 24/7 Dispatch
-                </p>
-            </div>
-            <div className="text-right flex flex-col items-end">
-                <p className="text-slate-400 text-xs font-bold mb-4 uppercase">© {new Date().getFullYear()} Destination Command Center</p>
-                <div className="flex gap-4">
-                    <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center"><Snowflake className="w-5 h-5 text-slate-400" /></div>
-                    <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center"><Music className="w-5 h-5 text-slate-400" /></div>
-                    <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center"><Plane className="w-5 h-5 text-slate-400" /></div>
-                </div>
-            </div>
-        </div>
+      <footer className="bg-white py-12 border-t border-slate-100 text-center text-slate-500 text-xs font-bold uppercase tracking-widest">
+        <p>© {new Date().getFullYear()} Destination Command Center | 6 Suburbans, 1 Van</p>
       </footer>
     </div>
   );
