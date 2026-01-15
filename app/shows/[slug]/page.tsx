@@ -1,4 +1,6 @@
 "use client";
+export const dynamic = "force-dynamic"; // ⚡ FORCE CACHE BYPASS
+
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { fetchRedRocksWeather } from "@/lib/weather";
@@ -33,12 +35,12 @@ export default function ShowTacticalPage() {
           <div className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-3xl">
             <h2 className="text-xl font-black italic uppercase tracking-tighter mb-6 border-b border-zinc-800 pb-4">Gear_Intel</h2>
             <p className="text-sm font-black uppercase italic tracking-tighter flex items-center gap-3">
-              <span className="h-2 w-2 bg-neon-blue rounded-full shadow-[0_0_8px_#00f2ff]" /> COMFORTABLE WALKING SHOES
+              <span className="h-2 w-2 bg-neon-blue rounded-full shadow-[0_0_12px_#00f2ff]" /> COMFORTABLE WALKING SHOES
             </p>
           </div>
         </div>
 
-        {/* RIGHT: HIGH-VISIBILITY BOOKING CONSOLE */}
+        {/* RIGHT: THE GLOWING TABS */}
         <div className="lg:col-span-8 space-y-6">
           <div className="flex flex-col sm:flex-row gap-4">
             {[
@@ -52,7 +54,7 @@ export default function ShowTacticalPage() {
                 className={`
                   flex-1 px-6 py-5 rounded-2xl font-black uppercase italic tracking-tighter text-base transition-all duration-300
                   ${activeTab === tab.id 
-                    ? 'bg-neon-blue text-black shadow-[0_0_40px_#00f2ff] scale-105 ring-4 ring-white/10' 
+                    ? 'bg-neon-blue text-black shadow-[0_0_50px_#00f2ff] scale-105 border-2 border-white/20' 
                     : 'bg-zinc-900 text-zinc-500 border border-zinc-800 hover:border-neon-blue hover:text-white'
                   }
                 `}
