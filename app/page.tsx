@@ -14,166 +14,157 @@ import {
 
 export default function ShuttleHomePage() {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-white text-slate-900 font-sans">
       
       {/* --- HERO SECTION --- */}
-      <header className="relative h-[80vh] flex items-center justify-center overflow-hidden">
-        {/* Using your hi.jpg for the background */}
+      <header className="relative h-[85vh] flex items-center justify-center overflow-hidden">
+        {/* Using your new hero123.jpg for the primary background */}
         <img 
-          src="/hi.jpg" 
-          alt="Destination Command Center Hero"
+          src="/hero123.jpg" 
+          alt="Destination Command Center"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-slate-900/60" /> 
+        <div className="absolute inset-0 bg-slate-900/50" /> 
         
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center text-white">
-          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-4 italic">
-            Destination <span className="text-blue-500">Command Center</span>
+          <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-4 italic">
+            DCC <span className="text-blue-500">TRANSIT</span>
           </h1>
-          <p className="text-xl md:text-2xl font-medium mb-8 text-slate-200">
-            Colorado's Premier Private Transport: Suburbans & Vans
+          <p className="text-xl md:text-3xl font-bold mb-10 text-slate-100 uppercase tracking-widest">
+            Premium Mountain & Concert Logistics
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-full font-bold text-lg transition-all shadow-xl">
-              Book a Shuttle
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-5 rounded-full font-black text-xl transition-all shadow-2xl uppercase tracking-tighter">
+              Book A Ride
             </button>
-            <a href="tel:3035550123" className="bg-white hover:bg-slate-100 text-slate-900 px-10 py-4 rounded-full font-bold text-lg transition-all shadow-xl flex items-center justify-center">
-              <PhoneCall className="mr-2 w-5 h-5" /> (303) 555-0123
+            <a href="tel:3035550123" className="bg-white hover:bg-slate-100 text-slate-900 px-12 py-5 rounded-full font-black text-xl transition-all shadow-2xl flex items-center justify-center uppercase tracking-tighter">
+              <PhoneCall className="mr-3 w-6 h-6" /> Dispatch
             </a>
           </div>
         </div>
       </header>
 
-      {/* --- THE FLEET --- */}
-      <section className="py-20 px-6 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
-          <div>
-            <h2 className="text-blue-600 font-bold tracking-widest uppercase text-sm mb-2 italic">Our Assets</h2>
-            <h3 className="text-4xl font-black text-slate-900 uppercase">The Professional Fleet</h3>
-          </div>
-          <p className="text-slate-500 max-w-md mt-4 md:mt-0">
-            Maintaining a premium fleet of 6 luxury Suburbans and our high-capacity Transit Van.
-          </p>
+      {/* --- FLEET SECTION --- */}
+      <section className="py-24 px-6 max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-blue-600 font-black tracking-[0.2em] uppercase text-sm mb-3">Professional Assets</h2>
+          <h3 className="text-5xl font-black text-slate-900 uppercase italic">The 2026 Fleet</h3>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Suburban Card - Using suburban123.jpg */}
-          <div className="group overflow-hidden rounded-3xl border border-slate-200 shadow-sm hover:shadow-2xl transition-all">
-            <div className="h-80 overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Suburban Card - suburban123.jpg */}
+          <div className="group overflow-hidden rounded-[2rem] border-2 border-slate-100 shadow-xl hover:border-blue-500 transition-all duration-500">
+            <div className="h-[400px] overflow-hidden bg-slate-200">
               <img 
                 src="/suburban123.jpg" 
                 alt="Luxury Suburban"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
             </div>
-            <div className="p-8">
-              <div className="flex justify-between items-center mb-2">
-                <h4 className="text-2xl font-bold uppercase">Luxury Suburbans</h4>
-                <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold uppercase">6 Available</span>
+            <div className="p-10 bg-white">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h4 className="text-3xl font-black uppercase italic tracking-tighter">Luxury Suburbans</h4>
+                  <p className="text-slate-500 font-bold uppercase text-xs tracking-widest mt-1">Mountain Spec AWD</p>
+                </div>
+                <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-xs font-black uppercase">6 Units</span>
               </div>
-              <p className="text-slate-600 mb-6 font-medium">Perfect for families and small groups heading to ski resorts or airport transfers.</p>
-              <div className="flex items-center text-slate-400 gap-4 text-sm font-bold uppercase">
-                <span className="flex items-center gap-1"><Users className="w-4 h-4" /> 6-7 Pax</span>
-                <span className="flex items-center gap-1"><ShieldCheck className="w-4 h-4" /> 4WD / Winter Tires</span>
+              <p className="text-slate-600 mb-8 text-lg leading-relaxed">The standard for Colorado mountain travel. Perfect for small groups and ski resort transfers.</p>
+              <div className="flex flex-wrap gap-4">
+                <div className="bg-slate-50 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-black uppercase text-slate-500">
+                  <Users className="w-4 h-4" /> 7 Pax
+                </div>
+                <div className="bg-slate-50 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-black uppercase text-slate-500">
+                  <ShieldCheck className="w-4 h-4" /> Winter Rated
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Van Card - Using shuttle123.jpg */}
-          <div className="group overflow-hidden rounded-3xl border border-slate-200 shadow-sm hover:shadow-2xl transition-all">
-            <div className="h-80 overflow-hidden">
+          {/* Transit Van - shuttle123.jpg */}
+          <div className="group overflow-hidden rounded-[2rem] border-2 border-slate-100 shadow-xl hover:border-blue-500 transition-all duration-500">
+            <div className="h-[400px] overflow-hidden bg-slate-200">
               <img 
                 src="/shuttle123.jpg" 
                 alt="Transit Van"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
             </div>
-            <div className="p-8">
-              <div className="flex justify-between items-center mb-2">
-                <h4 className="text-2xl font-bold uppercase">Transit Shuttle Van</h4>
-                <span className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold uppercase">1 Available</span>
+            <div className="p-10 bg-white">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h4 className="text-3xl font-black uppercase italic tracking-tighter">High-Roof Transit</h4>
+                  <p className="text-slate-500 font-bold uppercase text-xs tracking-widest mt-1">Group Logistics</p>
+                </div>
+                <span className="bg-slate-900 text-white px-4 py-1 rounded-full text-xs font-black uppercase">1 Unit</span>
               </div>
-              <p className="text-slate-600 mb-6 font-medium">Ideal for large groups, weddings, and heavy luggage requirements.</p>
-              <div className="flex items-center text-slate-400 gap-4 text-sm font-bold uppercase">
-                <span className="flex items-center gap-1"><Users className="w-4 h-4" /> 14 Pax</span>
-                <span className="flex items-center gap-1"><Star className="w-4 h-4" /> High Roof</span>
+              <p className="text-slate-600 mb-8 text-lg leading-relaxed">Maximum capacity for large groups, wedding parties, and corporate events.</p>
+              <div className="flex flex-wrap gap-4">
+                <div className="bg-slate-50 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-black uppercase text-slate-500">
+                  <Users className="w-4 h-4" /> 14 Pax
+                </div>
+                <div className="bg-slate-50 px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-black uppercase text-slate-500">
+                  <Star className="w-4 h-4" /> Full Standing Room
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* --- ARTIST LINEUP / RED ROCKS SECTION --- */}
-      <section className="bg-slate-900 py-24 px-6 text-white border-y border-blue-900">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-blue-500 font-bold tracking-widest uppercase text-sm mb-4">Upcoming Logistics</h2>
-            <h3 className="text-5xl font-black uppercase italic">Party at Red Rocks</h3>
-            <p className="text-slate-400 mt-4 max-w-xl mx-auto">Book your seat for the biggest shows of the season. Direct door-to-door shuttle service.</p>
+      {/* --- RED ROCKS LINEUP SECTION --- */}
+      <section className="bg-slate-950 py-32 px-6 text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-600/5 blur-[120px] rounded-full -translate-y-1/2" />
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+            <div className="max-w-2xl">
+              <h3 className="text-blue-500 font-black tracking-widest uppercase text-sm mb-4">Live Event Logistics</h3>
+              <h4 className="text-6xl font-black uppercase italic tracking-tighter leading-none mb-6">Party at <br/>Red Rocks</h4>
+              <p className="text-slate-400 text-xl font-medium">Don't settle for shared shuttles. Experience the gold standard in concert transport with DCC.</p>
+            </div>
+            <button className="border-2 border-white/20 hover:border-blue-500 hover:text-blue-500 px-8 py-4 rounded-full font-black uppercase text-sm transition-all">
+              View All Shows
+            </button>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {/* These assume you have artist1.jpg, artist2.jpg, etc in your /public folder */}
-            <div className="group">
-              <div className="aspect-[3/4] rounded-2xl overflow-hidden mb-4 border border-slate-700">
-                <img src="/artist1.jpg" alt="Artist" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
+            {/* If you add artist images to public folder, replace /hi.jpg with /artist1.jpg etc */}
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="group cursor-pointer">
+                <div className="aspect-[3/4] rounded-3xl overflow-hidden mb-6 border border-white/10 group-hover:border-blue-500 transition-all duration-500">
+                  <img 
+                    src="/hi.jpg" 
+                    className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
+                    alt="Event"
+                  />
+                </div>
+                <h5 className="font-black uppercase tracking-tighter text-lg">Upcoming Event {i}</h5>
+                <p className="text-blue-500 font-bold text-xs uppercase tracking-widest mt-1">Reservations Open</p>
               </div>
-              <p className="text-center font-bold uppercase tracking-tighter">Season Opener</p>
-            </div>
-            <div className="group">
-              <div className="aspect-[3/4] rounded-2xl overflow-hidden mb-4 border border-slate-700">
-                <img src="/artist2.jpg" alt="Artist" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
-              </div>
-              <p className="text-center font-bold uppercase tracking-tighter">Electronic Series</p>
-            </div>
-            <div className="group">
-              <div className="aspect-[3/4] rounded-2xl overflow-hidden mb-4 border border-slate-700">
-                <img src="/artist3.jpg" alt="Artist" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
-              </div>
-              <p className="text-center font-bold uppercase tracking-tighter">Rock & Soul</p>
-            </div>
-            <div className="group">
-              <div className="aspect-[3/4] rounded-2xl overflow-hidden mb-4 border border-slate-700">
-                <img src="/artist4.jpg" alt="Artist" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
-              </div>
-              <p className="text-center font-bold uppercase tracking-tighter">Summer Finale</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* --- SERVICES GRID --- */}
-      <section className="bg-slate-50 py-24 px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="bg-white p-10 rounded-3xl shadow-sm border border-slate-100">
-              <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
-                <Snowflake className="w-8 h-8" />
-              </div>
-              <h4 className="text-2xl font-black uppercase mb-4 tracking-tighter">Ski Resorts</h4>
-              <p className="text-slate-600 mb-6">Breckenridge, Vail, and Summit County specialists. Experienced mountain drivers only.</p>
+      {/* --- QUICK CONTACT FOOTER --- */}
+      <footer className="bg-white py-16 border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <p className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-2">Fleet Summary</p>
+                <p className="text-slate-900 font-black text-2xl uppercase italic tracking-tighter">
+                    6 Suburbans • 1 Transit Van • 24/7 Dispatch
+                </p>
             </div>
-
-            <div className="bg-white p-10 rounded-3xl shadow-sm border border-slate-100">
-              <div className="w-16 h-16 bg-slate-100 text-slate-600 rounded-2xl flex items-center justify-center mb-6">
-                <Plane className="w-8 h-8" />
-              </div>
-              <h4 className="text-2xl font-black uppercase mb-4 tracking-tighter">DIA Airport</h4>
-              <p className="text-slate-600 mb-6">Skip the wait. Direct door-to-door private service to and from Denver International.</p>
-            </div>
-
-            <div className="bg-white p-10 rounded-3xl shadow-sm border border-slate-100">
-              <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
-                <MapPin className="w-8 h-8" />
-              </div>
-              <h4 className="text-2xl font-black uppercase mb-4 tracking-tighter">Custom Routes</h4>
-              <p className="text-slate-600 mb-6">Weddings, corporate events, and private mountain tours tailored to your group.</p>
+            <div className="text-right flex flex-col items-end">
+                <p className="text-slate-400 text-xs font-bold mb-4 uppercase">© {new Date().getFullYear()} Destination Command Center</p>
+                <div className="flex gap-4">
+                    <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center"><Snowflake className="w-5 h-5 text-slate-400" /></div>
+                    <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center"><Music className="w-5 h-5 text-slate-400" /></div>
+                    <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center"><Plane className="w-5 h-5 text-slate-400" /></div>
+                </div>
             </div>
         </div>
-      </section>
-
-      {/* --- FOOTER --- */}
-      <footer className="bg-white py-12 border-t border-slate-100 text-center text-slate-500 text-xs font-bold uppercase tracking-widest">
-        <p>© {new Date().getFullYear()} Destination Command Center | Fleet: 6 Suburbans, 1 Van</p>
       </footer>
     </div>
   );
