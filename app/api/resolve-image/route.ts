@@ -1,29 +1,40 @@
-import { NextResponse } from 'next/server';
+export const runtime = "nodejs";
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const artist = searchParams.get('artist');
+import { NextResponse } from "next/server";
 
-  if (!artist) return NextResponse.json({ url: null });
+type SeatGeekPerformer = {
+  image?: string;
+};
 
-  try {
-    // SYSTEM 1: SEATGEEK
-    const sgRes = await fetch(`https://api.seatgeek.com/2/performers?q=${encodeURIComponent(artist)}&client_id=${process.env.seatgeekclientid}`);
-    const sgData = await sgRes.json();
-    if (sgData.performers?.[0]?.image) {
-      return NextResponse.json({ url: sgData.performers[0].image });
-    }
+type SeatGeekResponse = {
+  performers?: SeatGeekPerformer[];
+};
 
-    // SYSTEM 2: BANDSINTOWN
-    const bitRes = await fetch(`https://rest.bandsintown.com/artists/${encodeURIComponent(artist)}?app_id=${process.env.bandsintownid}`);
-    const bitData = await bitRes.json();
-    if (bitData.image_url) {
-      return NextResponse.json({ url: bitData.image_url });
-    }
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const artist = searchParams.get("artist");
 
-    // FALLBACK
-    return NextResponse.json({ url: `https://source.unsplash.com/featured/800x450/?${encodeURIComponent(artist)},concert` });
-  } catch (err) {
-    return NextResponse.json({ url: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400' });
+  if (!artist) {
+    return new NextResponse("Missing artist", { status: 400 });
   }
+
+  const sgRes = await fetch(
+    `https://api.seatgeek.com/2/performers?q=${encodeURIComponent(
+      artist
+    )}&client_id=${process.env.seatgeekclientid}`
+  );
+
+  if (!sgRes.ok) {
+    return new NextResponse("SeatGeek error", { status: 502 });
+  }
+
+  const sgData = (await sgRes.json()) as SeatGeekResponse;
+
+  const image = sgData.performers?.[0]?.image;
+
+  if (image) {
+    return NextResponse.json({ url: image });
+  }
+
+  return new NextResponse("Image not found", { status: 404 });
 }

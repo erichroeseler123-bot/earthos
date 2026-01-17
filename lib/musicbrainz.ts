@@ -1,38 +1,61 @@
-// lib/musicbrainz.ts
+export const runtime = "nodejs";
+
 const BASE_URL = "https://musicbrainz.org/ws/2";
 
-// ✅ ADD 'export' TO EVERY FUNCTION
-export async function fetchArtistIntel(artistName: string) {
+type ArtistSearchResponse = {
+  artists: {
+    id: string;
+    name: string;
+  }[];
+};
+
+type ReleaseGroup = {
+  title: string;
+  "primary-type"?: string;
+};
+
+type ArtistDetailsResponse = {
+  "release-groups"?: ReleaseGroup[];
+};
+
+export async function fetchMusicBrainzArtist(artistName: string) {
   try {
-    const res = await fetch(`${BASE_URL}/artist/?query=artist:${artistName}&fmt=json&limit=1`, {
-      headers: { 'User-Agent': 'PARR-Command-Center/1.5.0 (erich@partyatredrocks.com)' }
-    });
-    const data = await res.json();
-    const artist = data.artists[0];
+    const res = await fetch(
+      `${BASE_URL}/artist/?query=${encodeURIComponent(artistName)}&fmt=json`,
+      {
+        headers: {
+          "User-Agent": "PartyAtRedRocks/1.0 (contact@partyatredrocks.com)",
+        },
+        cache: "force-cache",
+      }
+    );
+
+    if (!res.ok) return null;
+
+    const data = (await res.json()) as ArtistSearchResponse;
+
+    const artist = data.artists?.[0];
     if (!artist) return null;
 
-    const relRes = await fetch(`${BASE_URL}/artist/${artist.id}?inc=url-rels+release-groups&fmt=json`, {
-      headers: { 'User-Agent': 'PARR-Command-Center/1.5.0' }
-    });
-    const relData = await relRes.json();
-    
-    const spotifyRel = relData.relations?.find((r: any) => r.type === 'streaming music');
-    const spotifyId = spotifyRel?.url?.resource?.split('/').pop() || null;
+    const relRes = await fetch(
+      `${BASE_URL}/artist/${artist.id}?inc=release-groups&fmt=json`,
+      {
+        headers: {
+          "User-Agent": "PartyAtRedRocks/1.0 (contact@partyatredrocks.com)",
+        },
+        cache: "force-cache",
+      }
+    );
+
+    if (!relRes.ok) return { artist, releases: [] };
+
+    const relData = (await relRes.json()) as ArtistDetailsResponse;
 
     return {
-      name: artist.name,
-      origin: artist.area?.name || "Global Node",
-      spotifyId,
-      albums: relData['release-groups']?.map((rg: any) => ({
-        title: rg.title,
-        coverUrl: `https://coverartarchive.org/release-group/${rg.id}/front-500`
-      })).slice(0, 12) || []
+      artist,
+      releases: relData["release-groups"] ?? [],
     };
-  } catch (err) {
+  } catch {
     return null;
   }
-}
-
-export async function fetchArtistNews(artistName: string) {
-  // ... News logic here
 }

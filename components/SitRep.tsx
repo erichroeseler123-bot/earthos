@@ -1,16 +1,44 @@
+export const runtime = "nodejs";
+
+type CurrentWeather = {
+  temperature: number;
+  windspeed: number;
+};
+
+type WeatherResponse = {
+  current_weather: CurrentWeather;
+};
+
 export default async function SitRep() {
-  // Fetches live Morrison/Red Rocks weather data
-  const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=39.6654&longitude=-105.2057&current_weather=true&temperature_unit=fahrenheit", { next: { revalidate: 600 } });
-  const data = await res.json();
+  const res = await fetch(
+    "https://api.open-meteo.com/v1/forecast?latitude=39.6654&longitude=-105.2057&current_weather=true&temperature_unit=fahrenheit",
+    { next: { revalidate: 600 } }
+  );
+
+  if (!res.ok) {
+    return (
+      <div className="border border-zinc-800 p-4 bg-zinc-950/50 backdrop-blur-sm text-zinc-400">
+        Weather unavailable
+      </div>
+    );
+  }
+
+  const data = (await res.json()) as WeatherResponse;
   const { temperature, windspeed } = data.current_weather;
 
   return (
     <div className="border border-zinc-800 p-4 bg-zinc-950/50 backdrop-blur-sm">
-      <p className="text-[10px] text-blue-500 font-mono mb-2 uppercase tracking-widest">// MORRISON_SITREP</p>
-      <div className="flex items-baseline gap-2">
-        <span className="text-3xl font-black text-white">{Math.round(temperature)}°F</span>
+      <div className="text-xs uppercase tracking-widest text-zinc-400 mb-2">
+        Situation Report
       </div>
-      <p className="text-[10px] text-zinc-500 font-mono mt-1 uppercase">WIND: {windspeed} MPH</p>
+      <div className="flex justify-between text-sm">
+        <span>Temp</span>
+        <span>{temperature}°F</span>
+      </div>
+      <div className="flex justify-between text-sm">
+        <span>Wind</span>
+        <span>{windspeed} mph</span>
+      </div>
     </div>
   );
 }

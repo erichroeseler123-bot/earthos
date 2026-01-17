@@ -1,26 +1,34 @@
-/**
- * PARR v1.2 Geocoding Engine
- * Resolves text queries into [lng, lat] coordinates via Mapbox API.
- */
+export const runtime = "nodejs";
 
-export async function geocode(query: string) {
-  const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-  if (!token) throw new Error("Missing Mapbox Token");
+type GeocodeFeature = {
+  center: [number, number];
+};
 
-  const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-    query
-  )}.json?access_token=${token}&limit=1`;
+type GeocodeResponse = {
+  features: GeocodeFeature[];
+};
 
+export async function geocode(
+  query: string
+): Promise<[number, number] | null> {
   try {
-    const response = await fetch(url);
-    const data = await response.json();
-    
+    const response = await fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+        query
+      )}.json?access_token=${process.env.MAPBOX_TOKEN}`,
+      { cache: "force-cache" }
+    );
+
+    if (!response.ok) return null;
+
+    const data = (await response.json()) as GeocodeResponse;
+
     if (data.features && data.features.length > 0) {
-      return data.features[0].center as [number, number];
+      return data.features[0].center;
     }
+
     return null;
-  } catch (error) {
-    console.error("Geocoding failure:", error);
+  } catch {
     return null;
   }
 }
