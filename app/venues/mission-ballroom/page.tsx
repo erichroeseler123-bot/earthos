@@ -1,98 +1,102 @@
 // app/venues/mission-ballroom/page.tsx
 
-import Link from "next/link";
+import { fetchMissionBallroomShows } from "@/lib/seatgeek";
 
 export const metadata = {
   title: "Mission Ballroom – Denver Concert Venue",
   description:
-    "Mission Ballroom is Denver’s premier indoor concert venue. View upcoming shows, venue details, and transportation options.",
+    "Mission Ballroom is Denver’s flagship indoor concert venue, known for immersive sound, unobstructed sightlines, and high-capacity shows.",
 };
 
-export default function MissionBallroomPage() {
+export default async function MissionBallroomPage() {
+  const shows = await fetchMissionBallroomShows();
+
   return (
     <main className="min-h-screen bg-black text-white px-6 py-24">
-      <div className="max-w-6xl mx-auto space-y-16">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <h1 className="text-5xl md:text-6xl font-mono mb-6">
+          Mission Ballroom
+        </h1>
 
-        {/* HERO */}
-        <section className="space-y-4">
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight">
-            Mission Ballroom
-          </h1>
-          <p className="text-zinc-400 max-w-2xl">
-            Denver’s flagship indoor concert venue, designed for immersive sound,
-            unobstructed sightlines, and high-capacity shows.
-          </p>
-        </section>
+        <p className="text-zinc-400 max-w-2xl mb-12">
+          Denver’s flagship indoor concert venue, designed for immersive sound,
+          unobstructed sightlines, and high-capacity shows.
+        </p>
 
-        {/* VENUE INTEL */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="border border-zinc-800 p-6 bg-zinc-950/50">
-            <h3 className="text-sm uppercase tracking-widest text-zinc-400">
-              Location
-            </h3>
-            <p className="mt-2 font-semibold">
-              4242 Wynkoop St<br />
+        {/* Venue Facts */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          <div className="border border-zinc-800 p-4">
+            <div className="text-xs text-zinc-500 mb-2">LOCATION</div>
+            <div className="font-mono">
+              4242 Wynkoop St
+              <br />
               Denver, CO 80216
+            </div>
+          </div>
+
+          <div className="border border-zinc-800 p-4">
+            <div className="text-xs text-zinc-500 mb-2">CAPACITY</div>
+            <div className="font-mono">~3,950 guests</div>
+          </div>
+
+          <div className="border border-zinc-800 p-4">
+            <div className="text-xs text-zinc-500 mb-2">VENUE TYPE</div>
+            <div className="font-mono">Indoor / General Admission</div>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <h2 className="text-2xl font-mono mb-6">What do you need?</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+          <div className="border border-zinc-800 p-6">
+            <div className="font-bold mb-2">Upcoming Shows</div>
+            <p className="text-sm text-zinc-400">
+              Browse concerts scheduled at Mission Ballroom.
             </p>
           </div>
 
-          <div className="border border-zinc-800 p-6 bg-zinc-950/50">
-            <h3 className="text-sm uppercase tracking-widest text-zinc-400">
-              Capacity
-            </h3>
-            <p className="mt-2 font-semibold">~3,950 guests</p>
+          <div className="border border-zinc-800 p-6">
+            <div className="font-bold mb-2">Transportation</div>
+            <p className="text-sm text-zinc-400">
+              Plan rides, shuttles, and group transport.
+            </p>
           </div>
 
-          <div className="border border-zinc-800 p-6 bg-zinc-950/50">
-            <h3 className="text-sm uppercase tracking-widest text-zinc-400">
-              Venue Type
-            </h3>
-            <p className="mt-2 font-semibold">Indoor / General Admission</p>
+          <div className="border border-zinc-800 p-6">
+            <div className="font-bold mb-2">Photos & Media</div>
+            <p className="text-sm text-zinc-400">
+              Venue visuals and past show imagery.
+            </p>
           </div>
-        </section>
+        </div>
 
-        {/* ACTIONS */}
-        <section className="space-y-6">
-          <h2 className="text-3xl font-bold">What do you need?</h2>
+        {/* Upcoming Shows */}
+        {shows.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-mono mb-6">Upcoming Shows</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Link
-              href="/shows"
-              className="border border-zinc-800 p-6 hover:bg-zinc-900 transition"
-            >
-              <h3 className="font-bold">Upcoming Shows</h3>
-              <p className="text-zinc-400 text-sm mt-1">
-                Browse concerts scheduled at Mission Ballroom.
-              </p>
-            </Link>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {shows.map((show: any) => (
+                <div
+                  key={show.id}
+                  className="border border-zinc-800 p-4 hover:border-white transition"
+                >
+                  <div className="font-bold">{show.title}</div>
+                  <div className="text-sm text-zinc-400">
+                    {new Date(show.datetime_local).toLocaleDateString()}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
-            <Link
-              href="/shuttles"
-              className="border border-zinc-800 p-6 hover:bg-zinc-900 transition"
-            >
-              <h3 className="font-bold">Transportation</h3>
-              <p className="text-zinc-400 text-sm mt-1">
-                Plan rides, shuttles, and group transport.
-              </p>
-            </Link>
-
-            <Link
-              href="/gallery"
-              className="border border-zinc-800 p-6 hover:bg-zinc-900 transition"
-            >
-              <h3 className="font-bold">Photos & Media</h3>
-              <p className="text-zinc-400 text-sm mt-1">
-                Venue visuals and past show imagery.
-              </p>
-            </Link>
-          </div>
-        </section>
-
-        {/* FOOTER NOTE */}
-        <section className="pt-12 border-t border-zinc-800 text-zinc-500 text-sm">
+        {/* Footer */}
+        <div className="mt-24 text-xs text-zinc-600">
           This venue page is part of the Party at Red Rocks & DCC network.
-        </section>
-
+        </div>
       </div>
     </main>
   );
