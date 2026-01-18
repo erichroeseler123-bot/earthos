@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import './globals.css';
 import MainNav from '@/components/MainNav';
 
@@ -14,6 +15,7 @@ export default function RootLayout({
         {/* Page content offset for fixed nav */}
         <div className="pt-20">
           {children}
+<Footer />
         </div>
       </body>
     </html>
