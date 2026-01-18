@@ -1,3 +1,5 @@
+import { fetchJSON } from "@/lib/safeFetch";
+
 type OpenMeteoResponse = {
   current_weather: {
     temperature: number;
@@ -8,14 +10,10 @@ type OpenMeteoResponse = {
 
 export async function getWeather() {
   try {
-    const res = await fetch(
+    const data = await fetchJSON<OpenMeteoResponse>(
       "https://api.open-meteo.com/v1/forecast?latitude=39.6654&longitude=-105.2057&current_weather=true&temperature_unit=fahrenheit",
       { next: { revalidate: 600 } }
     );
-
-    if (!res.ok) return null;
-
-    const data = (await res.json()) as OpenMeteoResponse;
 
     return {
       current: {
