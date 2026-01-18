@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 type Params = { slug: string };
 
 export default async function VenuePage({ params }: { params: Params }) {
-  const venue = VENUES[params.slug as keyof typeof VENUES];
+const venue = venues[params.slug as keyof typeof venues];
   if (!venue) notFound();
 
   const events = await fetchSeatGeekEventsByVenue(venue.seatgeekId);
