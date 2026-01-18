@@ -1,27 +1,36 @@
 export const VENUES = {
   "mission-ballroom": {
     name: "Mission Ballroom",
-    seatgeekId: 48254,
-    city: "Denver, CO",
+    city: "Denver",
+    state: "CO",
+    seatgeekId: 651,
   },
+
   "ogden-theatre": {
     name: "Ogden Theatre",
-    seatgeekId: 2449,
-    city: "Denver, CO",
+    city: "Denver",
+    state: "CO",
+    seatgeekId: 244,
   },
-  "mishawaka": {
-    name: "The Mishawaka",
-    seatgeekId: 14887,
-    city: "Bellvue, CO",
-  },
-  "dillon-amphitheater": {
-    name: "Dillon Amphitheater",
-    seatgeekId: 12063,
-    city: "Dillon, CO",
-  },
+
   "ford-amphitheater": {
     name: "Ford Amphitheater",
-    seatgeekId: 16404,
-    city: "Colorado Springs, CO",
-  }
+    city: "Colorado Springs",
+    state: "CO",
+    seatgeekId: 8892,
+  },
+
+  "dillon-amphitheater": {
+    name: "Dillon Amphitheater",
+    city: "Dillon",
+    state: "CO",
+    seatgeekId: 1589,
+  },
+
+  "mishawaka-amphitheatre": {
+    name: "Mishawaka Amphitheatre",
+    city: "Bellvue",
+    state: "CO",
+    seatgeekId: 324,
+  },
 } as const;
