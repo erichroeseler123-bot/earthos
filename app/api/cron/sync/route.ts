@@ -1,19 +1,22 @@
 import { NextResponse } from "next/server";
 import { put, list, del, head } from "@vercel/blob";
-import { venues } from "@/data/venues";
 import { geminiEnrichArtist } from "@/lib/gemini";
 
 const DAYS_PAST = 90;
 const DAYS_FUTURE = 90;
 
-function todayISO() {
-  return new Date().toISOString().slice(0, 10);
+/* -----------------------------
+   Utility helpers
+------------------------------ */
+
+function isoDate(d: Date) {
+  return d.toISOString().slice(0, 10);
 }
 
 function daysFromNow(days: number) {
   const d = new Date();
   d.setDate(d.getDate() + days);
-  return d.toISOString().slice(0, 10);
+  return isoDate(d);
 }
 
 function slugify(str: string) {
@@ -23,30 +26,35 @@ function slugify(str: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-/**
- * 🚨 IMPORTANT
- * This route MUST be protected with:
- * - Vercel Cron auth
- * - Or a secret header check
- */
-export async function GET() {
-  const NOW = todayISO();
+/* -----------------------------
+   CRON ENTRYPOINT
+------------------------------ */
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const dryRun = searchParams.get("dryRun") === "true";
+
+  const NOW = isoDate(new Date());
   const WINDOW_START = daysFromNow(-DAYS_PAST);
   const WINDOW_END = daysFromNow(DAYS_FUTURE);
 
+  console.log("CRON SYNC START", {
+    dryRun,
+    window: `${WINDOW_START} → ${WINDOW_END}`,
+  });
+
   try {
-    // ─────────────────────────────
-    // 1️⃣ PULL: Fetch upcoming shows
-    // ─────────────────────────────
-    // NOTE: Replace this with SeatGeek / Ticketmaster calls
-    // This mock represents "normalized" show data
+    /* -----------------------------
+       1️⃣ PULL SHOWS (MOCK)
+       Replace later with SeatGeek / TM
+    ------------------------------ */
     const fetchedShows = await fetchUpcomingShowsMock();
 
-    // ─────────────────────────────
-    // 2️⃣ SAVE SHOW FILES
-    // ─────────────────────────────
     const seenArtistSlugs = new Set<string>();
 
+    /* -----------------------------
+       2️⃣ SAVE SHOW FILES
+    ------------------------------ */
     for (const show of fetchedShows) {
       if (show.date < WINDOW_START || show.date > WINDOW_END) continue;
 
@@ -57,76 +65,87 @@ export async function GET() {
         seenArtistSlugs.add(artist.slug);
       }
 
-      await put(
-        showPath,
-        JSON.stringify(
-          {
-            ...show,
-            id: showId,
-            status: show.date < NOW ? "past" : "upcoming",
-            captured_at: new Date().toISOString(),
-            last_synced: new Date().toISOString(),
-          },
-          null,
-          2
-        ),
-        { access: "public", addRandomSuffix: false }
-      );
+      if (!dryRun) {
+        await put(
+          showPath,
+          JSON.stringify(
+            {
+              ...show,
+              id: showId,
+              status: show.date < NOW ? "past" : "upcoming",
+              captured_at: new Date().toISOString(),
+              last_synced: new Date().toISOString(),
+            },
+            null,
+            2
+          ),
+          { access: "public", addRandomSuffix: false }
+        );
+      }
     }
 
-    // ─────────────────────────────
-    // 3️⃣ ENRICH: Artists (Gemini)
-    // ─────────────────────────────
+    /* -----------------------------
+       3️⃣ ENRICH ARTISTS (GEMINI)
+    ------------------------------ */
     for (const artistSlug of seenArtistSlugs) {
       const artistPath = `artists/${artistSlug}.json`;
 
-      try {
-        await head(artistPath);
-        // File exists → skip
-        continue;
-      } catch {
-        // File does not exist → enrich
+      if (!dryRun) {
+        try {
+          await head(artistPath);
+          continue; // already exists
+        } catch {
+          // does not exist → enrich
+        }
       }
 
       const artistData = await geminiEnrichArtist(artistSlug);
-
       if (!artistData) continue;
 
-      await put(
-        artistPath,
-        JSON.stringify(
-          {
-            ...artistData,
-            slug: artistSlug,
-            captured_at: new Date().toISOString(),
-            last_reviewed: new Date().toISOString(),
-          },
-          null,
-          2
-        ),
-        { access: "public", addRandomSuffix: false }
-      );
-    }
-
-    // ─────────────────────────────
-    // 4️⃣ PURGE: Janitor
-    // ─────────────────────────────
-    const allShows = await list({ prefix: "shows/" });
-
-    for (const file of allShows.blobs) {
-      const match = file.pathname.match(/^shows\/(\d{4}-\d{2}-\d{2})-/);
-      if (!match) continue;
-
-      const showDate = match[1];
-
-      if (showDate < WINDOW_START || showDate > WINDOW_END) {
-        await del(file.pathname);
+      if (!dryRun) {
+        await put(
+          artistPath,
+          JSON.stringify(
+            {
+              ...artistData,
+              slug: artistSlug,
+              captured_at: new Date().toISOString(),
+              last_reviewed: new Date().toISOString(),
+            },
+            null,
+            2
+          ),
+          { access: "public", addRandomSuffix: false }
+        );
       }
     }
 
+    /* -----------------------------
+       4️⃣ PURGE OLD SHOWS
+    ------------------------------ */
+    if (!dryRun) {
+      const allShows = await list({ prefix: "shows/" });
+
+      for (const file of allShows.blobs) {
+        const match = file.pathname.match(/^shows\/(\d{4}-\d{2}-\d{2})-/);
+        if (!match) continue;
+
+        const showDate = match[1];
+        if (showDate < WINDOW_START || showDate > WINDOW_END) {
+          await del(file.pathname);
+        }
+      }
+    }
+
+    /* -----------------------------
+       DONE
+    ------------------------------ */
     return NextResponse.json({
       ok: true,
-      message: "Midnight sync complete",
+      dryRun,
+      message: dryRun
+        ? "Midnight sync complete (dry run)"
+        : "Midnight sync complete",
       window: `${WINDOW_START} → ${WINDOW_END}`,
     });
   } catch (err: any) {
@@ -138,9 +157,10 @@ export async function GET() {
   }
 }
 
-/**
- * 🔧 MOCK – Replace with SeatGeek/Ticketmaster
- */
+/* -----------------------------
+   MOCK SHOW FETCHER
+   Replace later
+------------------------------ */
 async function fetchUpcomingShowsMock() {
   return [
     {
@@ -154,9 +174,7 @@ async function fetchUpcomingShowsMock() {
         city: "Morrison",
         state: "CO",
       },
-      artists: [
-        { slug: "crankdat", name: "Crankdat" }
-      ],
+      artists: [{ slug: "crankdat", name: "Crankdat" }],
       intelligence: {
         vibe: "party",
         shuttle_urgency: "high",
