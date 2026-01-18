@@ -1,5 +1,5 @@
-import "./globals.css";
-import { MapProvider } from "./context/MapContext";
+import './globals.css';
+import MainNav from '@/components/MainNav';
 
 export default function RootLayout({
   children,
@@ -8,8 +8,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-black text-white antialiased m-0 p-0">
-        <MapProvider>{children}</MapProvider>
+      <body className="bg-black text-white">
+        <MainNav />
+
+        {/* Page content offset for fixed nav */}
+        <div className="pt-20">
+          {children}
+        </div>
       </body>
     </html>
   );
