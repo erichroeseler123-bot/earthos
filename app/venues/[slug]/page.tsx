@@ -1,4 +1,4 @@
-import { VENUES } from "@/data/venues";
+import { venues } from "@/data/venues";
 import { fetchSeatGeekEventsByVenue } from "@/lib/seatgeek";
 import VenueEventsGrid from "@/components/VenueEventsGrid";
 import { notFound } from "next/navigation";
