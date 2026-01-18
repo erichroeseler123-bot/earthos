@@ -3,16 +3,19 @@ import { venues } from "@/data/venues";
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 
-export default function VenuePage(props: any) {
-  const slug = props?.params?.slug;
+export default function VenuePage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const slug = params.slug;
+  const venue = (venues as any)[slug];
 
-  const venue = slug ? (venues as any)[slug] : null;
-
-  if (!slug || !venue) {
+  if (!venue) {
     return (
       <main style={{ padding: 24, fontFamily: "monospace" }}>
         <h1>VENUE NOT FOUND</h1>
-        <pre>slug: {String(slug)}</pre>
+        <pre>slug: {slug}</pre>
         <pre>known_slugs: {Object.keys(venues).join(", ")}</pre>
       </main>
     );
