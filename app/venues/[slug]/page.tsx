@@ -3,16 +3,22 @@ import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
+/**
+ * THIS IS THE MISSING PIECE
+ * Without this, params may be {}
+ */
+export async function generateStaticParams() {
+  return Object.keys(venues).map((slug) => ({
+    slug,
+  }));
+}
+
 export default async function VenuePage({
   params,
 }: {
   params: { slug: string };
 }) {
-  const slug = params?.slug;
-
-  if (!slug) notFound();
-
-  const venue = venues[slug as keyof typeof venues];
+  const venue = venues[params.slug as keyof typeof venues];
 
   if (!venue) notFound();
 
