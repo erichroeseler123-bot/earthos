@@ -1,28 +1,27 @@
 export const VENUES = {
-  "ford-amphitheater": {
-    name: "Ford Amphitheater",
-    address: "95 Spectrum Loop, Colorado Springs, CO 80921",
-    capacity: "~8,000",
-    type: "Outdoor Amphitheatre",
-    seatgeekQuery: "Ford Amphitheater Colorado Springs",
-    shuttle: true,
+  "mission-ballroom": {
+    name: "Mission Ballroom",
+    seatgeekId: 48254,
+    city: "Denver, CO",
   },
-
+  "ogden-theatre": {
+    name: "Ogden Theatre",
+    seatgeekId: 2449,
+    city: "Denver, CO",
+  },
+  "mishawaka": {
+    name: "The Mishawaka",
+    seatgeekId: 14887,
+    city: "Bellvue, CO",
+  },
   "dillon-amphitheater": {
     name: "Dillon Amphitheater",
-    address: "135 W Lodgepole St, Dillon, CO 80435",
-    capacity: "~3,500",
-    type: "Outdoor Amphitheatre",
-    seatgeekQuery: "Dillon Amphitheater",
-    shuttle: true,
+    seatgeekId: 12063,
+    city: "Dillon, CO",
   },
-
-  "mishawaka": {
-    name: "Mishawaka Amphitheatre",
-    address: "13714 Poudre Canyon Rd, Bellvue, CO 80512",
-    capacity: "~800",
-    type: "Outdoor / Riverfront",
-    seatgeekQuery: "Mishawaka Amphitheatre",
-    shuttle: true,
-  },
-};
+  "ford-amphitheater": {
+    name: "Ford Amphitheater",
+    seatgeekId: 16404,
+    city: "Colorado Springs, CO",
+  }
+} as const;
