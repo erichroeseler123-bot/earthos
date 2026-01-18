@@ -10,15 +10,9 @@ export default async function VenuePage({
 }: {
   params: { slug: string };
 }) {
-  console.log("VENUE SLUG:", params.slug);
-  console.log("AVAILABLE SLUGS:", Object.keys(venues));
-
   const venue = venues[params.slug as keyof typeof venues];
 
-  if (!venue) {
-    console.error("❌ VENUE NOT FOUND:", params.slug);
-    notFound();
-  }
+  if (!venue) notFound();
 
   const events = await fetchSeatGeekEventsByVenue(venue.seatgeekId);
 
