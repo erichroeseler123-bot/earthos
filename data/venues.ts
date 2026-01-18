@@ -1,3 +1,4 @@
+export const VENUES = {
   "ford-amphitheater": {
     name: "Ford Amphitheater",
     address: "95 Spectrum Loop, Colorado Springs, CO 80921",
@@ -24,3 +25,4 @@
     seatgeekQuery: "Mishawaka Amphitheatre",
     shuttle: true,
   },
+};
