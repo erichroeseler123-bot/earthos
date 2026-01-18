@@ -3,12 +3,16 @@ import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-export default function VenuePage({
+export default async function VenuePage({
   params,
 }: {
   params: { slug: string };
 }) {
-  const venue = venues[params.slug as keyof typeof venues];
+  const slug = params?.slug;
+
+  if (!slug) notFound();
+
+  const venue = venues[slug as keyof typeof venues];
 
   if (!venue) notFound();
 
