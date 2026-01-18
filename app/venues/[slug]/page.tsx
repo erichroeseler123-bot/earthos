@@ -2,41 +2,21 @@ import { venues } from "@/data/venues";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
-export const dynamicParams = true;
 
 export default function VenuePage({
   params,
 }: {
   params: { slug: string };
 }) {
-  const slug = params?.slug;
+  const venue = venues[params.slug as keyof typeof venues];
 
-  if (!slug) {
-    return (
-      <main style={{ padding: 24, fontFamily: "monospace" }}>
-        <h1>PARAMS NOT INJECTED</h1>
-        <pre>params: {JSON.stringify(params)}</pre>
-      </main>
-    );
-  }
-
-  const venue = (venues as Record<string, any>)[slug];
-
-  if (!venue) {
-    return (
-      <main style={{ padding: 24, fontFamily: "monospace" }}>
-        <h1>VENUE NOT FOUND</h1>
-        <pre>slug: {slug}</pre>
-        <pre>known_slugs: {Object.keys(venues).join(", ")}</pre>
-      </main>
-    );
-  }
+  if (!venue) notFound();
 
   return (
-    <main style={{ padding: 24 }}>
-      <h1>{venue.name}</h1>
-      <p>{venue.city}</p>
-      <p>SeatGeek ID: {venue.seatgeekId}</p>
+    <main className="pt-24 px-6">
+      <h1 className="text-4xl font-black">{venue.name}</h1>
+      <p className="mt-2 text-zinc-400">{venue.city}</p>
+      <p className="mt-4 text-xs">SeatGeek ID: {venue.seatgeekId}</p>
     </main>
   );
 }
