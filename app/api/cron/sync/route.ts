@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
-import { put, list, del, head } from "@vercel/blob";
-import { geminiEnrichArtist } from "@/lib/gemini";
+
+/* =========================================================
+   CONFIG (FROZEN SPEC v1)
+========================================================= */
 
 const DAYS_PAST = 90;
 const DAYS_FUTURE = 90;
 
-/* -----------------------------
-   Utility helpers
------------------------------- */
+/* =========================================================
+   HELPERS
+========================================================= */
 
 function isoDate(d: Date) {
   return d.toISOString().slice(0, 10);
@@ -26,13 +28,30 @@ function slugify(str: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-/* -----------------------------
+/* =========================================================
    CRON ENTRYPOINT
------------------------------- */
+========================================================= */
 
 export async function GET(request: Request) {
+  /* -----------------------------
+     MODE (dryRun allowed always)
+  ------------------------------ */
   const { searchParams } = new URL(request.url);
   const dryRun = searchParams.get("dryRun") === "true";
+
+  /* -----------------------------
+     SECURITY (real runs only)
+  ------------------------------ */
+  const CRON_SECRET = process.env.CRON_SECRET;
+
+  if (!dryRun) {
+    if (
+      !CRON_SECRET ||
+      request.headers.get("x-cron-secret") !== CRON_SECRET
+    ) {
+      return new Response("Unauthorized", { status: 401 });
+    }
+  }
 
   const NOW = isoDate(new Date());
   const WINDOW_START = daysFromNow(-DAYS_PAST);
@@ -45,16 +64,28 @@ export async function GET(request: Request) {
 
   try {
     /* -----------------------------
-       1️⃣ PULL SHOWS (MOCK)
-       Replace later with SeatGeek / TM
+       LAZY IMPORTS (CRITICAL)
     ------------------------------ */
-    const fetchedShows = await fetchUpcomingShowsMock();
+    let put: any,
+      list: any,
+      del: any,
+      head: any,
+      geminiEnrichArtist: any;
 
+    if (!dryRun) {
+      ({ put, list, del, head } = await import("@vercel/blob"));
+      ({ geminiEnrichArtist } = await import("@/lib/gemini"));
+    }
+
+    /* =====================================================
+       1️⃣ INGEST SHOWS (MOCK SOURCE)
+    ====================================================== */
+    const fetchedShows = await fetchUpcomingShowsMock();
     const seenArtistSlugs = new Set<string>();
 
-    /* -----------------------------
-       2️⃣ SAVE SHOW FILES
-    ------------------------------ */
+    /* =====================================================
+       2️⃣ WRITE SHOW FILES
+    ====================================================== */
     for (const show of fetchedShows) {
       if (show.date < WINDOW_START || show.date > WINDOW_END) continue;
 
@@ -84,25 +115,23 @@ export async function GET(request: Request) {
       }
     }
 
-    /* -----------------------------
-       3️⃣ ENRICH ARTISTS (GEMINI)
-    ------------------------------ */
-    for (const artistSlug of seenArtistSlugs) {
-      const artistPath = `artists/${artistSlug}.json`;
+    /* =====================================================
+       3️⃣ ENRICH ARTISTS (AI RUNS ONCE)
+    ====================================================== */
+    if (!dryRun) {
+      for (const artistSlug of seenArtistSlugs) {
+        const artistPath = `artists/${artistSlug}.json`;
 
-      if (!dryRun) {
         try {
           await head(artistPath);
           continue; // already exists
         } catch {
-          // does not exist → enrich
+          // not found → enrich
         }
-      }
 
-      const artistData = await geminiEnrichArtist(artistSlug);
-      if (!artistData) continue;
+        const artistData = await geminiEnrichArtist(artistSlug);
+        if (!artistData) continue;
 
-      if (!dryRun) {
         await put(
           artistPath,
           JSON.stringify(
@@ -120,9 +149,9 @@ export async function GET(request: Request) {
       }
     }
 
-    /* -----------------------------
-       4️⃣ PURGE OLD SHOWS
-    ------------------------------ */
+    /* =====================================================
+       4️⃣ PURGE (SELF-CLEANING WINDOW)
+    ====================================================== */
     if (!dryRun) {
       const allShows = await list({ prefix: "shows/" });
 
@@ -137,9 +166,9 @@ export async function GET(request: Request) {
       }
     }
 
-    /* -----------------------------
+    /* =====================================================
        DONE
-    ------------------------------ */
+    ====================================================== */
     return NextResponse.json({
       ok: true,
       dryRun,
@@ -157,10 +186,9 @@ export async function GET(request: Request) {
   }
 }
 
-/* -----------------------------
-   MOCK SHOW FETCHER
-   Replace later
------------------------------- */
+/* =========================================================
+   MOCK SHOW SOURCE
+========================================================= */
 async function fetchUpcomingShowsMock() {
   return [
     {

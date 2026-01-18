@@ -1,32 +1,35 @@
-import { venues } from "@/data/venues";
+export const dynamicParams = true;
 import { notFound } from "next/navigation";
+import { venues } from "@/data/venues";
 
-export const dynamic = "force-dynamic";
+type Props = {
+  params: Promise<{
+    slug: string;
+  }>;
+};
 
-/**
- * THIS IS THE MISSING PIECE
- * Without this, params may be {}
- */
-export async function generateStaticParams() {
-  return Object.keys(venues).map((slug) => ({
-    slug,
-  }));
-}
+export default async function VenuePage({ params }: Props) {
+  const { slug } = await params;
 
-export default async function VenuePage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const venue = venues[params.slug as keyof typeof venues];
+  const venue = venues[slug as keyof typeof venues];
 
-  if (!venue) notFound();
+  if (!venue) {
+    notFound();
+  }
 
   return (
-    <main className="pt-24 px-6">
-      <h1 className="text-4xl font-black">{venue.name}</h1>
-      <p className="mt-2 text-zinc-400">{venue.city}</p>
-      <p className="mt-4 text-xs">SeatGeek ID: {venue.seatgeekId}</p>
+    <main className="px-6 py-24 max-w-5xl mx-auto text-white">
+      <h1 className="text-5xl font-black mb-4">
+        {venue.name}
+      </h1>
+
+      <p className="text-zinc-400 text-lg mb-8">
+        {venue.city}
+      </p>
+
+      <div className="bg-zinc-900 p-4 rounded text-sm">
+        SeatGeek Venue ID: {venue.seatgeekId}
+      </div>
     </main>
   );
 }
