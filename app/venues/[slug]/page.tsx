@@ -5,15 +5,18 @@ import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-type Params = {
-  slug: string;
-};
+export default async function VenuePage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  console.log("VENUE SLUG:", params.slug);
+  console.log("AVAILABLE SLUGS:", Object.keys(venues));
 
-export default async function VenuePage({ params }: { params: Params }) {
   const venue = venues[params.slug as keyof typeof venues];
 
   if (!venue) {
-    console.error("VENUE NOT FOUND:", params.slug);
+    console.error("❌ VENUE NOT FOUND:", params.slug);
     notFound();
   }
 
