@@ -91,33 +91,33 @@ const UPCOMING_SHOWS = [
    PAGE
 ========================= */
 
-export default function ShuttleHomePage() {
+
+export default function HomePage() {
   const router = useRouter();
-  const handleBooking = () => router.push('/booking');
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans">
 
       {/* ================= HERO ================= */}
-      <header className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+      <header className="relative h-[78vh] flex items-center justify-center overflow-hidden">
         <img
           src="/hero123.jpg"
           alt="Party at Red Rocks"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-slate-950/60" />
+        <div className="absolute inset-0 bg-slate-950/50" />
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center text-white">
-          <h1 className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter leading-none">
+          <h1 className="text-6xl md:text-9xl font-black uppercase italic tracking-tight leading-none">
             Party @ <span className="text-blue-500">Red Rocks</span>
           </h1>
 
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={handleBooking}
+              onClick={() => router.push('/booking')}
               className="bg-blue-600 hover:bg-blue-700 px-10 py-4 rounded-full font-black uppercase tracking-widest shadow-xl transition"
             >
-              Book a Ride
+              Book Red Rocks Shuttle
             </button>
 
             <a
@@ -131,60 +131,64 @@ export default function ShuttleHomePage() {
         </div>
       </header>
 
-      {/* ================= ALL VENUE SHUTTLE ================= */}
-      <section className="-mt-24 relative z-20 px-6">
-        <div className="mx-auto max-w-5xl bg-white rounded-3xl shadow-2xl border border-slate-200 p-10 md:p-14">
-
-          <h2 className="text-3xl md:text-4xl font-black uppercase">
+      {/* ================= ALL-VENUE SHUTTLE OFFER ================= */}
+      <section className="relative z-20 -mt-20 px-6">
+        <div className="mx-auto max-w-5xl bg-white rounded-2xl shadow-2xl border border-slate-200 p-10">
+          <h2 className="text-3xl md:text-4xl font-black uppercase italic">
             All Concert Venue Shuttle
           </h2>
 
-          <p className="mt-2 text-xl font-black text-blue-600">
-            $50 per person · $250 minimum - Round Trip Price
+          <p className="mt-2 text-xl font-bold text-green-600">
+            $50 per person round trip · $250 round-trip minimum
           </p>
 
-          <p className="mt-6 text-lg text-slate-700">
-            Pick-up anywhere in the Denver area and drop-off at any concert venue
-            in the Denver metro or Front Range.
-          </p>
+          <div className="mt-6 grid md:grid-cols-3 gap-6 text-lg">
+            <div className="flex gap-3">
+              <MapPin className="text-blue-600 w-6 h-6" />
+              <span>Pickup anywhere in the Denver metro area</span>
+            </div>
 
-          <p className="mt-4 text-lg text-slate-700">
-            Drink in the vehicle, ride with a designated driver, skip surge pricing,
-            and never wait for an Uber again.
-          </p>
+            <div className="flex gap-3">
+              <Users className="text-blue-600 w-6 h-6" />
+              <span>Two pickup locations within 5 miles</span>
+            </div>
 
-          <p className="mt-4 text-sm text-slate-600">
-            Includes up to two pickup locations within 5 miles of each other.
-            On the return trip, we can stop at a drive-through if you want.
-          </p>
-
-          <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <a
-              href="/book-shuttle"
-              className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-8 py-4 font-black uppercase tracking-widest shadow-lg transition"
-            >
-              Book a Shuttle
-            </a>
-
-            <a
-              href="/venues"
-              className="border-2 border-slate-900 rounded-full px-8 py-4 font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition"
-            >
-              View Venues
-            </a>
+            <div className="flex gap-3">
+              <ShieldCheck className="text-blue-600 w-6 h-6" />
+              <span>Drink in the vehicle · Designated driver</span>
+            </div>
           </div>
 
+          <p className="mt-4 text-slate-600">
+            Skip Uber surge pricing. No waiting. We take you there and bring you home.
+            Optional drive-through stop on the return.
+          </p>
+
+          <div className="mt-8 flex flex-col sm:flex-row gap-4">
+            <button
+              onClick={() => router.push('/book-all-venues')}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-widest rounded-full px-10 py-4 transition"
+            >
+              Book All-Venue Shuttle
+            </button>
+
+            <button
+              onClick={() => router.push('/venues')}
+              className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-black uppercase tracking-widest rounded-full px-10 py-4 transition"
+            >
+              See Venues
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* ================= UPCOMING SHOWS ================= */}
-      <section className="bg-slate-950 text-white py-32 px-6 mt-32">
+      {/* ================= UPCOMING RED ROCKS ================= */}
+      <section className="bg-slate-950 text-white py-28 px-6 mt-24">
         <div className="max-w-4xl mx-auto">
-
-          <h3 className="text-blue-500 font-black tracking-[0.4em] uppercase text-sm italic mb-4">
-            Upcoming Schedule
+          <h3 className="text-blue-500 uppercase tracking-[0.4em] font-black text-sm mb-4 italic">
+            Upcoming Red Rocks
           </h3>
-          <h4 className="text-6xl md:text-7xl font-black uppercase italic tracking-tighter mb-20">
+          <h4 className="text-6xl font-black uppercase italic mb-16">
             Live Logistics
           </h4>
 
@@ -192,41 +196,38 @@ export default function ShuttleHomePage() {
             {UPCOMING_SHOWS.map(show => (
               <div
                 key={show.id}
-                onClick={handleBooking}
-                className="group flex flex-col md:flex-row md:items-center justify-between p-8 rounded-2xl bg-slate-900/50 border border-white/10 hover:border-blue-500 hover:bg-slate-900 transition cursor-pointer"
+                onClick={() => router.push('/booking')}
+                className="group p-8 rounded-2xl bg-slate-900/40 border border-white/5 hover:border-blue-500 hover:bg-slate-900 transition cursor-pointer"
               >
-                <div>
-                  <h5 className="text-2xl md:text-3xl font-black uppercase italic">
-                    {show.artist}
-                  </h5>
-                  <div className="mt-2 flex gap-6 text-xs font-black uppercase tracking-widest text-slate-400">
-                    <span className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-blue-500" />
-                      {show.date}
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-blue-500" />
-                      {show.time}
-                    </span>
-                  </div>
+                <h5 className="text-2xl font-black uppercase italic mb-2">
+                  {show.artist}
+                </h5>
+
+                <div className="flex gap-6 text-xs uppercase tracking-widest text-slate-400">
+                  <span className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-blue-500" />
+                    {show.date}
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-blue-500" />
+                    {show.time}
+                  </span>
                 </div>
 
-                <div className="mt-6 md:mt-0 flex items-center text-blue-500 font-black uppercase tracking-widest text-sm group-hover:text-white transition">
+                <div className="mt-4 text-blue-500 uppercase font-black tracking-widest text-sm flex items-center">
                   Request Transit
                   <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ================= FOOTER ================= */}
-      <footer className="py-12 text-center text-slate-400 text-[10px] font-black uppercase tracking-[0.4em]">
-        © 2026 Party @ Red Rocks · 6 Suburbans · 5 Transit Vans
+      <footer className="py-12 text-center text-xs uppercase tracking-[0.4em] text-slate-400 border-t border-slate-100">
+        © 2026 Party @ Red Rocks · Denver Concert Shuttle Specialists
       </footer>
-
     </div>
   );
 }
