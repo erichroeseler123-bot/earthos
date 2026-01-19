@@ -69,7 +69,7 @@ export async function GET(request: Request) {
        🎤 INGEST (MOCK SHOWS FOR NOW)
        (Replace with Ticketmaster later)
     ───────────────────────────── */
-    for (const venue of venues) {
+for (const venue of Object.values(venues)) {
       const mockShow = {
         id: `${today.toISOString().slice(0, 10)}-${venue.slug}`,
         date: today.toISOString().slice(0, 10),
