@@ -1,11 +1,9 @@
 import React from 'react';
-import EventTicker from '@/components/EventTicker';
 import GlobalSearch from '@/components/GlobalSearch';
 
 export default function ShuttlesPage() {
   return (
     <div className="min-h-screen bg-black text-white font-mono selection:bg-matrix-green/30 w-full pb-20">
-      <EventTicker />
       <main className="p-8 lg:p-12 max-w-7xl mx-auto">
         
         {/* SECTION B: INTEL_HEADER & GLOBAL_SEARCH */}

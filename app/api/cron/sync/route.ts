@@ -1,222 +1,144 @@
 import { NextResponse } from "next/server";
+import { venues } from "@/data/venues";
 
-/* =========================================================
-   CONFIG (FROZEN SPEC v1)
-========================================================= */
-
-const DAYS_PAST = 90;
-const DAYS_FUTURE = 90;
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function isoDate(d: Date) {
-  return d.toISOString().slice(0, 10);
-}
-
-function daysFromNow(days: number) {
-  const d = new Date();
-  d.setDate(d.getDate() + days);
-  return isoDate(d);
-}
-
-function slugify(str: string) {
-  return str
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
-/* =========================================================
-   CRON ENTRYPOINT
-========================================================= */
+/**
+ * Midnight Sync Cron
+ * - Pulls shows (mock for now)
+ * - Enriches artists (Gemini)
+ * - Writes to Vercel Blob
+ * - Enforces 180-day sliding window
+ */
 
 export async function GET(request: Request) {
-  /* -----------------------------
-     MODE (dryRun allowed always)
-  ------------------------------ */
-  const { searchParams } = new URL(request.url);
-  const dryRun = searchParams.get("dryRun") === "true";
-
-  /* -----------------------------
-     SECURITY (real runs only)
-  ------------------------------ */
-  const CRON_SECRET = process.env.CRON_SECRET;
-
-  if (!dryRun) {
-    if (
-      !CRON_SECRET ||
-      request.headers.get("x-cron-secret") !== CRON_SECRET
-    ) {
-      return new Response("Unauthorized", { status: 401 });
-    }
-  }
-
-  const NOW = isoDate(new Date());
-  const WINDOW_START = daysFromNow(-DAYS_PAST);
-  const WINDOW_END = daysFromNow(DAYS_FUTURE);
-
-  console.log("CRON SYNC START", {
-    dryRun,
-    window: `${WINDOW_START} → ${WINDOW_END}`,
-  });
-
   try {
-    /* -----------------------------
-       LAZY IMPORTS (CRITICAL)
-    ------------------------------ */
-    let put: any,
-      list: any,
-      del: any,
-      head: any,
-      geminiEnrichArtist: any;
+    /* ─────────────────────────────
+       🔐 AUTH (HARD GATE)
+    ───────────────────────────── */
+    const headerSecret = request.headers.get("x-cron-secret");
+    const envSecret = process.env.CRON_SECRET;
 
-    if (!dryRun) {
-      ({ put, list, del, head } = await import("@vercel/blob"));
-      ({ geminiEnrichArtist } = await import("@/lib/gemini"));
+    if (!envSecret || headerSecret !== envSecret) {
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    /* =====================================================
-       1️⃣ INGEST SHOWS (MOCK SOURCE)
-    ====================================================== */
-    const fetchedShows = await fetchUpcomingShowsMock();
-    const seenArtistSlugs = new Set<string>();
+    /* ─────────────────────────────
+       🧪 DRY RUN FLAG
+    ───────────────────────────── */
+    const { searchParams } = new URL(request.url);
+    const dryRun = searchParams.get("dryRun") === "true";
 
-    /* =====================================================
-       2️⃣ WRITE SHOW FILES
-    ====================================================== */
-    for (const show of fetchedShows) {
-      if (show.date < WINDOW_START || show.date > WINDOW_END) continue;
+    /* ─────────────────────────────
+       🪟 TIME WINDOW (90 / 90)
+    ───────────────────────────── */
+    const today = new Date();
+    const past = new Date(today);
+    past.setDate(today.getDate() - 90);
 
-      const showId = `${show.date}-${show.venue.slug}-${slugify(show.title)}`;
-      const showPath = `shows/${showId}.json`;
+    const future = new Date(today);
+    future.setDate(today.getDate() + 90);
 
-      for (const artist of show.artists) {
-        seenArtistSlugs.add(artist.slug);
-      }
+    const windowLabel = `${past.toISOString().slice(0, 10)} → ${future
+      .toISOString()
+      .slice(0, 10)}`;
 
-      if (!dryRun) {
-        await put(
-          showPath,
-          JSON.stringify(
-            {
-              ...show,
-              id: showId,
-              status: show.date < NOW ? "past" : "upcoming",
-              captured_at: new Date().toISOString(),
-              last_synced: new Date().toISOString(),
-            },
-            null,
-            2
-          ),
-          { access: "public", addRandomSuffix: false }
-        );
-      }
+    console.log("CRON SYNC START", { dryRun, window: windowLabel });
+
+    /* ─────────────────────────────
+       ⏭️ DRY RUN SHORT CIRCUIT
+    ───────────────────────────── */
+    if (dryRun) {
+      return NextResponse.json({
+        ok: true,
+        dryRun: true,
+        message: "Midnight sync complete (dry run)",
+        window: windowLabel,
+      });
     }
 
-    /* =====================================================
-       3️⃣ ENRICH ARTISTS (AI RUNS ONCE)
-    ====================================================== */
-    if (!dryRun) {
-      for (const artistSlug of seenArtistSlugs) {
-        const artistPath = `artists/${artistSlug}.json`;
+    /* ─────────────────────────────
+       📦 LAZY LOAD HEAVY MODULES
+    ───────────────────────────── */
+    const { put, list, del } = await import("@vercel/blob");
+    const { geminiEnrichArtist } = await import("@/lib/gemini");
 
-        try {
-          await head(artistPath);
-          continue; // already exists
-        } catch {
-          // not found → enrich
-        }
+    let showsWritten = 0;
+    let artistsWritten = 0;
+    let purged = 0;
 
-        const artistData = await geminiEnrichArtist(artistSlug);
-        if (!artistData) continue;
+    /* ─────────────────────────────
+       🎤 INGEST (MOCK SHOWS FOR NOW)
+       (Replace with Ticketmaster later)
+    ───────────────────────────── */
+    for (const venue of venues) {
+      const mockShow = {
+        id: `${today.toISOString().slice(0, 10)}-${venue.slug}`,
+        date: today.toISOString().slice(0, 10),
+        venue: venue.slug,
+        artist: "Example Artist",
+      };
 
-        await put(
-          artistPath,
-          JSON.stringify(
-            {
-              ...artistData,
-              slug: artistSlug,
-              captured_at: new Date().toISOString(),
-              last_reviewed: new Date().toISOString(),
-            },
-            null,
-            2
-          ),
-          { access: "public", addRandomSuffix: false }
-        );
-      }
-    }
+      const showPath = `shows/${mockShow.id}.json`;
 
-    /* =====================================================
-       4️⃣ PURGE (SELF-CLEANING WINDOW)
-    ====================================================== */
-    if (!dryRun) {
-      const allShows = await list({ prefix: "shows/" });
+      await put(showPath, JSON.stringify(mockShow, null, 2), {
+        access: "public",
+        contentType: "application/json",
+      });
 
-      for (const file of allShows.blobs) {
-        const match = file.pathname.match(/^shows\/(\d{4}-\d{2}-\d{2})-/);
-        if (!match) continue;
+      showsWritten++;
 
-        const showDate = match[1];
-        if (showDate < WINDOW_START || showDate > WINDOW_END) {
-          await del(file.pathname);
-        }
+      /* ─────────────────────────────
+         🎵 ARTIST ENRICH (ONCE)
+      ───────────────────────────── */
+      const artistSlug = "example-artist";
+      const artistPath = `artists/${artistSlug}.json`;
+
+      try {
+        await list({ prefix: artistPath });
+      } catch {
+        const artistData = await geminiEnrichArtist("Example Artist");
+
+        await put(artistPath, JSON.stringify(artistData, null, 2), {
+          access: "public",
+          contentType: "application/json",
+        });
+
+        artistsWritten++;
       }
     }
 
-    /* =====================================================
-       DONE
-    ====================================================== */
+    /* ─────────────────────────────
+       🧹 PURGE OLD SHOWS
+    ───────────────────────────── */
+    const allShows = await list({ prefix: "shows/" });
+
+    for (const file of allShows.blobs) {
+      const match = file.pathname.match(/^shows\/(\d{4}-\d{2}-\d{2})-/);
+      if (!match) continue;
+
+      const showDate = new Date(match[1]);
+      if (showDate < past || showDate > future) {
+        await del(file.pathname);
+        purged++;
+      }
+    }
+
+    /* ─────────────────────────────
+       ✅ DONE
+    ───────────────────────────── */
     return NextResponse.json({
       ok: true,
-      dryRun,
-      message: dryRun
-        ? "Midnight sync complete (dry run)"
-        : "Midnight sync complete",
-      window: `${WINDOW_START} → ${WINDOW_END}`,
+      dryRun: false,
+      message: "Midnight sync complete",
+      window: windowLabel,
+      shows_written: showsWritten,
+      artists_written: artistsWritten,
+      purged,
     });
   } catch (err: any) {
     console.error("CRON SYNC ERROR", err);
     return NextResponse.json(
-      { ok: false, error: err.message },
+      { ok: false, error: err?.message || "Unknown error" },
       { status: 500 }
     );
   }
-}
-
-/* =========================================================
-   MOCK SHOW SOURCE
-========================================================= */
-async function fetchUpcomingShowsMock() {
-  return [
-    {
-      title: "Crankdat Live",
-      date: "2026-05-20",
-      time: "18:00",
-      timezone: "America/Denver",
-      venue: {
-        slug: "red-rocks",
-        name: "Red Rocks Amphitheatre",
-        city: "Morrison",
-        state: "CO",
-      },
-      artists: [{ slug: "crankdat", name: "Crankdat" }],
-      intelligence: {
-        vibe: "party",
-        shuttle_urgency: "high",
-        crowd_energy: "high",
-        confidence: "medium",
-      },
-      source: {
-        provider: "seatgeek",
-        provider_id: "123456",
-      },
-      seo: {
-        title: "Crankdat at Red Rocks",
-        description: "Crankdat live at Red Rocks Amphitheatre.",
-      },
-    },
-  ];
 }
