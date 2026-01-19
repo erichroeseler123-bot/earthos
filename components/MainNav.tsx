@@ -1,70 +1,33 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { venues } from '@/data/venues';
-
-const STATIC_NAV = [
-  { href: '/venues', label: 'Venues' },
-  { href: '/shuttles', label: 'Shuttles' },
-  { href: '/gallery', label: 'Gallery' },
-];
 
 export default function MainNav() {
-  const pathname = usePathname();
-
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur">
-      <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+    <nav className="fixed top-0 inset-x-0 z-50 bg-black/90 backdrop-blur border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
-        {/* Brand */}
-        <Link
-          href="/"
-          className="font-black uppercase tracking-widest text-white text-sm"
-        >
-          PARTY AT RED ROCKS
+        {/* LOGO */}
+        <Link href="/" className="text-white font-black uppercase tracking-widest">
+          Party <span className="text-blue-500">@</span> Red Rocks
         </Link>
 
-        {/* Menu */}
-        <div className="flex gap-6 text-xs uppercase tracking-[0.25em]">
-          {/* Static links */}
-          {STATIC_NAV.map(item => {
-            const active = pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={
-                  active
-                    ? 'text-neon-blue font-bold'
-                    : 'text-zinc-400 hover:text-white transition'
-                }
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-
-          {/* Venue links (from canonical registry) */}
-          {Object.entries(venues).map(([slug, venue]) => {
-            const href = `/venues/${slug}`;
-            const active = pathname === href;
-
-            return (
-              <Link
-                key={slug}
-                href={href}
-                className={
-                  active
-                    ? 'text-neon-blue font-bold'
-                    : 'text-zinc-400 hover:text-white transition'
-                }
-              >
-                {venue.name}
-              </Link>
-            );
-          })}
+        {/* PRIMARY NAV */}
+        <div className="hidden md:flex items-center gap-8 text-xs font-black uppercase tracking-widest text-zinc-400">
+          <Link href="/venues" className="hover:text-white transition">
+            Venues
+          </Link>
+          <Link href="/shuttles" className="hover:text-white transition">
+            Shuttles
+          </Link>
+          <Link href="/gallery" className="hover:text-white transition">
+            Gallery
+          </Link>
+          <Link href="/booking" className="hover:text-white transition">
+            Book
+          </Link>
         </div>
+
       </div>
     </nav>
   );
