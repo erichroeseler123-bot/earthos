@@ -1,4 +1,4 @@
-export const dynamicParams = true;
+// app/venues/[slug]/page.tsx
 import { notFound } from "next/navigation";
 import { venues } from "@/data/venues";
 
@@ -9,9 +9,9 @@ type Props = {
 };
 
 export default async function VenuePage({ params }: Props) {
-  const { slug } = await params;
+  const { slug } = await params; // ✅ THIS IS THE FIX
 
-  const venue = venues[slug as keyof typeof venues];
+  const venue = venues[slug];
 
   if (!venue) {
     notFound();
@@ -23,12 +23,22 @@ export default async function VenuePage({ params }: Props) {
         {venue.name}
       </h1>
 
-      <p className="text-zinc-400 text-lg mb-8">
-        {venue.city}
+      <p className="text-zinc-400 text-lg mb-12">
+        {venue.city}, {venue.state}
       </p>
 
-      <div className="bg-zinc-900 p-4 rounded text-sm">
-        SeatGeek Venue ID: {venue.seatgeekId}
+      <div className="border border-zinc-800 p-6 rounded-lg text-zinc-300">
+        <p className="uppercase tracking-widest text-xs text-zinc-500 mb-2">
+          Venue Intelligence
+        </p>
+
+        <ul className="space-y-2">
+          <li><strong>City:</strong> {venue.city}</li>
+          <li><strong>State:</strong> {venue.state}</li>
+          {venue.capacity && (
+            <li><strong>Capacity:</strong> {venue.capacity.toLocaleString()}</li>
+          )}
+        </ul>
       </div>
     </main>
   );
