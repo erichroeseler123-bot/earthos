@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import { venues } from '@/data/venues';
 
-const EXCLUDED = new Set([
+const EXCLUDED_VENUES = [
   'red-rocks-amphitheatre',
-  'ford-amphitheater-colorado-springs',
+  'ford-amphitheater',
   'mishawaka-amphitheatre',
-]);
+  'dillon-amphitheater',
+];
+
 
 export default function VenuesIndexPage() {
   const filteredVenues = Object.values(venues).filter(
