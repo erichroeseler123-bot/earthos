@@ -3,10 +3,15 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import {
+  ShieldCheck,
+  Users,
   PhoneCall,
+  Star,
+  Clock,
+  Ticket,
   ChevronRight,
   Calendar,
-  Clock
+  MapPin
 } from 'lucide-react';
 
 /* =========================
