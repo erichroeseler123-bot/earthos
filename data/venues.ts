@@ -1,13 +1,13 @@
-// data/venues.ts
 // AUTHORITATIVE VENUE REGISTRY — DO NOT DYNAMICALLY GENERATE
+// This file is the single source of truth for venue slugs and metadata.
 
 export type Venue = {
-  slug: string;
-  name: string;
-  city: string;
-  state: string;
-  capacity?: number;
-};
+  slug: string
+  name: string
+  city: string
+  state: string
+  capacity?: number
+}
 
 export const venues: Record<string, Venue> = {
   "red-rocks-amphitheatre": {
@@ -74,20 +74,12 @@ export const venues: Record<string, Venue> = {
     capacity: 1000,
   },
 
-  "fiddler-s-green-amphitheatre": {
-    slug: "fiddler-s-green-amphitheatre",
-    name: "Fiddler’s Green Amphitheatre",
-    city: "Greenwood Village",
-    state: "CO",
-    capacity: 18000,
-  },
-
   "ball-arena": {
     slug: "ball-arena",
     name: "Ball Arena",
     city: "Denver",
     state: "CO",
-    capacity: 20900,
+    capacity: 19999,
   },
 
   "empower-field-at-mile-high": {
@@ -116,7 +108,7 @@ export const venues: Record<string, Venue> = {
 
   "temple-denver": {
     slug: "temple-denver",
-    name: "Temple",
+    name: "Temple Denver",
     city: "Denver",
     state: "CO",
     capacity: 1000,
@@ -124,7 +116,7 @@ export const venues: Record<string, Venue> = {
 
   "the-church-nightclub-denver": {
     slug: "the-church-nightclub-denver",
-    name: "Church Nightclub",
+    name: "The Church Nightclub",
     city: "Denver",
     state: "CO",
     capacity: 700,
@@ -132,18 +124,18 @@ export const venues: Record<string, Venue> = {
 
   "meow-wolf-denver": {
     slug: "meow-wolf-denver",
-    name: "Meow Wolf",
+    name: "Meow Wolf Denver",
     city: "Denver",
     state: "CO",
-    capacity: 3000,
+    capacity: 4000,
   },
 
   "hq-denver": {
     slug: "hq-denver",
-    name: "HQ",
+    name: "HQ Denver",
     city: "Denver",
     state: "CO",
-    capacity: 1000,
+    capacity: 1200,
   },
 
   "larimer-lounge": {
@@ -159,7 +151,7 @@ export const venues: Record<string, Venue> = {
     name: "Globe Hall",
     city: "Denver",
     state: "CO",
-    capacity: 350,
+    capacity: 450,
   },
 
   "fox-theatre-boulder": {
@@ -175,7 +167,7 @@ export const venues: Record<string, Venue> = {
     name: "Boulder Theater",
     city: "Boulder",
     state: "CO",
-    capacity: 850,
+    capacity: 1000,
   },
 
   "ford-amphitheater-colorado-springs": {
@@ -186,6 +178,14 @@ export const venues: Record<string, Venue> = {
     capacity: 8000,
   },
 
+  "mishawaka-amphitheatre": {
+    slug: "mishawaka-amphitheatre",
+    name: "Mishawaka Amphitheatre",
+    city: "Bellvue",
+    state: "CO",
+    capacity: 1200,
+  },
+
   "dillon-amphitheater": {
     slug: "dillon-amphitheater",
     name: "Dillon Amphitheater",
@@ -193,12 +193,4 @@ export const venues: Record<string, Venue> = {
     state: "CO",
     capacity: 3500,
   },
-
-  "mishawaka-amphitheatre": {
-    slug: "mishawaka-amphitheatre",
-    name: "Mishawaka Amphitheatre",
-    city: "Bellvue",
-    state: "CO",
-    capacity: 800,
-  },
-};
+}
