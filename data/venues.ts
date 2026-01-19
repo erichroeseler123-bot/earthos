@@ -1,10 +1,5 @@
 // data/venues.ts
-// AUTHORITATIVE VENUE REGISTRY
-// Used by:
-// - /venues/[slug]
-// - cron sync (show generation)
-// - footer + navigation
-// - blob show attribution
+// AUTHORITATIVE VENUE REGISTRY — DO NOT DYNAMICALLY GENERATE
 
 export type Venue = {
   slug: string;
@@ -92,7 +87,7 @@ export const venues: Record<string, Venue> = {
     name: "Ball Arena",
     city: "Denver",
     state: "CO",
-    capacity: 20000,
+    capacity: 20900,
   },
 
   "empower-field-at-mile-high": {
@@ -137,7 +132,7 @@ export const venues: Record<string, Venue> = {
 
   "meow-wolf-denver": {
     slug: "meow-wolf-denver",
-    name: "Meow Wolf Denver",
+    name: "Meow Wolf",
     city: "Denver",
     state: "CO",
     capacity: 3000,
@@ -148,7 +143,7 @@ export const venues: Record<string, Venue> = {
     name: "HQ",
     city: "Denver",
     state: "CO",
-    capacity: 1200,
+    capacity: 1000,
   },
 
   "larimer-lounge": {
@@ -164,7 +159,7 @@ export const venues: Record<string, Venue> = {
     name: "Globe Hall",
     city: "Denver",
     state: "CO",
-    capacity: 400,
+    capacity: 350,
   },
 
   "fox-theatre-boulder": {
@@ -204,7 +199,6 @@ export const venues: Record<string, Venue> = {
     name: "Mishawaka Amphitheatre",
     city: "Bellvue",
     state: "CO",
-    capacity: 1500,
+    capacity: 800,
   },
 };
-
