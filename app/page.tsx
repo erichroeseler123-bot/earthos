@@ -161,6 +161,49 @@ export default function ShuttleHomePage() {
           </div>
         </div>
       </section>
+{/* ALL VENUE SHUTTLE OFFER */}
+<section className="mt-24 px-6">
+  <div className="mx-auto max-w-5xl border border-zinc-700 rounded-xl bg-zinc-950 p-8">
+    <h2 className="text-2xl md:text-3xl font-extrabold uppercase">
+      All Concert Venue Shuttle
+    </h2>
+
+    <p className="mt-2 text-lg font-semibold text-green-400">
+      $50 per person · $250 minimum
+    </p>
+
+    <p className="mt-6 text-zinc-300 leading-relaxed">
+      Pick-up anywhere in the Denver area and drop-off at any concert venue
+      in the Denver metro or Front Range.
+    </p>
+
+    <p className="mt-4 text-zinc-300 leading-relaxed">
+      Skip the Uber mess. Enjoy drinks in the vehicle, ride with a designated
+      driver all night, and get home safely without surge pricing or waiting.
+    </p>
+
+    <p className="mt-4 text-zinc-400 text-sm leading-relaxed">
+      Includes up to two pickup locations within 5 miles of each other.
+      On the return trip, we can stop at a drive-through if you want.
+    </p>
+
+    <div className="mt-8 flex flex-col sm:flex-row gap-4">
+      <a
+        href="/book-shuttle"
+        className="inline-flex items-center justify-center rounded-md bg-white text-black px-6 py-3 font-bold uppercase tracking-wide hover:bg-zinc-200 transition"
+      >
+        Book a Shuttle
+      </a>
+
+      <a
+        href="/venues"
+        className="inline-flex items-center justify-center rounded-md border border-zinc-600 px-6 py-3 font-bold uppercase tracking-wide hover:border-white transition"
+      >
+        See Venues
+      </a>
+    </div>
+  </div>
+</section>
 
 {/* --- SECTION 2: LIVE LOGISTICS (CLEAN LIST) --- */}
       <section className="bg-slate-950 py-32 px-6 text-white border-y border-blue-900/50">
