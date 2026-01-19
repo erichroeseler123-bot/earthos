@@ -1,5 +1,6 @@
-// AUTHORITATIVE VENUE REGISTRY — DO NOT DYNAMICALLY GENERATE
-// This file is the single source of truth for venue slugs and metadata.
+// AUTHORITATIVE VENUE REGISTRY
+// DO NOT AUTO-GENERATE
+// ALL DYNAMIC PAGES DEPEND ON THIS FILE
 
 export type Venue = {
   slug: string
@@ -7,6 +8,9 @@ export type Venue = {
   city: string
   state: string
   capacity?: number
+
+  // REQUIRED FOR EVENT CALENDARS
+  seatgeekVenueId?: number
 }
 
 export const venues: Record<string, Venue> = {
@@ -16,6 +20,7 @@ export const venues: Record<string, Venue> = {
     city: "Morrison",
     state: "CO",
     capacity: 9525,
+    seatgeekVenueId: 196,
   },
 
   "mission-ballroom": {
@@ -24,6 +29,7 @@ export const venues: Record<string, Venue> = {
     city: "Denver",
     state: "CO",
     capacity: 3950,
+    seatgeekVenueId: 13899,
   },
 
   "ogden-theatre": {
@@ -32,6 +38,7 @@ export const venues: Record<string, Venue> = {
     city: "Denver",
     state: "CO",
     capacity: 1600,
+    seatgeekVenueId: 317,
   },
 
   "fillmore-auditorium-denver": {
@@ -40,14 +47,16 @@ export const venues: Record<string, Venue> = {
     city: "Denver",
     state: "CO",
     capacity: 3700,
+    seatgeekVenueId: 302,
   },
 
-  "bluebird-theater-denver": {
-    slug: "bluebird-theater-denver",
+  "bluebird-theater": {
+    slug: "bluebird-theater",
     name: "Bluebird Theater",
     city: "Denver",
     state: "CO",
     capacity: 550,
+    seatgeekVenueId: 303,
   },
 
   "gothic-theatre": {
@@ -56,141 +65,6 @@ export const venues: Record<string, Venue> = {
     city: "Englewood",
     state: "CO",
     capacity: 1100,
-  },
-
-  "paramount-theatre-co": {
-    slug: "paramount-theatre-co",
-    name: "Paramount Theatre",
-    city: "Denver",
-    state: "CO",
-    capacity: 1870,
-  },
-
-  "the-oriental-theater": {
-    slug: "the-oriental-theater",
-    name: "Oriental Theater",
-    city: "Denver",
-    state: "CO",
-    capacity: 1000,
-  },
-
-  "ball-arena": {
-    slug: "ball-arena",
-    name: "Ball Arena",
-    city: "Denver",
-    state: "CO",
-    capacity: 19999,
-  },
-
-  "empower-field-at-mile-high": {
-    slug: "empower-field-at-mile-high",
-    name: "Empower Field at Mile High",
-    city: "Denver",
-    state: "CO",
-    capacity: 76125,
-  },
-
-  "denver-coliseum": {
-    slug: "denver-coliseum",
-    name: "Denver Coliseum",
-    city: "Denver",
-    state: "CO",
-    capacity: 10000,
-  },
-
-  "cervantes-masterpiece": {
-    slug: "cervantes-masterpiece",
-    name: "Cervantes’ Masterpiece Ballroom",
-    city: "Denver",
-    state: "CO",
-    capacity: 1000,
-  },
-
-  "temple-denver": {
-    slug: "temple-denver",
-    name: "Temple Denver",
-    city: "Denver",
-    state: "CO",
-    capacity: 1000,
-  },
-
-  "the-church-nightclub-denver": {
-    slug: "the-church-nightclub-denver",
-    name: "The Church Nightclub",
-    city: "Denver",
-    state: "CO",
-    capacity: 700,
-  },
-
-  "meow-wolf-denver": {
-    slug: "meow-wolf-denver",
-    name: "Meow Wolf Denver",
-    city: "Denver",
-    state: "CO",
-    capacity: 4000,
-  },
-
-  "hq-denver": {
-    slug: "hq-denver",
-    name: "HQ Denver",
-    city: "Denver",
-    state: "CO",
-    capacity: 1200,
-  },
-
-  "larimer-lounge": {
-    slug: "larimer-lounge",
-    name: "Larimer Lounge",
-    city: "Denver",
-    state: "CO",
-    capacity: 300,
-  },
-
-  "globe-hall-denver": {
-    slug: "globe-hall-denver",
-    name: "Globe Hall",
-    city: "Denver",
-    state: "CO",
-    capacity: 450,
-  },
-
-  "fox-theatre-boulder": {
-    slug: "fox-theatre-boulder",
-    name: "Fox Theatre",
-    city: "Boulder",
-    state: "CO",
-    capacity: 625,
-  },
-
-  "boulder-theater": {
-    slug: "boulder-theater",
-    name: "Boulder Theater",
-    city: "Boulder",
-    state: "CO",
-    capacity: 1000,
-  },
-
-  "ford-amphitheater-colorado-springs": {
-    slug: "ford-amphitheater-colorado-springs",
-    name: "Ford Amphitheater",
-    city: "Colorado Springs",
-    state: "CO",
-    capacity: 8000,
-  },
-
-  "mishawaka-amphitheatre": {
-    slug: "mishawaka-amphitheatre",
-    name: "Mishawaka Amphitheatre",
-    city: "Bellvue",
-    state: "CO",
-    capacity: 1200,
-  },
-
-  "dillon-amphitheater": {
-    slug: "dillon-amphitheater",
-    name: "Dillon Amphitheater",
-    city: "Dillon",
-    state: "CO",
-    capacity: 3500,
+    seatgeekVenueId: 306,
   },
 }
