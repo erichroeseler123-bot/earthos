@@ -1,56 +1,40 @@
-// lib/seatgeek.ts
+export type SeatGeekPerformer = {
+  id: number
+  name: string
+  image: string | null
+}
 
 export type SeatGeekEvent = {
-  id: number;
-  title: string;
-  datetime_local: string;
-  url: string;
-  performers?: {
-    name: string;
-    image?: string;
-  }[];
-  venue?: {
-    name: string;
-    city?: string;
-    state?: string;
-  };
-};
+  id: number
+  title: string
+  datetime_local: string
+  url: string
+  performers: SeatGeekPerformer[]
+}
 
-type SeatGeekResponse = {
-  events?: SeatGeekEvent[];
-};
+const NINETY_DAYS_MS = 1000 * 60 * 60 * 24 * 90
 
-const BASE_URL = "https://api.seatgeek.com/2/events";
-
-/**
- * Canonical SeatGeek fetcher by venue ID
- * Accepts numeric IDs (preferred) or strings
- */
-export async function fetchSeatGeekEventsByVenue(
-  venueId: number | string
+export async function getVenueEvents(
+  venueId: number
 ): Promise<SeatGeekEvent[]> {
-  const clientId = process.env.SEATGEEK_CLIENT_ID;
+  const clientId = process.env.SEATGEEK_CLIENT_ID
+  if (!clientId) return []
 
-  if (!clientId) {
-    console.warn("SEATGEEK_CLIENT_ID missing");
-    return [];
-  }
+  const res = await fetch(
+    `https://api.seatgeek.com/2/events?venue.id=${venueId}&per_page=50&client_id=${clientId}`,
+    { cache: 'no-store' }
+  )
 
-  const id = String(venueId);
+  if (!res.ok) return []
 
-  const url = `${BASE_URL}?venue.id=${id}&per_page=25&sort=datetime_local.asc&client_id=${clientId}`;
+  const data = await res.json()
+  const events: SeatGeekEvent[] = data?.events ?? []
 
-  const res = await fetch(url, {
-    // SeatGeek is cache-safe for short durations
-    next: { revalidate: 300 },
-  });
+  const now = Date.now()
+  const cutoff = now + NINETY_DAYS_MS
 
-  if (!res.ok) {
-    console.warn("SeatGeek fetch failed:", res.status);
-    return [];
-  }
-
-  const data = (await res.json()) as SeatGeekResponse;
-
-  return data.events ?? [];
+  return events.filter(e => {
+    const t = new Date(e.datetime_local).getTime()
+    return t >= now && t <= cutoff
+  })
 }
