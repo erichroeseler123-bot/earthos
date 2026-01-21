@@ -1,67 +1,43 @@
-import { notFound } from "next/navigation";
-import { venues } from "@/data/venues";
-import { fetchSeatGeekEventsByVenue } from "@/lib/seatgeek";
+import { notFound } from 'next/navigation';
+import { VENUES } from '@/data/venues';
+import VenueShows from '@/components/VenueShows';
 
-export const dynamic = "force-dynamic";
+export default async function VenuePage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  // Standardize the slug to prevent "Not Found" errors
+  const slug = resolvedParams.slug.toLowerCase().trim();
+  const venue = VENUES[slug];
 
-type Props = {
-  params: Promise<{ slug: string }>;
-};
-
-export default async function VenuePage({ params }: Props) {
-  const { slug } = await params;
-  const venue = venues[slug];
-
-  if (!venue) notFound();
-
-  const events =
-    venue.seatgeekVenueId
-      ? await fetchSeatGeekEventsByVenue(venue.seatgeekVenueId)
-      : [];
+  if (!venue) {
+    return (
+      <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center font-mono">
+        <h1 className="text-4xl font-black italic mb-4">VENUE NOT FOUND</h1>
+        <p className="text-zinc-500 mb-8 uppercase tracking-widest text-xs">Node: {slug} is inactive in registry</p>
+        <a href="/venues" className="border border-white/20 px-6 py-2 hover:bg-white hover:text-black transition-all text-xs">VIEW ALL ACTIVE NODES</a>
+      </main>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-black text-white px-6 py-20">
-      <h1 className="text-5xl font-black mb-2">{venue.name}</h1>
-      <p className="text-zinc-400 mb-8">
-        {venue.city}, {venue.state}
-      </p>
+    <main className="min-h-screen bg-black text-white pt-32 px-6 font-mono">
+      <div className="max-w-5xl mx-auto">
+        <header className="mb-16 border-b border-white/10 pb-12">
+          <h1 className="text-6xl md:text-8xl font-black italic uppercase tracking-tighter mb-4 text-blue-500">
+            {venue.name}
+          </h1>
+          <div className="text-xs text-zinc-500 uppercase tracking-widest">
+            {venue.city}, {venue.state} // Mission Rate: ${venue.price}.00 RT
+          </div>
+        </header>
 
-      <section className="mb-12">
-        <p className="text-lg">
-          <strong>$50 per person round-trip shuttle</strong>  
-          <br />
-          $250 trip minimum · Pay cash at pickup
-        </p>
-      </section>
+        <section className="mb-24 p-10 bg-blue-600 rounded-3xl shadow-2xl">
+           <h2 className="text-white font-black uppercase tracking-widest text-sm mb-4">DEPLOY FLEET</h2>
+           <p className="text-blue-100 text-[10px] mb-8 uppercase">Direct Door-to-Door Shuttle Service. $250.00 Minimum activation fee.</p>
+           <a href="/book-shuttle" className="inline-block bg-black text-white px-10 py-4 rounded-xl font-black uppercase tracking-widest text-xs">Reserve Suburban</a>
+        </section>
 
-      <section>
-        <h2 className="text-3xl font-bold mb-6">Upcoming Shows (90 Days)</h2>
-
-        {events.length === 0 && (
-          <p className="text-zinc-500">No upcoming events listed.</p>
-        )}
-
-        <ul className="space-y-4">
-          {events.map((event) => (
-            <li
-              key={event.id}
-              className="border border-zinc-800 rounded-lg p-4 hover:border-white transition"
-            >
-              <div className="font-semibold">{event.title}</div>
-              <div className="text-sm text-zinc-400">
-                {new Date(event.datetime_local).toLocaleString()}
-              </div>
-              <a
-                href={event.url}
-                target="_blank"
-                className="text-sm underline mt-1 inline-block"
-              >
-                View Tickets
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
+        <VenueShows venue={venue} />
+      </div>
     </main>
   );
 }

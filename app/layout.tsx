@@ -1,6 +1,4 @@
-import Footer from "@/components/Footer";
-import './globals.css';
-import MainNav from '@/components/MainNav';
+import "./globals.css";
 
 export default function RootLayout({
   children,
@@ -8,15 +6,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-black text-white">
-        <MainNav />
-
-        {/* Page content offset for fixed nav */}
-        <div className="pt-20">
-          {children}
-<Footer />
-        </div>
+    <html lang="en" className="dark">
+      <body className="bg-black text-white antialiased min-h-screen">
+        {children}
       </body>
     </html>
   );

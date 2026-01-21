@@ -1,56 +1,17 @@
 import Link from 'next/link';
-import { venues } from '@/data/venues';
+import { VENUES } from '@/data/venues'; // Fixed Import
 
-type Venue = {
-  slug: string;
-  name: string;
-  city?: string;
-  state?: string;
-};
-
-const EXCLUDED_VENUES = new Set<string>([
-  'red-rocks-amphitheatre',
-  'ford-amphitheater',
-  'mishawaka-amphitheatre',
-  'dillon-amphitheater',
-]);
-
-export default function VenuesIndexPage() {
-  const filteredVenues = Object.values(venues).filter(
-    (venue: Venue) => !EXCLUDED_VENUES.has(venue.slug)
-  );
-
+export default function VenuesPage() {
   return (
-    <main className="min-h-screen bg-white text-slate-900 px-6 py-24">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-5xl font-black uppercase italic tracking-tight mb-6">
-          Supported Venues
-        </h1>
-
-        <p className="text-slate-600 max-w-2xl mb-12 text-lg">
-          We provide private and shared shuttle service to major Colorado
-          concert venues. Red Rocks, Mishawaka, Ford Amphitheater, and Dillon
-          Amphitheater are handled separately.
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {filteredVenues.map((venue) => (
-            <Link
-              key={venue.slug}
-              href={`/venues/${venue.slug}`}
-              className="group block rounded-xl border border-slate-200 p-6 hover:border-blue-500 hover:shadow-lg transition-all"
-            >
-              <h2 className="text-xl font-black uppercase italic tracking-tight group-hover:text-blue-600">
-                {venue.name}
-              </h2>
-
-              {(venue.city || venue.state) && (
-                <p className="mt-1 text-sm text-slate-500">
-                  {venue.city}
-                  {venue.city && venue.state ? ', ' : ''}
-                  {venue.state}
-                </p>
-              )}
+    <main className="min-h-screen bg-black text-white pt-32 px-8 font-mono">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-7xl font-black italic uppercase tracking-tighter mb-12 border-b border-white/10 pb-6">DESTINATION_NODES</h1>
+        <div className="grid gap-1 md:grid-cols-3">
+          {Object.entries(VENUES).map(([slug, venue]: [string, any]) => (
+            <Link key={slug} href={`/venues/${slug}`} className="group border border-zinc-800 p-8 hover:bg-zinc-900/50 hover:border-blue-500 transition-all">
+              <div className="text-[10px] text-zinc-600 mb-4 tracking-widest uppercase">ID: NODE_{venue.seatgeekVenueId}</div>
+              <div className="text-3xl font-black italic uppercase group-hover:text-blue-400 transition-colors">{venue.name}</div>
+              <div className="text-[10px] text-zinc-500 mt-2 uppercase tracking-tighter">{venue.city}, {venue.state} // ${venue.price}.00 RT</div>
             </Link>
           ))}
         </div>
